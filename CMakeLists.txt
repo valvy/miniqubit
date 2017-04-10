@@ -1,0 +1,8 @@
+cmake_minimum_required (VERSION 3.7)
+project(miniQbt)
+set (CMAKE_CXX_STANDARD 14)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+INCLUDE_DIRECTORIES(./include)
+AUX_SOURCE_DIRECTORY(src CPP_FILES)
+ADD_EXECUTABLE(miniQbt ${CPP_FILES})
+target_link_libraries(miniQbt Eigen3::Eigen)
