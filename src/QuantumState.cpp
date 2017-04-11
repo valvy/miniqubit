@@ -17,7 +17,7 @@ QuantumState::QuantumState(QuantumState& lh, QuantumState& rh, bool allowInfinit
     this->data = Eigen::kroneckerProduct<QuantumData, QuantumData>(lh.getState(), rh.getState());
 }
 
-QuantumState::QuantumState(const QuantumData& lh, const QuantumData& rh, bool allowInfinity){
+QuantumState::QuantumState(const QuantumData& lh, const QuantumData& rh, size_t bitsize, bool allowInfinity){
     this->data = Eigen::kroneckerProduct<QuantumData, QuantumData>(rh, lh);
     infinityCheck(allowInfinity);
  }
@@ -79,7 +79,8 @@ QuantumState& QuantumState::operator=(const QuantumData& lh){
  }
 
 size_t QuantumState::getAmountOfQBytes() const{
-    return std::sqrt(this->data.size() + 1 );
+    return std::log(this->data.size()) / std::log(2);
+   // return std::sqrt(this->data.size() + 1 );
 }
 
 size_t QuantumState::getAmountOfPossibilities() const{

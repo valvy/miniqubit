@@ -13,11 +13,12 @@ class QuantumState{
     private:
     void infinityCheck(const bool& allow);
     bool invalid = false;
+    size_t bitSize;
     QuantumData data;
     public:
     QuantumState(const QuantumData& state, bool allowInfinity = false);
     QuantumState(QuantumState& lh, QuantumState& rh, bool allowInfinity = false);
-    QuantumState(const QuantumData& lh, const QuantumData& rh, bool allowInfinity = false);
+    QuantumState(const QuantumData& lh, const QuantumData& rh,size_t bitsize = 1, bool allowInfinity = false);
     QuantumState(std::complex<double> lh, std::complex<double> rh, bool allowInfinity = false);
     void setInvalid();
     bool usable() const;

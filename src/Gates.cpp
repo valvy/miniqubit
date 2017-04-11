@@ -23,9 +23,15 @@ struct ChanceOrder{
     *   (Watch out if not done correctly assembling the bits will not reassemble)
     */
     void bitflip(const size_t bitChange){
+        //std::string decimal =  std::bitset<Globals::QUANTUM_INFINITY>(originalPos).to_string();
+        //std::reverse(decimal.begin(), decimal.end());
+        //decimal[bitChange] = (decimal[bitChange] == '0')? '1' : '0';
+      //  std::reverse(decimal.begin(), decimal.end());
+        //std::bitset<Globals::QUANTUM_INFINITY> bit(decimal);
         std::bitset<Globals::QUANTUM_INFINITY> bit(originalPos);
-        bit[bitChange] = (bit[bitChange] == 0)? 1 : 0; //toggles the bit (Muwhahahaha)
-        this->originalPos = (int)bit.to_ulong();
+        bit[bitChange] = !bit[bitChange];
+        originalPos =  (int)bit.to_ulong();
+
     }
     const size_t operator[] ( int bit) const{
         return std::bitset<Globals::QUANTUM_INFINITY>(originalPos)[bit];
@@ -77,9 +83,14 @@ std::vector<std::vector<ChanceOrder>> orderByBit(const size_t bit_index, const Q
 QuantumState mergeOrderProb(const std::vector<ChanceOrder>& lh, const std::vector<ChanceOrder>& rh){
     QuantumData res = QuantumData::Zero(lh.size() + rh.size(), 1);
     for(const ChanceOrder& b : lh){
+        std::string d = std::bitset<Globals::QUANTUM_INFINITY>(b.originalPos).to_string();
+        assertInput(res(b.originalPos,0) != 0.0, "Duplicate position.. This shouldn't happen: " + d );
+
         res(b.originalPos,0) = b.data;
     }
     for(const ChanceOrder& b : rh){
+         std::string d = std::bitset<Globals::QUANTUM_INFINITY>(b.originalPos).to_string();
+        assertInput(res(b.originalPos,0) != 0.0, "Duplicate position.. This shouldn't happen: " + d);
         res(b.originalPos,0) = b.data;
     }
 
@@ -113,7 +124,7 @@ void applyHadamard(std::vector<ChanceOrder>& hand){
     
     for(size_t i = (hand.size() / 2); i < hand.size(); i++){
         std::complex<double> temp;
-        temp -= F * hand[i].data;
+        temp = F * hand[i].data;
         for(size_t j = 0; j < hand.size(); j++){
             if(j != i){
                 temp -= (F * hand[j].data);
@@ -164,18 +175,28 @@ void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
    
         state =  CNot * state.getState();
     } else {
-        //First get control bit
+
         std::vector<std::vector<ChanceOrder>>  order = orderByBit(control, state);
+        std::vector<ChanceOrder> old(order[1]);
+
         //Since the first is always zero, don't do anything with it. (zero will never be flipped)
-   
         for(size_t i = 0; i < order[1].size(); i++){
-            //Just nasty flip the corresponding bit
-            //The order of values will change. Muwahaha
-            order[1][i].bitflip(target); 
+            order[1][i].bitflip(state.getAmountOfQBytes() - target - 1); 
         }
 
+        try{
+            state = mergeOrderProb(order[1], order[0]);
+        } catch(const InvalidInputException& ex){
+            std::cout << "This error occured during control bit " << control << " and target : " << target << "\n"; 
+            std::cout << "new - > old \n";
+            for(size_t i = 0; i < order[1].size(); i++){
+                std::cout << order[1][i] << " | " <<  old[i] <<"\n";
+            }
 
-        state = mergeOrderProb(order[0], order[1]);
+
+            throw ex;
+        }
+        
     }
 }
 
@@ -184,11 +205,11 @@ void pauliX(const size_t& bit_index, QuantumState& state){
 }
 
 
-int collapse(const QuantumState& state){
+int collapse(const QuantumState& state, std::default_random_engine& generator){
     const auto s = state.getState();
     
-    std::random_device rd;
-    std::default_random_engine generator(rd());
+   // std::random_device rd;
+ //   std::default_random_engine generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
     const double rand = distribution(generator);//Getting a random double between 0.0 and 
 
