@@ -147,28 +147,10 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
                 continue;
             } else {
                     if(oppositeBitset(copy[i], copy[j], bit_index)){
-                        
                         if(copy[i][bit_index] == 0){
-                            
                             everything[i].data = d * copy[i].data + d * copy[j].data;
                         } else {
                             everything[i].data = d * copy[j].data - d * copy[i].data;
-                            /*
-                            10 + 01 = 1  1 
-                                      1 -1
-                                00  
-                                01
-                                10
-                                11
-                                [0 0 10]
-                                [10 -10]
-                                [01 11]
-                                [01 -11]
-                                00 -> f * [00> + f * [10>   1 0 1 0
-                                01 -> f * [00> - f * [10>  
-                                01 -> f * [01> + f * [10>   
-                                11 -> f * [01> - f * [11>
-                            */
                         }
                     }
             }
