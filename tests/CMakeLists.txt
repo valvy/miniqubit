@@ -10,7 +10,9 @@ add_library(Catch INTERFACE)
 
 
 SET(srcfiles 
+    Main.cpp
     HadamardTest.cpp
+    AlghoritmsTest.cpp
 )
 
 

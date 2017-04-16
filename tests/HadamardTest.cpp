@@ -1,18 +1,14 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include <catch.hpp>
+
+#include "catch.hpp"
 #include <QuantumState.hpp>
 #include <Gates.hpp>
-
-/**
-*   Since quantum results are often (a lot like) random you need to test more then once.
-*   With this variable you can test it 
-*/
 constexpr size_t MINIMAL_TEST_AMOUNT = 100;
 
 std::random_device rd;
 std::default_random_engine generator(rd());
 
-TEST_CASE( "Single hadamard", "[Hadamard]" ) {
+
+TEST_CASE( "Single hadamard" ) {
     QuantumState q1 = QuantumState::getZero();
     hadamardGate(0, q1); 
     hadamardGate(0, q1);//Reset :)
@@ -25,7 +21,7 @@ TEST_CASE( "Single hadamard", "[Hadamard]" ) {
 }
 
 
-TEST_CASE( "hadamard with Controlled not", "[Hadamard]" ) {
+TEST_CASE( "hadamard with Controlled not") {
     SECTION("first qubit applied hadamard"){
         QuantumState q1 = QuantumState::getZero();
         QuantumState q2 = QuantumState::getZero();
@@ -98,7 +94,7 @@ TEST_CASE( "hadamard with Controlled not", "[Hadamard]" ) {
     }
 
     SECTION("Three qubits including hadamard and Pauli"){
-          QuantumState q1 = QuantumState::getZero();
+        QuantumState q1 = QuantumState::getZero();
         QuantumState q2 = QuantumState::getZero();
         QuantumState q3 = QuantumState::getZero();
         hadamardGate(0,q1);

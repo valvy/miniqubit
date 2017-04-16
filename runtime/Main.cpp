@@ -35,45 +35,29 @@ void showResult(const QuantumState& reg){
 constexpr size_t size = 3;
 
 void multiSystemTest(){
+    QuantumState q0 = QuantumState::getZero();
     QuantumState q1 = QuantumState::getZero();
     QuantumState q2 = QuantumState::getZero();
-    QuantumState q3 = QuantumState::getZero();
-    hadamardGate(0,q1);
-    hadamardGate(0,q2);
-    hadamardGate(0,q3);
-    QuantumState ent(q1, q2);
-    cnotGate(0,1, ent);
-    pauliX(0, ent);
-    ent = QuantumState(ent,q3);
-    hadamardGate(1,ent);
-    //std::cout << q1.getState() << "\n";
-    //hadamardGate(0,q1);
-    std::cout << ent.getState() << "\n";
-    showResult<size>(ent);
-    /*
-        QuantumState q1 = QuantumState::getZero();
-        QuantumState q2 = QuantumState::getZero();
-    //    QuantumState z = QuantumState::getZero();
-        hadamardGate(0,q2);
-        hadamardGate(0,q1);
-        QuantumState ent(q1, q2);
-        cnotGate(1,0, ent);
-        hadamardGate(1,ent);
-        hadamardGate(0,ent);
-       // std::cout << ent << "\n";
-
-        showResult<size>(ent);*/
+    QuantumState ent(q0,q1);
+    ent = QuantumState(ent,q2); //entangle them first :)
+    hadamardGate(1, ent);
+    hadamardGate(2, ent);
+    hadamardGate(2, ent);
+    cnotGate(1,2, ent);
+    hadamardGate(2,ent);
+    hadamardGate(1, ent);
+    hadamardGate(2, ent);
+    pauliX(1,ent);
+    pauliX(2,ent);
+    hadamardGate(2, ent);
+    cnotGate(1,2, ent);
+    hadamardGate(2,ent);
+    pauliX(1, ent);
+    pauliX(2, ent);
+    hadamardGate(1, ent);
+    hadamardGate(2, ent);
+    showResult<3>(ent);
 }
-/*
-void singleSystemTest(){
-    QuantumState reg(3);
-  //  hadamardGate(0,reg);
-    hadamardGate(1,reg);
-    cnotGate(0,1, reg);
-  //  hadamardGate(1,reg);
-   // hadamardGate(0,reg);
-    showResult<3>(reg);
-}*/
 
 
 int main(int argc, char** argv){
