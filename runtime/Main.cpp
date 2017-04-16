@@ -36,27 +36,9 @@ constexpr size_t size = 3;
 
 void multiSystemTest(){
     QuantumState q0 = QuantumState::getZero();
-    QuantumState q1 = QuantumState::getZero();
-    QuantumState q2 = QuantumState::getZero();
-    QuantumState ent(q0,q1);
-    ent = QuantumState(ent,q2); //entangle them first :)
-    hadamardGate(1, ent);
-    hadamardGate(2, ent);
-    hadamardGate(2, ent);
-    cnotGate(1,2, ent);
-    hadamardGate(2,ent);
-    hadamardGate(1, ent);
-    hadamardGate(2, ent);
-    pauliX(1,ent);
-    pauliX(2,ent);
-    hadamardGate(2, ent);
-    cnotGate(1,2, ent);
-    hadamardGate(2,ent);
-    pauliX(1, ent);
-    pauliX(2, ent);
-    hadamardGate(1, ent);
-    hadamardGate(2, ent);
-    showResult<3>(ent);
+    pauliX(0, q0);
+    std::cout << q0.getState() << "\n";
+    showResult<1>(q0);
 }
 
 

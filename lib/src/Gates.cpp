@@ -33,7 +33,11 @@ struct ChanceOrder{
     void bitflip(const size_t bitChange){
         std::bitset<Globals::QUANTUM_INFINITY> bit(originalPos);
         bit[bitChange] = !bit[bitChange];
-
+       // std::string decimal =  std::bitset<Globals::QUANTUM_INFINITY>(originalPos).to_string();
+       // std::reverse(decimal.begin(), decimal.end());
+   //     decimal[bitChange] = (decimal[bitChange == '0'])? '0' : '1';
+     //   std::reverse(decimal.begin(), decimal.end());
+       // std::bitset<Globals::QUANTUM_INFINITY> bit(decimal);
         originalPos =  (int)bit.to_ulong();
     }
     /**
@@ -186,8 +190,21 @@ void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
         std::vector<std::vector<ChanceOrder>>  order = orderByBit(control, state);
         std::vector<ChanceOrder> old(order[1]);
         //Since the first is always zero, don't do anything with it. (zero will never be flipped)
+      /*  if(state.getAmountOfQBytes() >= 4){
+            std::cout << "On control bit : " << control << "\n";
+            for(const ChanceOrder& orde : order[1]){
+                std::cout << orde << "\n";
+            }
+
+            std::cout << "other half" << "\n";
+            for(const ChanceOrder& orde : order[0]){
+                std::cout << orde << "\n";
+            }
+
+        }*/
         for(size_t i = 0; i < order[1].size(); i++){
-            order[1][i].bitflip( target); 
+            
+            order[1][i].bitflip(  target ); 
         }
         try{
             state = mergeOrderProb(order[0], order[1]);
@@ -205,21 +222,29 @@ void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
 
 
 void pauliY(const size_t& bit_index, QuantumState& state){
-    throw QuantumException("Not yet implemented...");
     std::vector<ChanceOrder> everything;
     for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
-        everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
+        ChanceOrder ord(i, state.getState()(i,0),state.getAmountOfQBytes());
+        if(ord[bit_index] == 1){
+            ord.data = ord.data * std::complex<double>(0,-1);
+        }
+        everything.push_back(ord);
     }
+    state = mergeOrderProb(everything, std::vector<ChanceOrder>());
 }
 
 void pauliZ(const size_t& bit_index, QuantumState& state){
-    if(state.getAmountOfQBytes() == 1){
-        quantumGate pauliZ = quantumGate::Zero(2,2);
-        pauliZ << 1, 0, 0, -1;
-        state = pauliZ * state.getState();
-    } else {
-        throw QuantumException("Not yet implemented...");
+    std::vector<ChanceOrder> everything;
+    for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+        ChanceOrder ord(i, state.getState()(i,0),state.getAmountOfQBytes());
+        if(ord[bit_index] == 0){
+            ord.data =  -ord.data;
+        }
+        everything.push_back(ord);
     }
+    state = mergeOrderProb(everything, std::vector<ChanceOrder>());
+
+    
 }
 
 void pauliX(const size_t& bit_index, QuantumState& state){
@@ -228,6 +253,7 @@ void pauliX(const size_t& bit_index, QuantumState& state){
         everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
     }
     for(size_t i = 0; i < everything.size(); i++){
+      //  std::cout <<  bit_index + 1 << "\n";
         everything[i].bitflip(bit_index);
     }
     state = mergeOrderProb(everything, std::vector<ChanceOrder>());
