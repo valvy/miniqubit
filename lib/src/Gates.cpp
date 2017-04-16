@@ -143,6 +143,8 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
     for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
         everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
     }
+    //std::cout << (state.getAmountOfQBytes() - bit_index ) << "\n";
+    int index = (state.getAmountOfQBytes() - bit_index - 1 );
     std::vector<ChanceOrder> copy = everything;
     double d = F;//std::pow(2,-0.5);
     for(size_t i = 0; i < everything.size(); i++ ){
@@ -150,8 +152,8 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
             if(i == j){
                 continue;
             } else {
-                    if(oppositeBitset(copy[i], copy[j], bit_index)){
-                        if(copy[i][bit_index] == 0){
+                    if(oppositeBitset(copy[i], copy[j], index)){            
+                        if(copy[i][index] == 0){
                             everything[i].data = d * copy[i].data + d * copy[j].data;
                         } else {
                             everything[i].data = d * copy[j].data - d * copy[i].data;
@@ -189,22 +191,10 @@ void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
 
         std::vector<std::vector<ChanceOrder>>  order = orderByBit(control, state);
         std::vector<ChanceOrder> old(order[1]);
-        //Since the first is always zero, don't do anything with it. (zero will never be flipped)
-      /*  if(state.getAmountOfQBytes() >= 4){
-            std::cout << "On control bit : " << control << "\n";
-            for(const ChanceOrder& orde : order[1]){
-                std::cout << orde << "\n";
-            }
 
-            std::cout << "other half" << "\n";
-            for(const ChanceOrder& orde : order[0]){
-                std::cout << orde << "\n";
-            }
-
-        }*/
         for(size_t i = 0; i < order[1].size(); i++){
             
-            order[1][i].bitflip(  target ); 
+            order[1][i].bitflip( order[1][i].getAmountOfBits() -  target - 1 ); 
         }
         try{
             state = mergeOrderProb(order[0], order[1]);
@@ -254,7 +244,7 @@ void pauliX(const size_t& bit_index, QuantumState& state){
     }
     for(size_t i = 0; i < everything.size(); i++){
       //  std::cout <<  bit_index + 1 << "\n";
-        everything[i].bitflip(bit_index);
+        everything[i].bitflip(everything[i].getAmountOfBits() -  bit_index - 1);
     }
     state = mergeOrderProb(everything, std::vector<ChanceOrder>());
 }

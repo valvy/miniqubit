@@ -35,10 +35,37 @@ void showResult(const QuantumState& reg){
 constexpr size_t size = 3;
 
 void multiSystemTest(){
-    QuantumState q0 = QuantumState::getZero();
-    pauliX(0, q0);
-    std::cout << q0.getState() << "\n";
-    showResult<1>(q0);
+     QuantumState q0 = QuantumState::getZero();
+        QuantumState q1 = QuantumState::getZero();
+        QuantumState q2 = QuantumState::getZero();
+        QuantumState q3 = QuantumState::getZero();
+        QuantumState q4 = QuantumState::getZero();
+        QuantumState ent(q0,q1);
+        ent = QuantumState(ent,q2); 
+        ent = QuantumState(ent,q3);
+        ent = QuantumState(ent,q4);  
+        
+        pauliX(1,ent);
+        pauliX(2, ent);
+        pauliX(4,ent);
+
+        pauliX(1,ent);
+        pauliX(2,ent);
+        pauliX(3,ent);
+        pauliX(4,ent);
+
+        cnotGate(3,2, ent);
+        cnotGate(2,3, ent);
+        cnotGate(3,2, ent);
+
+        cnotGate(2,1, ent);
+        cnotGate(1,2, ent);
+        cnotGate(2,1, ent);
+
+        cnotGate(4,1, ent);
+        cnotGate(1,4, ent);
+        cnotGate(4,1, ent);
+        showResult<5>(ent);
 }
 
 

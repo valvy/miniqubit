@@ -88,6 +88,7 @@ TEST_CASE( "hadamard with Controlled not") {
         hadamardGate(0, ent); 
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
             std::bitset<2> bitset = measure<2>(ent, generator);
+          //  std::cout << bitset << "\n";
             REQUIRE(bitset[0] == 0);
             REQUIRE(bitset[1] == 0);
         }
