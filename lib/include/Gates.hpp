@@ -7,15 +7,16 @@
 #include <random>
 typedef Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic> quantumGate;
 
-//QuantumState cnotGate(QuantumState& control, QuantumState& target, bool allowInfinity = false);
-
 void cnotGate(const size_t& control,const size_t& target, QuantumState& state);
-
 
 /**
 *   Applies a hadamard gate on the specified bit and state.
 */
 void hadamardGate(const size_t& bit_index, QuantumState& state);
+
+void pauliZ(const size_t& bit_index, QuantumState& state);
+
+void pauliY(const size_t& bit_index, QuantumState& state);
 
 void pauliX(const size_t& bit_index, QuantumState& state);
 

@@ -7,7 +7,6 @@
 
 void printProbabilities(const QuantumState& state);
 
-
 void assertInput(const bool as, std::string msg = "Invalid input detected");
 
 void assertInfinity(const bool as, std::string msg = "Infinity is a long time.." );

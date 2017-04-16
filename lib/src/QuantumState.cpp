@@ -3,8 +3,16 @@
 #include <cmath>
 #include "Globals.hpp"
 #include <iostream>
+/*
+//Doesn't work properly particlury with entanglement
+QuantumState::QuantumState(const size_t& bitsize){
+    this->data = QuantumData::Zero(std::pow(2, bitsize));
+    data(0,0) = 1;
+    for(size_t i = 1; i < this->data.rows(); i++){
+        data(i,0) = 0;
+    }
 
-
+}*/
 
 QuantumState::QuantumState(const QuantumData& state, bool allowInfinity){
     this->data = QuantumData(state);
