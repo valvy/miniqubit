@@ -4,6 +4,8 @@
 #include <iostream>
 #include <unsupported/Eigen/KroneckerProduct>
 #include "Utils.hpp"
+#include <functional>
+
 
 /**
 *   Small struct to easily disassemble and reassemble bit orders of the program.
@@ -13,26 +15,43 @@
 struct ChanceOrder{
     size_t originalPos;
     std::complex<double> data;
-    ChanceOrder(size_t originalPos, const std::complex<double>& data) : originalPos(originalPos), data(data) {}
+    size_t amountOfBits;
+    ChanceOrder(size_t originalPos, const std::complex<double>& data, size_t amountOfBits) : 
+    originalPos(originalPos), data(data), amountOfBits(amountOfBits) {}
     friend std::ostream& operator<<(std::ostream& os, const ChanceOrder& state){
         os << state.data << " : "<< std::bitset<Globals::QUANTUM_INFINITY>(state.originalPos);
         return os;
+    }
+
+    size_t getAmountOfBits() const{
+        return amountOfBits;//Index start at zero...
     }
     /**
     *   Toggles the bit, Usefull for the CNOT Gate. 
     *   (Watch out if not done correctly assembling the bits will not reassemble)
     */
     void bitflip(const size_t bitChange){
-        //std::string decimal =  std::bitset<Globals::QUANTUM_INFINITY>(originalPos).to_string();
-        //std::reverse(decimal.begin(), decimal.end());
-        //decimal[bitChange] = (decimal[bitChange] == '0')? '1' : '0';
-      //  std::reverse(decimal.begin(), decimal.end());
-        //std::bitset<Globals::QUANTUM_INFINITY> bit(decimal);
+        /*std::string decimal =  std::bitset<Globals::QUANTUM_INFINITY>(originalPos).to_string();
+        std::reverse(decimal.begin(), decimal.end());
+        decimal[bitChange] = (decimal[bitChange] == '0')? '1' : '0';
+        std::reverse(decimal.begin(), decimal.end());
+        //std::bitset<Globals::QUANTUM_INFINITY> bit(decimal);*/
         std::bitset<Globals::QUANTUM_INFINITY> bit(originalPos);
         bit[bitChange] = !bit[bitChange];
-        originalPos =  (int)bit.to_ulong();
 
+        originalPos =  (int)bit.to_ulong();
     }
+    /**
+    *   Allows you to do a function for each bit in the program
+    */
+    void forEachBit(std::function<void (const bool& bit, const size_t& pos)> bit){
+        std::bitset<Globals::QUANTUM_INFINITY> bits(originalPos);
+        for(size_t i = 0; i < getAmountOfBits(); i++){
+            bit(bits[i], i);
+        }
+    }
+
+    
     const size_t operator[] ( int bit) const{
         return std::bitset<Globals::QUANTUM_INFINITY>(originalPos)[bit];
     }
@@ -50,7 +69,7 @@ std::vector<std::vector<ChanceOrder>> orderByBit(const size_t bit_index, const Q
     assertInput(bit_index > state.getAmountOfQBytes() - 1, "The control bit must be within range of the amount of qbits residing in this state..");
      std::vector<std::vector<ChanceOrder>> result;
     const QuantumData d = state.getState();
-
+    const size_t amountOfQubits = state.getAmountOfQBytes();
     //Define the pattern.. 
     size_t divide = state.getAmountOfPossibilities();
     for(size_t i = bit_index + 1; i > 0; i--){
@@ -62,10 +81,10 @@ std::vector<std::vector<ChanceOrder>> orderByBit(const size_t bit_index, const Q
 
     for(size_t i = 0; i < d.rows() ; i += divide * 2){
         for(size_t j = i ; j < (divide + i); j++){
-            lh.push_back(ChanceOrder(j, d(j,0)));
+            lh.push_back(ChanceOrder(j, d(j,0),amountOfQubits));
         }
         for(size_t j = i + divide; j < ((divide * 2) + i); j++){
-            rh.push_back(ChanceOrder(j,d(j,0)));
+            rh.push_back(ChanceOrder(j,d(j,0),amountOfQubits));
         }
     }
     
@@ -98,59 +117,63 @@ QuantumState mergeOrderProb(const std::vector<ChanceOrder>& lh, const std::vecto
     return QuantumState(res);
 }
 
-/**
-*
-*/
+
+
 
 constexpr double F = 0.7071067811865476;
 
-
-/**
-*   Applies the hadamard gate 
-*/
-void applyHadamard(std::vector<ChanceOrder>& hand){
-    std::vector<ChanceOrder> res;
-    for(size_t i = 0; i < (hand.size() / 2); i++){
-        std::complex<double> temp;
-        temp = F * hand[i].data;
-        for(size_t j = 0; j < hand.size(); j++){
-            if(j != i){
-                temp += F * hand[j].data;
+bool oppositeBitset(const ChanceOrder& lh, const ChanceOrder& rh, const size_t& targetBit){
+    for(size_t i = 0; i < lh.getAmountOfBits(); i++){
+        if(i == targetBit){
+            if(lh[i] == rh[i]){
+                return false; //that bit needs to be opposite..
             }
-            
-        }
-        res.push_back(ChanceOrder(hand[i].originalPos, temp));
-    }
-    
-    for(size_t i = (hand.size() / 2); i < hand.size(); i++){
-        std::complex<double> temp;
-        temp = F * hand[i].data;
-        for(size_t j = 0; j < hand.size(); j++){
-            if(j != i){
-                temp -= (F * hand[j].data);
+        } else {
+            if(lh[i] != rh[i]){
+                return false; //nope not the same
             }
-            
         }
-
-        res.push_back(ChanceOrder(hand[i].originalPos, temp));
-    }
-    hand = res;
+    }    
+    return true;
 }
 
 void hadamardGate(const size_t& bit_index, QuantumState& state){
     assertInput(bit_index > state.getAmountOfQBytes() - 1, "The control bit must be within range of the amount of qbits residing in this state..");
     assertInput(!state.usable(), "This state has been entangled and can no longer be used seperatly");
-    if(state.getAmountOfQBytes() == 1){
+     if(state.getAmountOfQBytes() == 1){
         quantumGate Hadamard = quantumGate::Zero(2,2);
         Hadamard << 1 ,1 , 1 , -1;
         Hadamard = (F * Hadamard);
         state =  Hadamard * state.getState() ;
     } else {  
-        auto order = orderByBit(bit_index, state);
-        applyHadamard(order[0]);
-        applyHadamard(order[1]);
-        state = mergeOrderProb(order[0], order[1]);
+        //auto orderedGate = orderByBit(bit_index, state);
+        std::vector<ChanceOrder> everything;
+        for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+            everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
+        }
+        std::vector<ChanceOrder> copy(everything);
+
+        for(size_t i = 0; i < everything.size(); i++ ){
+            for(size_t j = 0; j < everything.size(); j++){
+                if(i == j){
+                    continue;
+                } else {
+                        if(oppositeBitset(copy[i], copy[j], bit_index)){
+                            if(copy[i][0]){
+                            everything[i].data = F * copy[i].data + F * copy[j].data;
+                        } else {
+                            everything[i].data = F * copy[i].data - F * copy[j].data;
+                         
+                        }
+                    }
+                }
+
+            }
+        }
+        state = mergeOrderProb(everything, std::vector<ChanceOrder>());
     }
+
+
 }
 
 
@@ -181,19 +204,16 @@ void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
 
         //Since the first is always zero, don't do anything with it. (zero will never be flipped)
         for(size_t i = 0; i < order[1].size(); i++){
-            order[1][i].bitflip(state.getAmountOfQBytes() - target - 1); 
+            order[1][i].bitflip(state.getAmountOfQBytes() - target - 1 ); 
         }
-
         try{
-            state = mergeOrderProb(order[1], order[0]);
+            state = mergeOrderProb(order[0], order[1]);
         } catch(const InvalidInputException& ex){
             std::cout << "This error occured during control bit " << control << " and target : " << target << "\n"; 
             std::cout << "new - > old \n";
             for(size_t i = 0; i < order[1].size(); i++){
                 std::cout << order[1][i] << " | " <<  old[i] <<"\n";
             }
-
-
             throw ex;
         }
         
@@ -220,7 +240,7 @@ int collapse(const QuantumState& state, std::default_random_engine& generator){
             collapsedResult++;
             double norm = std::norm(s(i,0));
             sum += norm;
-            if(rand < sum){
+            if(rand <= sum){
                 return collapsedResult;
             }
     }

@@ -5,6 +5,15 @@
 #include <iostream>
 
 
+QuantumState::QuantumState(const size_t& bitsize){
+    this->data = QuantumData((int)std::pow(2,bitsize));
+    this->data(0,0) = 1;
+    for(size_t i = 1; i < this->data.rows(); i++){
+        this->data(i,0) = 0;
+    }
+
+}
+
 QuantumState::QuantumState(const QuantumData& state, bool allowInfinity){
     this->data = QuantumData(state);
     infinityCheck(allowInfinity);
@@ -18,7 +27,7 @@ QuantumState::QuantumState(QuantumState& lh, QuantumState& rh, bool allowInfinit
 }
 
 QuantumState::QuantumState(const QuantumData& lh, const QuantumData& rh, size_t bitsize, bool allowInfinity){
-    this->data = Eigen::kroneckerProduct<QuantumData, QuantumData>(rh, lh);
+    this->data = Eigen::kroneckerProduct<QuantumData, QuantumData>(lh, rh);
     infinityCheck(allowInfinity);
  }
 

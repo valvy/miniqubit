@@ -13,24 +13,39 @@ int main(int argc, char** argv){
         }
     }
     printInfo("Welcome by ", Globals::NAME, "\n");
-    std::random_device rd;
-    std::default_random_engine generator(rd());
-    QuantumState q1 = QuantumState::getZero();
-    QuantumState q2 = QuantumState::getZero();
-    QuantumState z = QuantumState::getZero();
+
+
     try{
-        hadamardGate(0,q1);
-        hadamardGate(0,q2);
-        QuantumState ent(q1, q2);
-        cnotGate(0,1, ent);
-        ent = QuantumState(ent, z);
-        cnotGate(1,2, ent);
-
         constexpr size_t size = 3;
-
         std::vector<std::pair<std::bitset<size>, size_t>> outcomes;
-
-        for(size_t i = 0; i < 100; i++){
+        //execute it a hundred times to check the average result
+        
+            std::random_device rd;
+            std::default_random_engine generator(rd());
+        /*    QuantumState reg(size);
+            hadamardGate(0,reg);
+            hadamardGate(1,reg);
+           
+            cnotGate(0,1, reg);
+            cnotGate(1,2, reg);
+            //std::cout << reg << "\n";
+            hadamardGate(1,reg);*/
+          //  std::cout << reg << "\n";
+            QuantumState q1 = QuantumState::getZero();
+            QuantumState q2 = QuantumState::getZero();
+            QuantumState z = QuantumState::getZero();
+            hadamardGate(0,q2);
+            hadamardGate(0,q1);
+            QuantumState ent(q1, q2);
+            //std::cout << ent.getState() << "\n";
+            cnotGate(0,1, ent);
+          //  hadamardGate(0,ent);
+            ent =  QuantumState(ent,z);
+            cnotGate(1,2, ent);
+            hadamardGate(1,ent);
+            
+          //  hadamardGate(1,ent);
+        for(size_t i = 0; i < 10000; i++){
             std::bitset<size> outcom =  measure<size>(ent, generator);
             bool inList = false;
             for(auto& pair : outcomes){
@@ -44,9 +59,11 @@ int main(int argc, char** argv){
             }
             //std::cout << measure<size>(ent, generator) << "\n";
         }
-
+        //std::cout << ent.getState() << "\n";
+        std::cout << "Result \t | times found \n";
+        std::cout << "-------------------------------\n";
         for(const auto& result : outcomes){
-            std::cout << "result : " << result.first << " | " << result.second << "\n";
+            std::cout << result.first << "\t | " << result.second << "\n";
         }
        
    
