@@ -44,7 +44,7 @@ void multiSystemTest(){
         ent = QuantumState(ent,q2); 
         ent = QuantumState(ent,q3);
         ent = QuantumState(ent,q4);  
-        
+        phaseS(0,q0);
         pauliX(1,ent);
         pauliX(2, ent);
         pauliX(4,ent);

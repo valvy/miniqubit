@@ -5,7 +5,7 @@
 #include <unsupported/Eigen/KroneckerProduct>
 #include "Utils.hpp"
 #include <functional>
-
+#include <utility>
 
 /**
 *   Small struct to easily disassemble and reassemble bit orders of the program.
@@ -32,27 +32,14 @@ struct ChanceOrder{
     */
     void bitflip(const size_t bitChange){
         std::bitset<Globals::QUANTUM_INFINITY> bit(originalPos);
-        bit[bitChange] = !bit[bitChange];
-       // std::string decimal =  std::bitset<Globals::QUANTUM_INFINITY>(originalPos).to_string();
-       // std::reverse(decimal.begin(), decimal.end());
-   //     decimal[bitChange] = (decimal[bitChange == '0'])? '0' : '1';
-     //   std::reverse(decimal.begin(), decimal.end());
-       // std::bitset<Globals::QUANTUM_INFINITY> bit(decimal);
+        const size_t trueBitPos = getAmountOfBits() - bitChange - 1;
+        bit[trueBitPos] = !bit[trueBitPos];
+        
         originalPos =  (int)bit.to_ulong();
     }
-    /**
-    *   Allows you to do a function for each bit in the program
-    */
-    void forEachBit(std::function<void (const bool& bit, const size_t& pos)> bit){
-        std::bitset<Globals::QUANTUM_INFINITY> bits(originalPos);
-        for(size_t i = 0; i < getAmountOfBits(); i++){
-            bit(bits[i], i);
-        }
-    }
 
-    
     const size_t operator[] ( int bit) const{
-        return std::bitset<Globals::QUANTUM_INFINITY>(originalPos)[bit];
+        return std::bitset<Globals::QUANTUM_INFINITY>(originalPos)[getAmountOfBits() - bit - 1];
     }
 
 };
@@ -89,7 +76,6 @@ std::vector<std::vector<ChanceOrder>> orderByBit(const size_t bit_index, const Q
     
     result.push_back(lh);
     result.push_back(rh);
-
     return result;
 
 }
@@ -107,7 +93,7 @@ QuantumState mergeOrderProb(const std::vector<ChanceOrder>& lh, const std::vecto
         res(b.originalPos,0) = b.data;
     }
     for(const ChanceOrder& b : rh){
-         std::string d = std::bitset<Globals::QUANTUM_INFINITY>(b.originalPos).to_string();
+        std::string d = std::bitset<Globals::QUANTUM_INFINITY>(b.originalPos).to_string();
         assertInput(res(b.originalPos,0) != 0.0, "Duplicate position.. This shouldn't happen: " + d);
         res(b.originalPos,0) = b.data;
     }
@@ -143,10 +129,8 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
     for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
         everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
     }
-    //std::cout << (state.getAmountOfQBytes() - bit_index ) << "\n";
-    int index = (state.getAmountOfQBytes() - bit_index - 1 );
+    int index = bit_index; //(state.getAmountOfQBytes() - bit_index - 1 );
     std::vector<ChanceOrder> copy = everything;
-    double d = F;//std::pow(2,-0.5);
     for(size_t i = 0; i < everything.size(); i++ ){
         for(size_t j = 0; j < everything.size(); j++){
             if(i == j){
@@ -154,9 +138,9 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
             } else {
                     if(oppositeBitset(copy[i], copy[j], index)){            
                         if(copy[i][index] == 0){
-                            everything[i].data = d * copy[i].data + d * copy[j].data;
+                            everything[i].data = F * copy[i].data + F * copy[j].data;
                         } else {
-                            everything[i].data = d * copy[j].data - d * copy[i].data;
+                            everything[i].data = F * copy[j].data - F * copy[i].data;
                         }
                     }
             }
@@ -171,43 +155,11 @@ void hadamardGate(const size_t& bit_index, QuantumState& state){
 
 void cnotGate(const size_t& control,const size_t& target, QuantumState& state){
     assertInput(control == target, "The control bit can't be the same as the target bit...");
-    if(state.getAmountOfQBytes() == 2){
-        quantumGate CNot = quantumGate::Zero(4,4);
-        if(control == 0){
-        CNot << 1, 0, 0, 0 , 
-                0, 1, 0, 0,
-                0, 0, 0, 1,
-                0, 0, 1, 0;
-        } 
-        else{
-            CNot << 
-                1, 0, 0, 0 , 
-                0, 0, 0, 1,
-                0, 0, 1, 0,
-                0, 1, 0, 0;
-        }
-        state =  CNot * state.getState();
-    } else {
-
-        std::vector<std::vector<ChanceOrder>>  order = orderByBit(control, state);
-        std::vector<ChanceOrder> old(order[1]);
-
-        for(size_t i = 0; i < order[1].size(); i++){
-            
-            order[1][i].bitflip( order[1][i].getAmountOfBits() -  target - 1 ); 
-        }
-        try{
-            state = mergeOrderProb(order[0], order[1]);
-        } catch(const InvalidInputException& ex){
-            std::cout << "This error occured during control bit " << control << " and target : " << target << "\n"; 
-            std::cout << "new - > old \n";
-            for(size_t i = 0; i < order[1].size(); i++){
-                std::cout << order[1][i] << " | " <<  old[i] <<"\n";
-            }
-            throw ex;
-        }
-        
+    std::vector<std::vector<ChanceOrder>>  order = orderByBit(control, state);
+    for(size_t i = 0; i < order[1].size(); i++){
+        order[1][i].bitflip(  target); 
     }
+    state = mergeOrderProb(order[0], order[1]);
 }
 
 
@@ -215,7 +167,7 @@ void pauliY(const size_t& bit_index, QuantumState& state){
     std::vector<ChanceOrder> everything;
     for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
         ChanceOrder ord(i, state.getState()(i,0),state.getAmountOfQBytes());
-        if(ord[bit_index] == 1){
+        if(ord[bit_index] == 0){
             ord.data = ord.data * std::complex<double>(0,-1);
         }
         everything.push_back(ord);
@@ -243,24 +195,54 @@ void pauliX(const size_t& bit_index, QuantumState& state){
         everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
     }
     for(size_t i = 0; i < everything.size(); i++){
-      //  std::cout <<  bit_index + 1 << "\n";
-        everything[i].bitflip(everything[i].getAmountOfBits() -  bit_index - 1);
+        everything[i].bitflip( bit_index );
     }
     state = mergeOrderProb(everything, std::vector<ChanceOrder>());
 }
 
 
+
+void phaseS(const size_t& bit_index, QuantumState& state){
+    //return;
+    printWarning("phase s ", "is not yet properly tested and can mess up your algorithms..\n");
+    std::vector<ChanceOrder> everything;
+    for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+        everything.push_back(ChanceOrder(i, state.getState()(i,0),state.getAmountOfQBytes()));
+    }
+    int index = (state.getAmountOfQBytes() - bit_index - 1 );
+    std::vector<ChanceOrder> copy = everything;
+    for(size_t i = 0; i < everything.size(); i++ ){
+        for(size_t j = 0; j < everything.size(); j++){
+            if(i == j){
+                continue;
+            } else {
+                    if(oppositeBitset(copy[i], copy[j], index)){            
+                        if(copy[i][index] == 0){ // remains the same
+                            everything[i].data = copy[i].data * copy[j].data;//copy[i].data * copy[j].data;
+                        } else {
+                            everything[i].data = copy[j].data * std::complex<double>(0, copy[j].data.imag());
+                            
+                        }
+                    }
+            }
+
+        }
+    }
+  
+  
+  //  throw QuantumException("not yet implemented");
+}
+
+void phaseSdg(const size_t& bit_index, QuantumState& state){
+    throw QuantumException("not yet implemented");
+}
+
 int collapse(const QuantumState& state, std::default_random_engine& generator){
     const auto s = state.getState();
-    
-   // std::random_device rd;
- //   std::default_random_engine generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
     const double rand = distribution(generator);//Getting a random double between 0.0 and 
-
     int collapsedResult = 0;
     double sum = 0.0;
-    // int t = 0;
     for(size_t i = 0; i < s.rows(); i++){
             collapsedResult++;
             double norm = std::norm(s(i,0));
@@ -269,7 +251,6 @@ int collapse(const QuantumState& state, std::default_random_engine& generator){
                 return collapsedResult;
             }
     }
-    std::cout << state << "\n";
     throw QuantumException("Could not collapse state!");
 }
 

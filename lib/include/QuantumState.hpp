@@ -16,7 +16,7 @@ class QuantumState{
     size_t bitSize;
     QuantumData data;
     public:
-  //  QuantumState(const size_t& bitsize);
+    QuantumState(const size_t& bitsize);
     QuantumState(const QuantumData& state, bool allowInfinity = false);
     QuantumState(QuantumState& lh, QuantumState& rh, bool allowInfinity = false);
     QuantumState(const QuantumData& lh, const QuantumData& rh,size_t bitsize = 1, bool allowInfinity = false);

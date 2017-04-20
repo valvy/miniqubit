@@ -12,7 +12,9 @@ add_library(Catch INTERFACE)
 SET(srcfiles 
     Main.cpp
     HadamardTest.cpp
-    AlghoritmsTest.cpp
+    GroverTests.cpp
+    ShorTests.cpp
+    SingleQubitTests.cpp
 )
 
 

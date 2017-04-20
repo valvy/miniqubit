@@ -20,7 +20,24 @@ constexpr void printInfo(T& msg){
     #endif
 }
 
+template<typename T>
+constexpr void printWarning(T& msg){
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        std::cout << msg;
+    #else
+        std::cout << "\033[1;33m" << msg << "\033[0m";
+    #endif
+}
 
+template<typename T, typename... arguments>
+constexpr void printWarning(T& msg, arguments... args){
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        std::cout<< msg;
+    #else
+         std::cout << "\033[1;33m" << msg;
+    #endif
+    printWarning(args...);
+}
 
 template<typename T, typename... arguments>
 constexpr void printInfo(T& msg, arguments... args){
