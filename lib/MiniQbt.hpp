@@ -10,7 +10,7 @@
 #include <bitset>
 
 namespace MiniQbt{
-    constexpr char VERSION[] = "0.0.1";
+    constexpr char VERSION[] = "0.1.0";
     constexpr char NAME[] = "MiniQBT";
 
     template<size_t registerSize>
