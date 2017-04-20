@@ -7,9 +7,12 @@ set (CMAKE_CXX_STANDARD 14)
 SET(srcfiles 
     Main.cpp)
 
-include_directories(../lib/include)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+include_directories(../lib)
 add_executable(miniQbt ${srcfiles})
-target_link_libraries(miniQbt miniQbtruntime)
+target_link_libraries(miniQbt  Eigen3::Eigen)
+
+
 
 add_custom_target(run
     COMMAND miniQbt

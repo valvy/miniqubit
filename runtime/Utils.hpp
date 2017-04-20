@@ -3,13 +3,11 @@
 
 #include <string>
 #include <iostream>
-#include "QuantumState.hpp"
+//#include "core/QuantumState.hpp"
 
-void printProbabilities(const QuantumState& state);
 
-void assertInput(const bool as, std::string msg = "Invalid input detected");
+//void assertInput(const bool as, std::string msg = "Invalid input detected");
 
-void assertInfinity(const bool as, std::string msg = "Infinity is a long time.." );
 
 template<typename T>
 constexpr void printInfo(T& msg){
