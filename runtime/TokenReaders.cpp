@@ -3,7 +3,7 @@
 #include <regex>
 #include "Utils.hpp"
 #include <fstream>
-
+#include <MiniQbt.hpp>
 std::shared_ptr<Token> TokenReader::parseLine(const std::string& line){
     if(line.length() == 0){
         return nullptr;
@@ -78,9 +78,26 @@ void TerminalReader::start(){
         std::string command;
         std::cout << "$ ";
         std::getline (std::cin,command);
+
         if(command == "exit"){
+            printInfo("Bye \n");
             break;
         }
+        if(command == "about"){
+            printInfo(MiniQbt::NAME, " : ", MiniQbt::VERSION, "\n");
+            printInfo("Build date: " , __DATE__," ", __TIME__, "\n");
+            std::cout << "Created by Heiko van der Heijden\n";
+            continue;
+        }
+        if(command == "help"){
+            printInfo(
+                "Interactive shell for the Qasm language\n",
+                "Exit program -> exit \n",
+                "Show version -> about \n"
+            );
+            continue;
+        }
+
         if(command[0] == '!'){
             std::cout.flush();
             system(command.substr(1).c_str());

@@ -11,7 +11,7 @@
 #include <memory>
 
 namespace MiniQbt{
-    constexpr char VERSION[] = "0.1.0";
+    constexpr char VERSION[] = "0.2.0";
     constexpr char NAME[] = "MiniQBT";
 
 

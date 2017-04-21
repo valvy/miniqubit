@@ -50,7 +50,7 @@ int main(int argc, char** argv){
         }
         reader = std::shared_ptr<TokenReader>(new FileReader(tokenizer, argv[1]));
     } else {
-        printInfo("Welcome by ", MiniQbt::NAME, "\n");
+        printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
         reader = std::shared_ptr<TokenReader>(new TerminalReader(tokenizer));
     }
     reader->start();
