@@ -27,7 +27,7 @@ namespace MiniQbt{
             Core::hadamardGate<registerSize, strictMode>(bit,state);
         }
 
-        void controlledNot(const size_t& control, const size_t target, Core::QuantumState<registerSize>& state) const{
+        void controlledNot(const size_t& control, const size_t& target, Core::QuantumState<registerSize>& state) const{
             Core::cnotGate<registerSize>(control,target,state);
         }
 

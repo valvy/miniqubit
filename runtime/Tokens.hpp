@@ -55,18 +55,18 @@ class Measure : public Token{
 
 class CNot : public Token{
     std::string lh;
-    int lhIndex;
+    size_t lhIndex;
 
     std::string rh; 
-    int rhIndex;
+    size_t rhIndex;
     public:
     virtual void accept(TokenVisitor& visitor) override;
-    CNot(std::string lh, int lhIndex, std::string rh, int rhIndex) :
+    CNot(std::string lh, size_t lhIndex, std::string rh, size_t rhIndex) :
     lh(lh), lhIndex(lhIndex), rh(rh), rhIndex(rhIndex){ }
     std::string getLeftHand() const { return lh; }
     std::string getRightHand() const { return rh; }
-    int getLeftHandIndex() const { return lhIndex; }
-    int getRightHandIndex() const { return rhIndex; }
+    size_t getLeftHandIndex() const { return lhIndex; }
+    size_t getRightHandIndex() const { return rhIndex; }
 };
 
 #endif

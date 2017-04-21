@@ -26,7 +26,9 @@ class RegisterDelegate : public AbstractDelegate{
     }
 
     virtual void visit(CNot& cnot) override{
-       // emulator.controlledNot(not.getLeftHandIndex(), not.getRightHandIndex(), state);
+        size_t lh = cnot.getLeftHandIndex();
+        size_t rh = cnot.getRightHandIndex();
+        emulator.controlledNot(lh,rh , state);
     }
 
     virtual void visit(PauliX& pauliGate) override{
