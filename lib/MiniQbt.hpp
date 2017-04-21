@@ -13,9 +13,10 @@ namespace MiniQbt{
     constexpr char VERSION[] = "0.1.0";
     constexpr char NAME[] = "MiniQBT";
 
-    template<size_t registerSize>
+    template<size_t registerSize, bool strictMode = true>
     struct QuantumEmulator{
         Core::QuantumState<registerSize> generateRegister() const{
+            static_assert(registerSize > 0 , "You need to have a register of at least on qubit...");
             return Core::QuantumState<registerSize>();
         }
 
@@ -28,7 +29,7 @@ namespace MiniQbt{
         }
 
         std::bitset<registerSize> measure(Core::QuantumState<registerSize>& state, std::default_random_engine& generator) const{
-            return Core::measure<registerSize>(state, generator);
+            return Core::measure<registerSize, strictMode>(state, generator);
         }
 
         void pauliX(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
@@ -51,26 +52,26 @@ namespace MiniQbt{
     /**
     *   Some predefined quantum emulators with the amount of qubits
     */
-    typedef QuantumEmulator<1> Quantum1;
-    typedef QuantumEmulator<2> Quantum2;
-    typedef QuantumEmulator<3> Quantum3;
-    typedef QuantumEmulator<4> Quantum4;
-    typedef QuantumEmulator<5> Quantum5;
-    typedef QuantumEmulator<6> Quantum6;
-    typedef QuantumEmulator<7> Quantum7;
-    typedef QuantumEmulator<8> Quantum8;
-    typedef QuantumEmulator<9> Quantum9;
-    typedef QuantumEmulator<10> Quantum10;
-    typedef QuantumEmulator<11> Quantum11;
-    typedef QuantumEmulator<12> Quantum12;
-    typedef QuantumEmulator<13> Quantum13;
-    typedef QuantumEmulator<14> Quantum14;
-    typedef QuantumEmulator<15> Quantum15;
-    typedef QuantumEmulator<16> Quantum16;
-    typedef QuantumEmulator<17> Quantum17;
-    typedef QuantumEmulator<18> Quantum18;
-    typedef QuantumEmulator<19> Quantum19;
-    typedef QuantumEmulator<20> Quantum20;
+    typedef QuantumEmulator<1, true> Quantum1;
+    typedef QuantumEmulator<2, true> Quantum2;
+    typedef QuantumEmulator<3, true> Quantum3;
+    typedef QuantumEmulator<4, true> Quantum4;
+    typedef QuantumEmulator<5, true> Quantum5;
+    typedef QuantumEmulator<6, true> Quantum6;
+    typedef QuantumEmulator<7, true> Quantum7;
+    typedef QuantumEmulator<8, true> Quantum8;
+    typedef QuantumEmulator<9, true> Quantum9;
+    typedef QuantumEmulator<10,true> Quantum10;
+    typedef QuantumEmulator<11,true> Quantum11;
+    typedef QuantumEmulator<12,true> Quantum12;
+    typedef QuantumEmulator<13,true> Quantum13;
+    typedef QuantumEmulator<14,true> Quantum14;
+    typedef QuantumEmulator<15,true> Quantum15;
+    typedef QuantumEmulator<16,true> Quantum16;
+    typedef QuantumEmulator<17,true> Quantum17;
+    typedef QuantumEmulator<18,true> Quantum18;
+    typedef QuantumEmulator<19,true> Quantum19;
+    typedef QuantumEmulator<20,true> Quantum20;
 }
 
 

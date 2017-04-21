@@ -15,28 +15,27 @@ namespace MiniQbt{
             *   when the first bit is static on three bit state: [[000,001,010,011],[100,101,110,111]].
             *   It will return always two vectors with the order
             */
-            template<size_t bitSize>
-            std::vector<std::vector<ChanceOrder<bitSize>>> orderByBit(const size_t bit_index, const QuantumState<bitSize>& state){
+            template<size_t registerSize>
+            std::vector<std::vector<ChanceOrder<registerSize>>> orderByBit(const size_t bit_index, const QuantumState<registerSize>& state){
                 
-                assertInput(bit_index > state.getAmountOfQBytes() - 1, "The control bit must be within range of the amount of qbits residing in this state..");
-                std::vector<std::vector<ChanceOrder<bitSize>>> result;
+                assertInput(bit_index > registerSize - 1, "The control bit must be within range of the amount of qbits residing in this state..");
+                std::vector<std::vector<ChanceOrder<registerSize>>> result;
                 const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> d = state.getState();
-                const size_t amountOfQubits = state.getAmountOfQBytes();
                 //Define the pattern.. 
                 size_t divide = state.getAmountOfPossibilities();
                 for(size_t i = bit_index + 1; i > 0; i--){
                     divide /= 2;
                 }
 
-                std::vector<ChanceOrder<bitSize>> lh;
-                std::vector<ChanceOrder<bitSize>> rh;
+                std::vector<ChanceOrder<registerSize>> lh;
+                std::vector<ChanceOrder<registerSize>> rh;
 
                 for(size_t i = 0; i < d.rows() ; i += divide * 2){
                     for(size_t j = i ; j < (divide + i); j++){
-                        lh.push_back(ChanceOrder<bitSize>(j, d(j,0)));
+                        lh.push_back(ChanceOrder<registerSize>(j, d(j,0)));
                     }
                     for(size_t j = i + divide; j < ((divide * 2) + i); j++){
-                        rh.push_back(ChanceOrder<bitSize>(j,d(j,0)));
+                        rh.push_back(ChanceOrder<registerSize>(j,d(j,0)));
                     }
                 }
                 

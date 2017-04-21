@@ -16,7 +16,6 @@ namespace MiniQbt{
     namespace Core{
         template<size_t registerSize>
         class QuantumState{
-        // typedef Eigen::Matrix<std::complex<double>, registerSize, 1> QuantumData;
             private:
             bool invalid = false;
             Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>  data;
@@ -41,22 +40,22 @@ namespace MiniQbt{
             Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> getState() const{
                 return this->data;
             }
-            void set(const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>& data){
-                this->data = data;
-            }
-            size_t getAmountOfQBytes() const{
-                return std::log(this->data.size()) / std::log(2);
-            }
-
             size_t getAmountOfPossibilities() const{
                 return this->data.rows();
             }
-            QuantumState& operator=(const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>& lh);
+            QuantumState& operator=(const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>& lh){
+                this->data = lh;
+                return *this;
+            }
+
             QuantumState& operator*=(const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>& lh){
                 this->data *= lh;
                 return *this;
             }
-            friend std::ostream& operator<<(std::ostream& os, const QuantumState& state); 
+            friend std::ostream& operator<<(std::ostream& os, const QuantumState& state){
+                os << state.getState();
+                return os;
+            }
 
         };
     }

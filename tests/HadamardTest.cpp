@@ -4,13 +4,20 @@
 
 
 TEST_CASE( "hadamard with Controlled not") {
+    using namespace MiniQbt;
+
     constexpr size_t MINIMAL_TEST_AMOUNT = 100;
     std::random_device rd;
     std::default_random_engine generator(rd());
-    using namespace MiniQbt;
+    
+    typedef QuantumEmulator<2, false> DebugQuantum2;
+    typedef QuantumEmulator<3, false> DebugQuantum3;
+    typedef QuantumEmulator<5, false> DebugQuantum5;
+
+
     constexpr char FIRST_QUBIT_APPLIED_HADAMARD[] = "first qubit applied hadamard";
     SECTION(FIRST_QUBIT_APPLIED_HADAMARD){
-        Quantum2 emulator;
+        DebugQuantum2 emulator;
         auto ent = emulator.generateRegister();
         emulator.hadamardGate(0,ent);
         emulator.controlledNot(0,1,ent);
@@ -27,7 +34,7 @@ TEST_CASE( "hadamard with Controlled not") {
     
     constexpr char SECOND_QUBIT_APPLIED_HADAMARD_KEY[] = "Second qubit applied hadamard";
     SECTION(SECOND_QUBIT_APPLIED_HADAMARD_KEY){
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.hadamardGate(1, ent);
         emulator.controlledNot(0,1, ent);
@@ -44,7 +51,7 @@ TEST_CASE( "hadamard with Controlled not") {
     
     constexpr char QUADRUPLE_HADAMARD_WITH_CNOT[] = "Quadruple hadamard with CNOT";
     SECTION(QUADRUPLE_HADAMARD_WITH_CNOT){
-        Quantum2 emulator;
+        DebugQuantum2 emulator;
         auto ent = emulator.generateRegister();
         emulator.hadamardGate(0, ent);
         emulator.hadamardGate(1, ent);
@@ -65,7 +72,7 @@ TEST_CASE( "hadamard with Controlled not") {
     
     constexpr char PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE[] = "Pauli x after hadamard and controlled not gate";
     SECTION(PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE){
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.controlledNot(0,1, ent);
         emulator.pauliX(0, ent);
@@ -82,7 +89,7 @@ TEST_CASE( "hadamard with Controlled not") {
     
     constexpr char QUADRUPLE_HADAMARD_WITH_IN_OTHER_ORDER_CNOT[] = "Quadruple hadamard with in other order CNOT";
     SECTION(QUADRUPLE_HADAMARD_WITH_IN_OTHER_ORDER_CNOT){
-        Quantum2 emulator;
+        DebugQuantum2 emulator;
         auto ent = emulator.generateRegister();       
         emulator.hadamardGate(0, ent); 
         emulator.hadamardGate(1, ent); 
@@ -103,7 +110,7 @@ TEST_CASE( "hadamard with Controlled not") {
     
     constexpr char THREE_QUBITS_INCLUDING_HADAMARD_AND_PAULI[] = "Three qubits including hadamard and Pauli";
     SECTION(THREE_QUBITS_INCLUDING_HADAMARD_AND_PAULI){
-        Quantum3 emulator;
+        DebugQuantum3 emulator;
         auto ent = emulator.generateRegister();   
         emulator.hadamardGate(0,ent);
         emulator.hadamardGate(1,ent);

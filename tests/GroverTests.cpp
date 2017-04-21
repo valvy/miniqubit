@@ -8,11 +8,12 @@ TEST_CASE( "Grover algorithms") {
     using namespace MiniQbt;
     std::random_device rd;
     std::default_random_engine generator(rd());
+    typedef QuantumEmulator<5, false> DebugQuantum5;
 
     constexpr char N_2_A_11[] = "N=2 A=11";
     SECTION(N_2_A_11){
         //return;
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         
         //QuantumState ent(bitsize);
@@ -47,7 +48,7 @@ TEST_CASE( "Grover algorithms") {
     constexpr char N_2_A_01[] = "N=2 A=01";
     SECTION(N_2_A_01){
         return;
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.hadamardGate(1, ent);
         emulator.hadamardGate(2, ent);
@@ -80,7 +81,7 @@ TEST_CASE( "Grover algorithms") {
     
     SECTION("N=2 A=00"){
         return;
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.hadamardGate(1, ent);
         emulator.hadamardGate(2, ent);

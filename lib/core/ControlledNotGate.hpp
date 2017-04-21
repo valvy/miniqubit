@@ -10,6 +10,8 @@ namespace MiniQbt{
         void cnotGate(const size_t& control,const size_t& target, QuantumState<registerSize>& state){
             using namespace Tools;
             assertInput(control == target, "The control bit can't be the same as the target bit...");
+            assertInput(target >= registerSize, "Target bit can't be bigger then the register.");
+            assertInput(control >= registerSize, "Target bit can't be bigger then the register.");
             std::vector<std::vector<ChanceOrder<registerSize>>>  order = orderByBit<registerSize>(control, state);
             for(size_t i = 0; i < order[1].size(); i++){
                 order[1][i].bitflip(target); 

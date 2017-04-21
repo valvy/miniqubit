@@ -3,6 +3,7 @@
 //#include <iostream>
 
 TEST_CASE( "Single qubit algorithms") {
+    typedef MiniQbt::QuantumEmulator<1, false> DebugQuantum1;
     constexpr size_t MINIMAL_TEST_AMOUNT = 10;
     using namespace MiniQbt;
     std::random_device rd;
@@ -11,7 +12,7 @@ TEST_CASE( "Single qubit algorithms") {
     constexpr char ONE_QUBIT_MES_KEY[] = "1 Qubit measurement";
     SECTION(ONE_QUBIT_MES_KEY){
         //Quantum1 qubit(1);
-        Quantum1 emulator;
+        DebugQuantum1 emulator;
         auto qubit = emulator.generateRegister();
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
             try{
@@ -27,7 +28,7 @@ TEST_CASE( "Single qubit algorithms") {
     
     constexpr char PAULI_X_QUBIT_MES_KEY[] = "Pauli x 1 Qubit measurement";
     SECTION(PAULI_X_QUBIT_MES_KEY){
-        Quantum1 emulator;//QuantumState qubit(1);
+        DebugQuantum1 emulator;//QuantumState qubit(1);
         auto qubit = emulator.generateRegister();
         emulator.pauliX(0, qubit);
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
@@ -45,7 +46,7 @@ TEST_CASE( "Single qubit algorithms") {
     
     constexpr char PAULI_Y_ONE_QUBIT_MEASUREMENT[] = "Pauli y 1 Qubit measurement";
     SECTION(PAULI_Y_ONE_QUBIT_MEASUREMENT){
-        Quantum1 emulator;
+        DebugQuantum1 emulator;
         auto qubit = emulator.generateRegister();
         emulator.pauliY(0, qubit);
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
@@ -62,7 +63,7 @@ TEST_CASE( "Single qubit algorithms") {
     
     constexpr char PAULI_Z_ONE_QUBIT_MEASUREMENT[] = "Pauli z 1 Qubit measurement";
     SECTION(PAULI_Z_ONE_QUBIT_MEASUREMENT){
-        Quantum1 emulator;
+        DebugQuantum1 emulator;
         auto qubit = emulator.generateRegister();
         emulator.pauliZ(0, qubit);
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
@@ -79,7 +80,7 @@ TEST_CASE( "Single qubit algorithms") {
 
     constexpr char HADAMARD_ONE_QUBIT_MEASUREMENT[] = "Hadamard  1 Qubit measurement";
     SECTION(HADAMARD_ONE_QUBIT_MEASUREMENT){
-        Quantum1 emulator;
+        DebugQuantum1 emulator;
         auto qubit = emulator.generateRegister();
         
         emulator.hadamardGate(0, qubit);
@@ -98,7 +99,7 @@ TEST_CASE( "Single qubit algorithms") {
     
     constexpr char DOUBLE_HADAMARD_ONE_QUBIT_MEASUREMENT[] = "Double Hadamard  1 Qubit measurement";
     SECTION(DOUBLE_HADAMARD_ONE_QUBIT_MEASUREMENT){
-        Quantum1 emulator;
+        DebugQuantum1 emulator;
         auto qubit = emulator.generateRegister();
         emulator.hadamardGate(0, qubit);
         emulator.hadamardGate(0, qubit);

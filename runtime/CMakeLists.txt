@@ -5,7 +5,11 @@ set (CMAKE_CXX_STANDARD 14)
 
 
 SET(srcfiles 
-    Main.cpp)
+    Main.cpp
+    TokenReaders.cpp
+    Tokens.cpp
+    TokenVisitor.cpp
+    )
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 include_directories(../lib)

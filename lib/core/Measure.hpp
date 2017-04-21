@@ -8,8 +8,14 @@
 
 namespace MiniQbt{
     namespace Core{
-        template<size_t registerSize>
+        template<size_t registerSize, bool strictMode = true>
         std::bitset<registerSize> measure (QuantumState<registerSize>& state, std::default_random_engine& generator){
+            if(strictMode){
+                if(!state.usable()){
+                    throw QuantumException("State has already been collapsed.. ");
+                }
+            }
+            state.setInvalid();
             const auto s = state.getState();
             std::uniform_real_distribution<double> distribution(0.0,1.0);
             const double rand = distribution(generator);//Getting a random double between 0.0 and 

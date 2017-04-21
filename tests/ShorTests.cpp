@@ -9,11 +9,12 @@ TEST_CASE( "Shor algorithms") {
     *   https://quantumexperience.ng.bluemix.net/qstage/#/tutorial?sectionId=8443c4f713521c10b1a56a533958286b&pageIndex=2
     */
     using namespace MiniQbt;
+    typedef QuantumEmulator<5, false> DebugQuantum5;
     std::random_device rd;
     std::default_random_engine generator(rd());
     constexpr char MULTI_7_X_13_MOD_15_NAME[] = "Multi7x13Mod15";
     SECTION(MULTI_7_X_13_MOD_15_NAME){
-        Quantum5 emulator;
+        DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.pauliX(1,ent);
         emulator.pauliX(2, ent);
