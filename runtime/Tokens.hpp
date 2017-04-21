@@ -50,6 +50,23 @@ class Measure : public Token{
     public:
     Measure(std::string quReg, int qubit, std::string classicReg, int bit) : quReg(quReg), qubit(qubit), classicReg(classicReg), bit(bit) {}
     virtual void accept(TokenVisitor& visitor) override;
+    std::string getQureg() const { return quReg; }
+};
+
+class CNot : public Token{
+    std::string lh;
+    int lhIndex;
+
+    std::string rh; 
+    int rhIndex;
+    public:
+    virtual void accept(TokenVisitor& visitor) override;
+    CNot(std::string lh, int lhIndex, std::string rh, int rhIndex) :
+    lh(lh), lhIndex(lhIndex), rh(rh), rhIndex(rhIndex){ }
+    std::string getLeftHand() const { return lh; }
+    std::string getRightHand() const { return rh; }
+    int getLeftHandIndex() const { return lhIndex; }
+    int getRightHandIndex() const { return rhIndex; }
 };
 
 #endif

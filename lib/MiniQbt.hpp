@@ -8,10 +8,13 @@
 #include "core/PauliGates.hpp"
 #include <random>
 #include <bitset>
+#include <memory>
 
 namespace MiniQbt{
     constexpr char VERSION[] = "0.1.0";
     constexpr char NAME[] = "MiniQBT";
+
+
 
     template<size_t registerSize, bool strictMode = true>
     struct QuantumEmulator{
@@ -21,7 +24,7 @@ namespace MiniQbt{
         }
 
         void hadamardGate(const size_t& bit, Core::QuantumState<registerSize>& state) const{
-            Core::hadamardGate<registerSize>(bit,state);
+            Core::hadamardGate<registerSize, strictMode>(bit,state);
         }
 
         void controlledNot(const size_t& control, const size_t target, Core::QuantumState<registerSize>& state) const{

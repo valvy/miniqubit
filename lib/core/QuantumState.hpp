@@ -9,13 +9,15 @@
 #include "Exceptions.hpp"
 #include <unsupported/Eigen/KroneckerProduct>
 #include <cmath>
+#include "tools/Utils.hpp"
 //#include "Globals.hpp"
 //template<size_t registerSize>
 
 namespace MiniQbt{
     namespace Core{
+
         template<size_t registerSize>
-        class QuantumState{
+        class QuantumState {
             private:
             bool invalid = false;
             Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>  data;

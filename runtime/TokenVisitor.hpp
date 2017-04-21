@@ -3,17 +3,20 @@
 
 #include "Tokens.hpp"
 #include <MiniQbt.hpp>
+#include "RegisterDelegate.hpp"
+
 
 class TokenVisitor{
     private:
-    MiniQbt::Quantum5 emulator;
-    MiniQbt::Core::QuantumState<5> quantumRegister;
+    bool registerDoesExist(const std::string& name) const;
+    std::vector<AbstractDelegate*> registers;
     public:
     TokenVisitor();
     void visit(PauliX& pauliGate);
     void visit(HadamardGate& hadamard);
     void visit(Measure& measure);
     void visit(QuantumRegister& registe);
+    void visit(CNot& cnot);
 
 };
 

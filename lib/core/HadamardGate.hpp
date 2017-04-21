@@ -8,11 +8,13 @@ namespace MiniQbt{
     namespace Core{
         constexpr double F = 0.7071067811865476;
 
-        template<size_t registerSize>
+        template<size_t registerSize, bool strictMode = true>
         void hadamardGate(const size_t& bit_index, QuantumState<registerSize>& state){
             using namespace Tools;
             assertInput(bit_index > registerSize - 1, "The control bit must be within range of the amount of qbits residing in this state..");
-            assertInput(!state.usable(), "This state has been entangled and can no longer be used seperatly");
+            if(strictMode){
+                assertInput(!state.usable(), "This state has been entangled and can no longer be used seperatly");
+            }
             std::vector<ChanceOrder<registerSize>> everything;
             for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
                 everything.push_back(ChanceOrder<registerSize>(i, state.getState()(i,0)));

@@ -8,6 +8,9 @@
 namespace MiniQbt{
     namespace Core{
         namespace Tools{
+
+
+      
             /**
             *   Orders the bytes of a state. 
             *   When the first bit is static on two bit state: [[00,01],[10,11]].

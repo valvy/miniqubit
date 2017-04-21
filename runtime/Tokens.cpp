@@ -16,3 +16,7 @@ void PauliX::accept(TokenVisitor& visitor) {
 void Measure::accept(TokenVisitor& visitor)  {
     visitor.visit(*this);
 }
+
+void CNot::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}

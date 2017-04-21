@@ -17,6 +17,7 @@ void showResult( MiniQbt::Core::QuantumState<size>& reg ,  MiniQbt::QuantumEmula
                 inList = true;
             }
         }
+        
         if(!inList){
             outcomes.push_back(std::make_pair(outcom, 1));
         }
@@ -33,7 +34,7 @@ void showResult( MiniQbt::Core::QuantumState<size>& reg ,  MiniQbt::QuantumEmula
 
 int main(int argc, char** argv){
     TokenVisitor visitor;
-    std::shared_ptr<TokenReader> reader;
+    std::shared_ptr<TokenReader> reader = nullptr;
     auto tokenizer = [&](const std::shared_ptr<Token>& token) -> void {
         try{
             token->accept(visitor);

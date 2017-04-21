@@ -14,7 +14,7 @@ TEST_CASE( "Shor algorithms") {
     std::default_random_engine generator(rd());
     constexpr char MULTI_7_X_13_MOD_15_NAME[] = "Multi7x13Mod15";
     SECTION(MULTI_7_X_13_MOD_15_NAME){
-        DebugQuantum5 emulator;
+         DebugQuantum5 emulator;
         auto ent = emulator.generateRegister();
         emulator.pauliX(1,ent);
         emulator.pauliX(2, ent);
