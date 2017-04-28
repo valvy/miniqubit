@@ -3,6 +3,8 @@
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
 MiniQbt emulates the assembly language up to 20 qubits (the header can go up to infinite qubits). It's written in c++ 14 and the library actually emulating the quantum instructions is header only.
 
+This is alpha software and not ready for production, I would like to receive feedback or suggestions!
+
 ## Installation of the runtime
 ### MacOS
 Install Eigen3 through [brew ](https://brew.sh) and install cmake, after that download the source of miniQbt.
@@ -14,8 +16,18 @@ Compile [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) from sour
 ### Windows 10
 Install ubuntu for windows 10 and execute the ubuntu instructions
 
+
+## Runtime usage
+You can execute quantum algorithms using the miniqbt binary. The cap is 20 although this takes quite a while. 
+To read from a file just pass the name into the arguments.
+
+The runtime also contains a REPL allowing you execute commands on the fly.
+![alt tag](https://raw.github.com/valvy/miniqubit/master/media/miniqbtScreen.png)
+
+
+
 ## Library usage
-MiniQbt contains has a header only library that can be used in other projects, if also Eigen is supplied.
+MiniQbt contains a header only library that can be used in other projects, if also Eigen is supplied.
 
 ```
     #include <MiniQbt.hpp>
