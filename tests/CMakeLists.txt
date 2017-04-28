@@ -2,8 +2,8 @@ cmake_minimum_required (VERSION 3.5)
 project(miniqbtTests)
 set (CMAKE_CXX_STANDARD 14)
 
-LIST( APPEND CMAKE_MODULE_PATH ${miniqbtTests_SOURCE_DIR}/cmake )
-include(externalCatch)
+#LIST( APPEND CMAKE_MODULE_PATH ${miniqbtTests_SOURCE_DIR}/cmake )
+#include(externalCatch)
 
 add_library(Catch INTERFACE)
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
