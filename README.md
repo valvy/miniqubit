@@ -51,4 +51,7 @@ MiniQbt contains a header only library that can be used in other projects, if al
 
 ```
 
+## Licence
+[License ](LICENSE)
+
 
