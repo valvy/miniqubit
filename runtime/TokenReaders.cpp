@@ -11,8 +11,9 @@ std::shared_ptr<Token> TokenReader::parseLine(const std::string& line){
     if(line[0] == '/' && line[1] == '/'){
         return nullptr;
     }
+
     
-    std::regex regex_creg_qreg_x_h("\\b(qreg|creg|x|h|)\\s*([a-z|A-Z]+)\\s?\\[([0-9]*)\\](\\s?|\\s*);",std::regex::ECMAScript);//"^[\\s]*Mem\\(([0-9]+)\\)\\s*=\\s*([0-9]+(\\.[0-9]+)?)\\s*$"
+    std::regex regex_creg_qreg_x_h("\\b(qreg|creg|x|h|)\\s*([a-z|A-Z]+)\\s?\\[([0-9]*)\\](\\s?|\\s*);",std::regex::ECMAScript);
     std::smatch m;
     std::regex_match(line, m, regex_creg_qreg_x_h);
     if(m[1] == "qreg"){

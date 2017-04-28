@@ -9,6 +9,9 @@ TEST_CASE( "Grover algorithms") {
     std::random_device rd;
     std::default_random_engine generator(rd());
     typedef QuantumEmulator<5, false> DebugQuantum5;
+    typedef QuantumEmulator<20, false> impossiblyBig;
+    impossiblyBig big;
+    auto b = big.generateRegister();
 
     constexpr char N_2_A_11[] = "N=2 A=11";
     SECTION(N_2_A_11){

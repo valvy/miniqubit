@@ -9,7 +9,13 @@ namespace MiniQbt{
     namespace Core{
         namespace Tools{
 
-
+            /*
+            *   On compile time power of 2 to registerSize
+            */
+            template<size_t registerSize> 
+            struct vectorLength{ enum { value = 2 * vectorLength<registerSize-1>::value}; };
+            template<> 
+            struct vectorLength<0>{ enum { value = 1 }; };
       
             /**
             *   Orders the bytes of a state. 

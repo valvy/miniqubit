@@ -6,10 +6,6 @@
 
 namespace MiniQbt{
     namespace Core{
-        /**
-        *   this is 1 divided by square root of 2
-        */
-        constexpr double F = 0.7071067811865476;
 
 
         /**
@@ -34,6 +30,11 @@ namespace MiniQbt{
             if(strictMode){
                 assertInput(!state.usable(), "This state has been entangled and can no longer be used seperatly");
             }
+            /**
+            *   this is 1 divided by square root of 2
+            */
+            constexpr double F = 0.7071067811865476;
+
             std::vector<ChanceOrder<registerSize>> everything;
             for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
                 everything.push_back(ChanceOrder<registerSize>(i, state.getState()(i,0)));

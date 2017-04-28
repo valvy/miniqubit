@@ -15,6 +15,8 @@ SET(srcfiles
     GroverTests.cpp
     ShorTests.cpp
     SingleQubitTests.cpp
+    BasicCircuits.cpp
+    learningParity.cpp
 )
 
 
