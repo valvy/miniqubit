@@ -1,10 +1,10 @@
 # Miniqbt, a runtime for the IBM Quantum experience
-##Introduction
+## Introduction
 IBM research released [link](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
 MiniQbt emulates the assembly language up to 20 qubits (the header can go up to infinite qubits). It's written in c++ 14 and the library actually emulating the quantum instructions is header only.
 
 
-##Installation
+## Installation
 ### MacOS
 Install Eigen3 through brew [link](https://brew.sh) and install cmake, after that download the source of miniQbt.
 Navigate to the directory you downloaded miniqbt and create a new directory called build. execute in the build directory cmake .. , after it's done execute make install.
