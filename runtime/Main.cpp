@@ -61,13 +61,13 @@ void bellTest(size_t amount){
 
 
 int main(int argc, char** argv){
-    constexpr size_t AMOUNT = 200000;
+/*    constexpr size_t AMOUNT = 200000;
     bellTest<2>(AMOUNT);
     bellTest<3>(AMOUNT);
     bellTest<4>(AMOUNT);
     bellTest<5>(AMOUNT);
 
-    return 0;
+    return 0;*/
     TokenVisitor visitor;
     std::shared_ptr<TokenReader> reader = nullptr;
     auto tokenizer = [&](const std::shared_ptr<Token>& token) -> void {
