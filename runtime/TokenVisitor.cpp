@@ -70,6 +70,7 @@ void TokenVisitor::visit(QuantumRegister& registe){
 
     AbstractDelegate* delegate = nullptr;
     switch(registe.getSize()){
+        case 0: printError( "Can we consider a computer without bits a computer??"); return;
         case 1: delegate = new RegisterDelegate<1>(registe.getName()); break;
         case 2: delegate = new RegisterDelegate<2>(registe.getName()); break;
         case 3: delegate = new RegisterDelegate<3>(registe.getName()); break;
@@ -90,7 +91,10 @@ void TokenVisitor::visit(QuantumRegister& registe){
         case 18: delegate = new RegisterDelegate<18>(registe.getName()); break;
         case 19: delegate = new RegisterDelegate<19>(registe.getName()); break;
         case 20: delegate = new RegisterDelegate<20>(registe.getName()); break;
-        default: printError( " size : ", registe.getSize(), " is an invalid size...\n"); return;
+        default: printError(
+            "size : ", registe.getSize(), " is to big...\n",
+            "You don't really expect me to calculate approximately ", std::pow(2, registe.getSize()), " of possibilities??\n" 
+        ); return;
     }
     registers.push_back(delegate);
 
