@@ -10,8 +10,7 @@
 #include <unsupported/Eigen/KroneckerProduct>
 #include <cmath>
 #include "tools/Utils.hpp"
-//#include "Globals.hpp"
-//template<size_t registerSize>
+
 
 namespace MiniQbt{
     namespace Core{

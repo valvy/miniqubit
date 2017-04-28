@@ -8,6 +8,22 @@
 
 namespace MiniQbt{
     namespace Core{
+
+        /**
+        *   Measures a quantumstate and returns the classic bitset.
+        *   @Author Heiko van der Heijden
+        *
+        *   See the quantum state as a array wherein the index corresponds to the binary resperentation.
+        *   Such as (register size 2) [0 == 00, 1 == 01, 2 == 10, 3 == 11]. When we want to measure the register we need to take a random number between 0 and 1.
+        *   The quantumstate has for each index a specific value for example |0>. [chance 1.0 index 0 bitvalue 0, chance 0.0 index 1 bitvalue 1].
+        *   We take the norm of each index and checks if it's more then the random number provided if so then the bitvalue of that specific index is the answer.
+        *   
+        *   @param registerSize,        the size of the quantumregister
+        *   @param strictmode,          Throw a exception when the register is already measured
+        *   @param state,               The state you wish to measure
+        *   @param generator,           The generator deciding the random number
+        *   @throws QuantumException,   When the state is already collapsed in strictmode or when the state was invalid
+        */
         template<size_t registerSize, bool strictMode = true>
         std::bitset<registerSize> measure (QuantumState<registerSize>& state, std::default_random_engine& generator){
             if(strictMode){
