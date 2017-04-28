@@ -2,6 +2,8 @@
 #define MINI_QBT_CHANCE_ORDER_HPP
 
 #include<complex>
+#include<ostream>
+#include<bitset>
 
 namespace MiniQbt{
     namespace Core{

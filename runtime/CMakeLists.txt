@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.7)
+cmake_minimum_required (VERSION 3.5)
 project(runtimeMiniQbt)
 set (CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_FLAGS_RELEASE "-O3")
@@ -15,7 +15,7 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 include_directories(../lib)
 add_executable(miniQbt ${srcfiles})
 target_link_libraries(miniQbt  Eigen3::Eigen)
-
+install(TARGETS miniQbt DESTINATION "${miniqbt_destination}")
 
 
 add_custom_target(run
