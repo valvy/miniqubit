@@ -31,9 +31,8 @@ void showResult( MiniQbt::Core::QuantumState<size>& reg ,  MiniQbt::QuantumEmula
     }
 }
 
-
 template<size_t qubitSize>
-void bellTest(size_t amount){
+void speedTest(size_t amount){
     std::random_device rd;
     std::default_random_engine generator(rd());
     std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -57,17 +56,9 @@ void bellTest(size_t amount){
     std::cout << qubitSize << " Solved in : " << elapsed_seconds.count() << "Last answer was " << bitset << " amount of time passed \n";
 }
 
-
-
-
 int main(int argc, char** argv){
-/*    constexpr size_t AMOUNT = 200000;
-    bellTest<2>(AMOUNT);
-    bellTest<3>(AMOUNT);
-    bellTest<4>(AMOUNT);
-    bellTest<5>(AMOUNT);
 
-    return 0;*/
+
     TokenVisitor visitor;
     std::shared_ptr<TokenReader> reader = nullptr;
     auto tokenizer = [&](const std::shared_ptr<Token>& token) -> void {

@@ -34,12 +34,11 @@ namespace MiniQbt{
             *   this is 1 divided by square root of 2
             */
             constexpr double F = 0.7071067811865476;
-
-            std::vector<ChanceOrder<registerSize>> everything;
+            std::array<ChanceOrder<registerSize>, Tools::vectorLength<registerSize>::value> everything;
             for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
-                everything.push_back(ChanceOrder<registerSize>(i, state.getState()(i,0)));
+                everything[i] = ChanceOrder<registerSize>(i, state.getState()(i,0));
             }
-            std::vector<ChanceOrder<registerSize>> copy = everything;
+            std::array<ChanceOrder<registerSize>, Tools::vectorLength<registerSize>::value> copy = everything;
             for(size_t i = 0; i < everything.size(); i++ ){
                 for(size_t j = 0; j < everything.size(); j++){
                     if(i == j){
@@ -56,7 +55,12 @@ namespace MiniQbt{
 
                 }
             }
-            state = mergeOrderProb<registerSize>(everything, std::vector<ChanceOrder<registerSize>>());
+            Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> res = Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>::Zero(Tools::vectorLength<registerSize>::value, 1);
+            for(const ChanceOrder<registerSize>& b : everything){
+                res(b.originalPos,0) = b.data;
+            }
+    
+            state = res;
         }
     }
 }

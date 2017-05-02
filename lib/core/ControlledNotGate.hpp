@@ -29,11 +29,14 @@ namespace MiniQbt{
             using namespace Tools;
             assertInput(control == target, "The control bit can't be the same as the target bit...");
             assertInput(target >= registerSize, "Target bit can't be bigger then the register.");
-            assertInput(control >= registerSize, "Target bit can't be bigger then the register.");
-            std::vector<std::vector<ChanceOrder<registerSize>>>  order = orderByBit<registerSize>(control, state);
+            assertInput(control >= registerSize, "Control bit can't be bigger then the register.");
+            
+            auto order = orderByBit<registerSize>(control, state);
             for(size_t i = 0; i < order[1].size(); i++){
                 order[1][i].bitflip(target); 
             }
+            
+            
             state = mergeOrderProb<registerSize>(order[0], order[1]);
         }
     }

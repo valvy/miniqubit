@@ -18,14 +18,12 @@ namespace MiniQbt{
                 size_t originalPos;
                 std::complex<double> data;
                 //size_t amountOfBits;
+                ChanceOrder(){}
                 ChanceOrder(size_t originalPos, const std::complex<double>& data) : 
                 originalPos(originalPos), data(data) {}
                 friend std::ostream& operator<<(std::ostream& os, const ChanceOrder& state){
                     os << state.data << " : "<< std::bitset<amountOfBits>(state.originalPos);
                     return os;
-                }
-                size_t getAmountOfBits() const{
-                    return amountOfBits;//Index start at zero...
                 }
                 /**
                 *   Toggles the bit, Usefull for the CNOT Gate. 

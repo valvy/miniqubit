@@ -1,6 +1,7 @@
 #ifndef QUANTUM_STATE_HPP
 #define QUANTUM_STATE_HPP
 
+#include "tools/Utils.hpp"
 #include <string>
 #include <complex>
 #include <Eigen/Dense>
@@ -9,20 +10,11 @@
 #include "Exceptions.hpp"
 #include <unsupported/Eigen/KroneckerProduct>
 #include <cmath>
-#include "tools/Utils.hpp"
+
 
 
 namespace MiniQbt{
     namespace Core{
-
-        /*
-        *   On compile time power of 2 to registerSize
-        */
-        template<size_t registerSize> 
-        struct vectorLength{ enum { value = 2 * vectorLength<registerSize-1>::value}; };
-        template<> 
-        struct vectorLength<0>{ enum { value = 1 }; };
-
 
         template<size_t registerSize>
         class QuantumState {
@@ -31,7 +23,7 @@ namespace MiniQbt{
             Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>  data;
             public:
             QuantumState(){
-                this->data = Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>::Zero(vectorLength<registerSize>::value);
+                this->data = Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>::Zero(std::pow(2,registerSize));
                 data(0,0) = 1;
                 for(size_t i = 1; i < this->data.rows(); i++){
                     data(i,0) = 0;
