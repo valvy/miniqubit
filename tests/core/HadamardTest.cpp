@@ -1,6 +1,6 @@
 
 #include "catch.hpp"
-#include <MiniQbt.hpp>
+#include <MiniQbtEmulator.hpp>
 
 
 TEST_CASE( "hadamard with Controlled not") {

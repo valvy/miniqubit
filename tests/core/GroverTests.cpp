@@ -1,6 +1,5 @@
 #include "catch.hpp"
-#include <MiniQbt.hpp>
-#include <iostream>
+#include <MiniQbtEmulator.hpp>
 
 
 TEST_CASE( "Grover algorithms") {
@@ -39,7 +38,7 @@ TEST_CASE( "Grover algorithms") {
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
             try{
             std::bitset<5> bitset = emulator.measure(ent, generator);
-            std::cout << bitset << "\n";
+            
             INFO(N_2_A_11 <<" failed because answer that has been given: " << bitset << " is wrong");
             REQUIRE((bitset[4] == 0 && bitset[3] == 1 && bitset[2] == 1));//Answer is always 011
             } catch(const QuantumException& exp){

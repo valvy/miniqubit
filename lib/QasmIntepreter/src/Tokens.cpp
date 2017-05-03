@@ -1,11 +1,17 @@
-#include "Tokens.hpp"
-#include "TokenVisitor.hpp"
+#include "core/Tokens.hpp"
+#include "core/TokenVisitor.hpp"
+
+using namespace MiniQbt::Core;
 
 void QuantumRegister::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
 void HadamardGate::accept(TokenVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+void ErrorToken::accept(TokenVisitor& visitor){
     visitor.visit(*this);
 }
 

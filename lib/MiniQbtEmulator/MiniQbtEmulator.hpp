@@ -1,5 +1,5 @@
-#ifndef MINI_QBT_HPP
-#define MINI_QBT_HPP
+#ifndef MINI_QBT_EMULATOR_HPP
+#define MINI_QBT_EMULATOR_HPP
 
 #include "core/HadamardGate.hpp"
 #include "core/Measure.hpp"
@@ -8,7 +8,6 @@
 #include "core/PauliGates.hpp"
 #include <random>
 #include <bitset>
-#include <memory>
 
 namespace MiniQbt{
     constexpr char VERSION[] = "0.2.0";

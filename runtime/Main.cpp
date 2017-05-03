@@ -1,64 +1,55 @@
-#include <MiniQbt.hpp>
+#include <MiniQbtEmulator.hpp>
+#include <QasmAsyncIntepreter.hpp>
 #include "Utils.hpp"
-#include "TokenReaders.hpp"
-#include "TokenVisitor.hpp"
 #include <iostream>
-template<size_t size>
-void showResult( MiniQbt::Core::QuantumState<size>& reg ,  MiniQbt::QuantumEmulator<size>& emulator){
-    std::vector<std::pair<std::bitset<size>, size_t>> outcomes;
-    std::random_device rd;
-    std::default_random_engine generator(rd());
-    for(size_t i = 0; i < 10000; i++){
-        std::bitset<size> outcom =  emulator.measure(reg, generator);
-        bool inList = false;
-        for(auto& pair : outcomes){
-            if(pair.first == outcom){
-                pair.second++;
-                inList = true;
-            }
-        }
-        
-        if(!inList){
-            outcomes.push_back(std::make_pair(outcom, 1));
-        }
-        //std::cout << measure<size>(ent, generator) << "\n";
-    }
-    //std::cout << ent.getState() << "\n";
-    std::cout << "Result \t | times found \n";
-    std::cout << "-------------------------------\n";
-    for(const auto& result : outcomes){
-        std::cout << result.first << "\t | " << result.second << "\n";
-    }
-}
-
-template<size_t qubitSize>
-void speedTest(size_t amount){
-    std::random_device rd;
-    std::default_random_engine generator(rd());
-    std::chrono::time_point<std::chrono::system_clock> start, end;
-    std::chrono::duration<double> elapsed_seconds;
-    start = std::chrono::system_clock::now();
-    std::bitset<qubitSize> bitset;
-    for(size_t i = 0; i < amount; i++){
-        MiniQbt::QuantumEmulator<qubitSize, true> emulator;
-        auto ent = emulator.generateRegister();
-        emulator.pauliX(1,ent);
-        emulator.hadamardGate(0,ent);
-        emulator.hadamardGate(1,ent);
-        emulator.controlledNot(0,1,ent);
-        emulator.hadamardGate(0,ent);
-        emulator.hadamardGate(1,ent);
-        bitset = emulator.measure(ent, generator);
-        //std::cout << bitset << "\n";
-    }
-    end = std::chrono::system_clock::now();
-    elapsed_seconds = end - start;
-    std::cout << qubitSize << " Solved in : " << elapsed_seconds.count() << "Last answer was " << bitset << " amount of time passed \n";
-}
 
 int main(int argc, char** argv){
 
+    MiniQbt::QasmAsyncIntepreter intepreter;
+    printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
+    while(true){
+        
+        std::string command;
+        std::cout << "$ ";
+        std::getline (std::cin,command);
 
+        if(command == "exit"){
+            printInfo("Bye \n");
+            break;
+        }
+        if(command == "about"){
+            printInfo(MiniQbt::NAME, " : ", MiniQbt::VERSION, "\n");
+            printInfo("Build date: " , __DATE__," ", __TIME__, "\n");
+            std::cout << "Created by Heiko van der Heijden\n";
+            continue;
+        }
+        if(command == "help"){
+            printInfo(
+                "Interactive shell for the Qasm language\n",
+                "Exit program -> exit \n",
+                "Show version -> about \n"
+            );
+            continue;
+        }
+
+        if(command[0] == '!'){
+            std::cout.flush();
+            system(command.substr(1).c_str());
+            continue;
+        }
+
+        intepreter.intepret(command);
+        
+        while(intepreter.hasErrors()){
+            
+            printError("",intepreter.getError(), "\n");
+        }
+    
+    }
+    
+
+
+/*
     TokenVisitor visitor;
     std::shared_ptr<TokenReader> reader = nullptr;
     auto tokenizer = [&](const std::shared_ptr<Token>& token) -> void {
@@ -79,7 +70,7 @@ int main(int argc, char** argv){
         printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
         reader = std::shared_ptr<TokenReader>(new TerminalReader(tokenizer));
     }
-    reader->start();
+    reader->start();*/
     
     
 }

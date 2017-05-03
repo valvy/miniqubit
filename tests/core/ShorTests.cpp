@@ -1,6 +1,6 @@
 #include "catch.hpp"
-#include <MiniQbt.hpp>
-#include <iostream>
+#include <MiniQbtEmulator.hpp>
+
 
 TEST_CASE( "Shor algorithms") {
     constexpr size_t MINIMAL_TEST_AMOUNT = 100;
@@ -40,7 +40,6 @@ TEST_CASE( "Shor algorithms") {
         for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
             try{
                 std::bitset<5> bitset = emulator.measure(ent, generator);
-                std::cout << bitset << "\n";
                 INFO(MULTI_7_X_1_MOD_15 <<" failed because answer that has been given: " << bitset << " is wrong");
                 REQUIRE((bitset[3] == 0 && bitset[2] == 1 && bitset[1] == 1 && bitset[0] == 1));
             } catch(const QuantumException& exp){
