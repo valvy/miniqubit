@@ -13,4 +13,5 @@ add_subdirectory(runtime)
 add_subdirectory(tests)
 
 enable_testing()
-add_test(NAME testMiniQbt COMMAND emulatorTests)
+add_test(testEmulator emulatorTests)
+add_test(testIntepreter IntepreterTest)

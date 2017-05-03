@@ -18,6 +18,9 @@ Bit ClassicRegister::operator[] (int position) const {
             return bit;
         }
     }
+    if(position < size){
+        return Bit(position,0,"");
+    }
     throw InvalidInputException("Invalid position");
 }
 

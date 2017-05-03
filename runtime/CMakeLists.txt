@@ -15,7 +15,7 @@ include_directories(
     ../lib/QasmIntepreter/include
 )
 
-
+#include_directories( ${miniQbt_INCLUDE_DIRS} )
 
 add_executable(miniQbt ${srcfiles})
 target_link_libraries(miniQbt  Eigen3::Eigen QasmIntepreter)

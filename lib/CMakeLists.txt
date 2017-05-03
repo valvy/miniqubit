@@ -13,10 +13,14 @@ PROJECT(miniQbt)
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
-include_directories(
-    ${PROJECT_SOURCE_DIR}/MiniQbtEmulator
-    ${PROJECT_BINARY_DIR}/QasmIntepreter/include
+
+
+set(MINIQBT_INCLUDE_DIRS
+    ${miniQbt_SOURCE_DIR}/MiniQbtEmulator
+    ${miniQbt_SOURCE_DIR}/QasmIntepreter/include
 )
+
+include_directories(${MINIQBT_INCLUDE_DIRS} )
 
 #add_subdirectory(MiniQbtEmulator)
 add_subdirectory(QasmIntepreter)
