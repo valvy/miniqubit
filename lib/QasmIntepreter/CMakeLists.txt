@@ -6,6 +6,7 @@ SET(LIB_SOURCES
     src/Tokens.cpp
     src/TokenVisitor.cpp
     src/TokenParser.cpp
+    src/ClassicRegister.cpp
 )
 
 include_directories(${miniQbt_SOURCE_DIR}/QasmIntepreter/include)

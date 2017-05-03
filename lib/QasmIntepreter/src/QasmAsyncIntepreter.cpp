@@ -7,6 +7,10 @@ QasmAsyncIntepreter::QasmAsyncIntepreter(){
    
 }
 
+std::vector<bool> QasmAsyncIntepreter::readClassicRegister(const std::string& registerName){
+    return visitor.getClassicRegister(registerName);
+}
+
 void QasmAsyncIntepreter::intepret(const std::string& line){
     if(line.length() == 0){
         return;

@@ -4,24 +4,29 @@
 #include <vector>
 #include <string>
 #include "RegisterComposite.hpp"
+#include "ClassicRegister.hpp"
 #include "Tokens.hpp"
+
 
 namespace MiniQbt{
     namespace Core{
         class TokenVisitor{
             private:
             bool registerDoesExist(const std::string& name) const;
-            std::vector<AbstractRegister*> registers;
+            std::vector<AbstractRegister*> quantumRegisters;
+            std::vector<ClassicRegister> classicRegisters;
             std::vector<std::string> errors;
             public:
             TokenVisitor();
             bool hasErrors() const;
+            std::vector<bool> getClassicRegister(const std::string& name);
             std::string getError();
-            void visit(PauliX& pauliGate);
-            void visit(HadamardGate& hadamard);
-            void visit(Measure& measure);
-            void visit(QuantumRegister& registe);
-            void visit(CNot& cnot);
+            void visit(PauliXToken& pauliGate);
+            void visit(ClassicRegisterToken& regist);
+            void visit(HadamardGateToken& hadamard);
+            void visit(MeasureToken& measure);
+            void visit(QuantumRegisterToken& registe);
+            void visit(CNotToken& cnot);
             void visit(ErrorToken& token);
 
         };

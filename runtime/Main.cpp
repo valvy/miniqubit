@@ -6,7 +6,25 @@
 int main(int argc, char** argv){
 
     MiniQbt::QasmAsyncIntepreter intepreter;
-    printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
+    intepreter.intepret("qreg q[5];");
+    intepreter.intepret("creg c[5];");
+    intepreter.intepret("h q[2];");
+    intepreter.intepret("measure q[0] -> c[0];");
+    intepreter.intepret("measure q[1] -> c[1];");
+    intepreter.intepret("measure q[2] -> c[2];");
+    intepreter.intepret("measure q[3] -> c[3];");
+    intepreter.intepret("measure q[4] -> c[4];");
+    auto res = intepreter.readClassicRegister("c");
+    while(intepreter.hasErrors()){
+        printError("",intepreter.getError(), "\n");
+    }
+    std::cout << "result : ";
+    for(bool d : res){
+        std::cout << d;
+    }
+    std::cout << "\n";
+
+   /* printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
     while(true){
         
         std::string command;
@@ -41,11 +59,10 @@ int main(int argc, char** argv){
         intepreter.intepret(command);
         
         while(intepreter.hasErrors()){
-            
             printError("",intepreter.getError(), "\n");
         }
     
-    }
+    }*/
     
 
 

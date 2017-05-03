@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.5)
-project(coreTests)
+project(emulatorTests)
 set (CMAKE_CXX_STANDARD 14)
 
 
@@ -21,11 +21,11 @@ SET(srcfiles
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 include_directories(../../lib/MiniQbtEmulator)
-add_executable(coreTests ${srcfiles})
-target_link_libraries(coreTests Eigen3::Eigen)
+add_executable(emulatorTests ${srcfiles})
+target_link_libraries(emulatorTests Eigen3::Eigen)
 
 add_custom_target(tests
-    COMMAND coreTests
-    DEPENDS coreTests
+    COMMAND emulatorTests
+    DEPENDS emulatorTests
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )

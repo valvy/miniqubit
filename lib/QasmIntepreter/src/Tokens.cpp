@@ -3,11 +3,16 @@
 
 using namespace MiniQbt::Core;
 
-void QuantumRegister::accept(TokenVisitor& visitor) {
+void QuantumRegisterToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
-void HadamardGate::accept(TokenVisitor& visitor) {
+void ClassicRegisterToken::accept(TokenVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+
+void HadamardGateToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
@@ -15,14 +20,14 @@ void ErrorToken::accept(TokenVisitor& visitor){
     visitor.visit(*this);
 }
 
-void PauliX::accept(TokenVisitor& visitor) {
+void PauliXToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
-void Measure::accept(TokenVisitor& visitor)  {
+void MeasureToken::accept(TokenVisitor& visitor)  {
     visitor.visit(*this);
 }
 
-void CNot::accept(TokenVisitor& visitor){
+void CNotToken::accept(TokenVisitor& visitor){
     visitor.visit(*this);
 }

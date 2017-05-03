@@ -19,8 +19,43 @@ std::string TokenVisitor::getError(){
     return res;
 }
 
-void TokenVisitor::visit(CNot& cnot){
-    for(AbstractRegister* reg : registers){
+std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
+    std::vector<bool> result;
+    for(const ClassicRegister& classicReg : classicRegisters){
+        if(classicReg.getName() == name){
+            for(size_t i = 0; i < classicReg.getSize(); i++ ){
+                const Bit bit = classicReg[i];
+                if(bit.link == ""){
+                    result.push_back(0);
+                    continue;
+                }
+                for(AbstractRegister* quantumReg : quantumRegisters){
+                    if(bit.link == quantumReg->getName()){
+                        quantumReg->collapse();
+                        bool res = (*quantumReg)[bit.quantumPos];
+                        result.push_back(res);
+                    }
+                }
+            }
+        } 
+    }
+    return result;
+}
+
+void TokenVisitor::visit(ClassicRegisterToken& regist){
+    for(ClassicRegister& reg : classicRegisters){
+        if(reg.getName() == reg.getName()){
+            reg.setSize(regist.getSize());
+            return;
+        }
+    }
+
+    classicRegisters.push_back(ClassicRegister(regist.getName(), regist.getSize()));
+    
+}
+
+void TokenVisitor::visit(CNotToken& cnot){
+    for(AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == cnot.getLeftHand()){
             reg->visit(cnot);
             return;
@@ -34,7 +69,7 @@ void TokenVisitor::visit(ErrorToken& token){
 }
 
 bool TokenVisitor::registerDoesExist(const std::string& name) const{
-    for(const AbstractRegister* reg : registers){
+    for(const AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == name){
             return true;
         }
@@ -42,8 +77,8 @@ bool TokenVisitor::registerDoesExist(const std::string& name) const{
     return false;
 }
 
-void TokenVisitor::visit(PauliX& pauliGate){
-    for(AbstractRegister* reg : registers){
+void TokenVisitor::visit(PauliXToken& pauliGate){
+    for(AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == pauliGate.getName()){
             reg->visit(pauliGate);
             return;
@@ -52,8 +87,8 @@ void TokenVisitor::visit(PauliX& pauliGate){
     errors.push_back( "Variable :  " + pauliGate.getName() + " Does not exist..");
 }
 
-void TokenVisitor::visit(HadamardGate& hadamard){
-    for(AbstractRegister* reg : registers){
+void TokenVisitor::visit(HadamardGateToken& hadamard){
+    for(AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == hadamard.getName()){
             reg->visit(hadamard);
             return;
@@ -62,26 +97,33 @@ void TokenVisitor::visit(HadamardGate& hadamard){
     errors.push_back( "Variable :  " + hadamard.getName() + " Does not exist..");
 }
 
-void TokenVisitor::visit(Measure& measure){
-    for(AbstractRegister* reg : registers){
-        if(reg->getName() == measure.getQureg()){
-            //std::cout << "Result : " << reg->visit(measure) << "\n";
+void TokenVisitor::visit(MeasureToken& measure){
+    for(const AbstractRegister* qReg : quantumRegisters){
+        if(qReg->getName() == measure.getQureg()){//quantum register exists
+            for(ClassicRegister& cReg : classicRegisters){
+                if(cReg.getName() == measure.getClassicReg()){
+                    std::string errorMsg = "";
+                    if(!cReg.linkRegister(measure.getClassicPos(),measure.getQubitPos(), qReg->getName(), errorMsg)){
+                          errors.push_back( errorMsg);
+                    }
+                }
+            }
             return;
         }
     }
     errors.push_back( "Variable :  " + measure.getQureg() + " Does not exist..");
 }
 
-void TokenVisitor::visit(QuantumRegister& registe){
+void TokenVisitor::visit(QuantumRegisterToken& registe){
     if(registerDoesExist(registe.getName())){
         size_t remove = 0;
-        for(size_t i = 0; i < registers.size(); i++){
-            if(registers[i]->getName() == registe.getName()){
-                delete registers[i];
+        for(size_t i = 0; i < quantumRegisters.size(); i++){
+            if(quantumRegisters[i]->getName() == registe.getName()){
+                delete quantumRegisters[i];
                 remove = i;
             }
         }
-        registers.erase(registers.begin() + remove);
+        quantumRegisters.erase(quantumRegisters.begin() + remove);
     }
 
 
@@ -113,6 +155,6 @@ void TokenVisitor::visit(QuantumRegister& registe){
             "You don't really expect me to calculate approximately " + std::to_string(std::pow(2, registe.getSize())) + " of possibilities??\n" 
         ); return;
     }
-    registers.push_back(delegate);
+    quantumRegisters.push_back(delegate);
 
 }
