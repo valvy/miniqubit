@@ -3,10 +3,29 @@
 #include "Utils.hpp"
 #include <iostream>
 
-int main(int argc, char** argv){
+#include <regex>
 
-    MiniQbt::QasmAsyncIntepreter intepreter;
-    intepreter.intepret("qreg q[5];");
+int main(int argc, char** argv){
+    using namespace MiniQbt::Core;
+    const std::string s = "\nqreg a[1]; creg d[2]; ";
+ 
+    std::regex words_regex("[^;]*;", std::regex::ECMAScript);
+    auto words_begin = 
+        std::sregex_iterator(s.begin(), s.end(), words_regex);
+    auto words_end = std::sregex_iterator();
+ 
+    std::cout << "Found " 
+              << std::distance(words_begin, words_end) 
+              << " words:\n";
+ 
+    for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
+        std::smatch match = *i;                                                 
+        std::string match_str = match.str(); 
+        std::cout << match_str << '\n';
+    }
+    return 0;
+   MiniQbt::QasmAsyncIntepreter intepreter;
+    /*intepreter.intepret("qreg q[5];");
     intepreter.intepret("creg c[5];");
     intepreter.intepret("h q[2];");
     intepreter.intepret("measure q[0] -> c[0];");
@@ -22,9 +41,9 @@ int main(int argc, char** argv){
     for(bool d : res){
         std::cout << d;
     }
-    std::cout << "\n";
+    std::cout << "\n";*/
 
-   /* printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
+    printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
     while(true){
         
         std::string command;
@@ -41,6 +60,7 @@ int main(int argc, char** argv){
             std::cout << "Created by Heiko van der Heijden\n";
             continue;
         }
+        
         if(command == "help"){
             printInfo(
                 "Interactive shell for the Qasm language\n",
@@ -62,7 +82,7 @@ int main(int argc, char** argv){
             printError("",intepreter.getError(), "\n");
         }
     
-    }*/
+    }
     
 
 

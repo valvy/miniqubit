@@ -1,6 +1,6 @@
 #include "core/ClassicRegister.hpp"
 #include "core/RegisterComposite.hpp"
-
+#include <iostream>
 using namespace MiniQbt::Core;
 
 std::string ClassicRegister::getName() const{

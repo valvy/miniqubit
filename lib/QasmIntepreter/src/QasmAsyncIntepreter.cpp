@@ -1,5 +1,4 @@
 #include "QasmAsyncIntepreter.hpp"
-#include <iostream>
 #include "core/TokenParser.hpp"
 using namespace MiniQbt;
 
@@ -15,12 +14,9 @@ void QasmAsyncIntepreter::intepret(const std::string& line){
     if(line.length() == 0){
         return;
     }
-
-    std::shared_ptr<Core::Token> res = Core::parseToken(line);
-    if(res == nullptr){
-        
-    } else {
-        res->accept(visitor);
+    std::vector<std::shared_ptr<Core::Token>> res = Core::parseExpressions(line);
+    for(const auto& d : res){
+        d->accept(visitor);
     }
 }
 

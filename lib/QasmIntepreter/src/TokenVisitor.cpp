@@ -32,7 +32,7 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
                 for(AbstractRegister* quantumReg : quantumRegisters){
                     if(bit.link == quantumReg->getName()){
                         quantumReg->collapse();
-                        bool res = (*quantumReg)[bit.quantumPos];
+                        bool res = (*quantumReg)[classicReg.getSize() - bit.quantumPos - 1];
                         result.push_back(res);
                     }
                 }

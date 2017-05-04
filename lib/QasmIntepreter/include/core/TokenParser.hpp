@@ -4,12 +4,14 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace MiniQbt{
     namespace Core{
         class Token;
         
         std::shared_ptr<Token> parseToken(const std::string& line);
+        std::vector<std::shared_ptr<Token>> parseExpressions(const std::string& line);
 
     }
 }
