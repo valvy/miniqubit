@@ -18,6 +18,14 @@ std::string TokenVisitor::getError(){
     return res;
 }
 
+std::vector<std::string> TokenVisitor::getClassicRegisters() const{
+    std::vector<std::string> result;
+    for(const ClassicRegister& bit : classicRegisters){
+        result.push_back(bit.getName());
+    }
+    return result;
+}
+
 std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
     std::vector<bool> result;
     for(const ClassicRegister& classicReg : classicRegisters){

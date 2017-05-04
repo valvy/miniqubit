@@ -58,7 +58,7 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
     }
 
     //checking for cnot
-    std::regex regex_CNot("\\*(cx)\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\]\\s*\\,\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\];",std::regex::ECMAScript);
+    std::regex regex_CNot("\\s*(cx)\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\]\\s*\\,\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\];",std::regex::ECMAScript);
     std::regex_match(line, m, regex_CNot);
     if(m[1] == "cx"){
         return std::shared_ptr<Token>(new CNotToken(m[2], std::stoi(m[3]), m[4], std::stoi(m[5])));

@@ -128,6 +128,22 @@ TEST_CASE( "Asyncronous coding tests") {
         REQUIRE(res[1] == 1);
         REQUIRE(res[2] == 0);
     }
+    
+    constexpr char ONE_CNOT[] = "One CNOT test";
+    SECTION(ONE_CNOT){
+        MiniQbt::QasmAsyncIntepreter intepreter;
+        intepreter.intepret("qreg q[5];");
+        intepreter.intepret("creg c[5];");
+        intepreter.intepret("cx q[1],q[2];");
+        intepreter.intepret("measure q[0] -> c[0];");
+        intepreter.intepret("measure q[1] -> c[1];");
+        intepreter.intepret("measure q[2] -> c[2];");
+        intepreter.intepret("measure q[3] -> c[3];");
+        intepreter.intepret("measure q[4] -> c[4];");
+        auto res = intepreter.readClassicRegister("c");
 
+      //  REQUIRE(res[2] == 1);
+        REQUIRE(!intepreter.hasErrors());
+    }
 
 }

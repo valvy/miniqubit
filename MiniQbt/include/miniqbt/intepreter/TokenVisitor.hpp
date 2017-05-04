@@ -19,6 +19,7 @@ namespace MiniQbt{
             public:
             TokenVisitor();
             bool hasErrors() const;
+            std::vector<std::string> getClassicRegisters() const;
             std::vector<bool> getClassicRegister(const std::string& name);
             std::string getError();
             void visit(PauliXToken& pauliGate);

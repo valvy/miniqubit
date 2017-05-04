@@ -3,6 +3,7 @@
 
 #include "TokenVisitor.hpp"
 #include <vector>
+#include <string>
 
 namespace MiniQbt{
     class QasmAsyncIntepreter{
@@ -10,6 +11,7 @@ namespace MiniQbt{
         Core::TokenVisitor visitor;
         public:
         QasmAsyncIntepreter();
+        std::vector<std::string> getRegisters() const;
         void intepret(const std::string& line);
         std::vector<bool> readClassicRegister(const std::string& registerName);
         void stop();

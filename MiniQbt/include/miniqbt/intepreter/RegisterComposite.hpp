@@ -3,6 +3,7 @@
 
 #include "miniqbt/emulator/MiniQbtEmulator.hpp"
 #include "Tokens.hpp"
+#include <iostream>
 
 namespace MiniQbt{
     namespace Core{
@@ -40,6 +41,7 @@ namespace MiniQbt{
                     std::default_random_engine generator(rd());
                     this->collapsedResult = emulator.measure(state, generator);
                     collapsed = true;
+                   // std::cout << collapsedResult << "\n";
                 }
             }
 

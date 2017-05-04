@@ -1,50 +1,58 @@
 #include <miniqbt/MiniQbt.hpp>
 #include "Utils.hpp"
 #include <iostream>
-
+#include <fstream>
 #include <regex>
 
-int main(int argc, char** argv){
-    using namespace MiniQbt::Core;
-    const std::string s = "\n qreg a[1]; creg d[2]; ";
- 
-    std::regex words_regex("[^;]*;", std::regex::ECMAScript);
-    auto words_begin = 
-        std::sregex_iterator(s.begin(), s.end(), words_regex);
-    auto words_end = std::sregex_iterator();
- 
-    std::cout << "Found " 
-              << std::distance(words_begin, words_end) 
-              << " words:\n";
- 
-    for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
-        std::smatch match = *i;                                                 
-        std::string match_str = match.str(); 
-        std::cout << match_str << '\n';
-    }
-    return 0;
-   MiniQbt::QasmAsyncIntepreter intepreter;
-    /*intepreter.intepret("qreg q[5];");
-    intepreter.intepret("creg c[5];");
-    intepreter.intepret("h q[2];");
-    intepreter.intepret("measure q[0] -> c[0];");
-    intepreter.intepret("measure q[1] -> c[1];");
-    intepreter.intepret("measure q[2] -> c[2];");
-    intepreter.intepret("measure q[3] -> c[3];");
-    intepreter.intepret("measure q[4] -> c[4];");
-    auto res = intepreter.readClassicRegister("c");
-    while(intepreter.hasErrors()){
-        printError("",intepreter.getError(), "\n");
-    }
-    std::cout << "result : ";
-    for(bool d : res){
-        std::cout << d;
-    }
-    std::cout << "\n";*/
 
+std::string filereader(const std::string& fileName){
+    std::fstream str(fileName, std::ios::in);
+    std::string result = "";
+    if(str.good()){
+        while(!str.eof()){
+            std::string line;
+            std::getline(str,line);
+            result += line + "\n";
+        }
+    } else {
+        printWarning("Could not load file : ",  fileName, "\n");
+    }
+    str.close();
+    return result;
+
+}
+
+int main(int argc, char** argv){
+    MiniQbt::QasmAsyncIntepreter intepreter;
+    if(argc > 1){
+        if(std::string(argv[1]) == "--version"){
+            printInfo(MiniQbt::NAME, " : ", MiniQbt::VERSION, "\n");
+            return EXIT_SUCCESS;
+        }
+        else {
+            const std::string src = filereader(std::string(argv[1]));
+            intepreter.intepret(src);
+            while(intepreter.hasErrors()){
+                printError("",intepreter.getError(), "\n");
+            }
+            
+            for(const std::string& reg: intepreter.getRegisters()){
+                std::vector<bool> result = intepreter.readClassicRegister(reg);
+                std::cout << "Result registery  " << reg << ": ";
+                for(const bool& r : result){
+                    std::cout << r;
+                }
+                std::cout << "\n";
+            }
+
+            return EXIT_SUCCESS;
+        }
+    }
+
+
+   
     printInfo("Welcome by ", MiniQbt::NAME, ",\npress help for help.\n");
     while(true){
-        
         std::string command;
         std::cout << "$ ";
         std::getline (std::cin,command);
@@ -66,6 +74,18 @@ int main(int argc, char** argv){
                 "Exit program -> exit \n",
                 "Show version -> about \n"
             );
+            continue;
+        }
+         
+        if(command == "collapse"){
+            for(const std::string& reg: intepreter.getRegisters()){
+                std::vector<bool> result = intepreter.readClassicRegister(reg);
+                std::cout << "Result registery  " << reg << ": ";
+                for(const bool& r : result){
+                    std::cout << r;
+                }
+                std::cout << "\n";
+            }
             continue;
         }
 

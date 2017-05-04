@@ -16,21 +16,16 @@ set(MINIQBT_INCLUDE_DIRS
     ${miniQbt_SOURCE_DIR}/include
 )
 
-set(PUBLIC_INCLUDES
-    ${miniQbt_SOURCE_DIR}/include/miniqbt/MiniQbt.hpp
-    ${miniQbt_SOURCE_DIR}/include/miniqbt/emulator/*.hpp
-    ${miniQbt_SOURCE_DIR}/include/miniqbt/emulator/tools/*.hpp
-    ${miniQbt_SOURCE_DIR}/include/miniqbt/intepreter/*.hpp
-)
 
 include_directories(${MINIQBT_INCLUDE_DIRS} )
 
 
 
-add_library(MiniQbt SHARED ${LIB_SOURCES})
+add_library(MiniQbt STATIC ${LIB_SOURCES})
 target_link_libraries(MiniQbt Eigen3::Eigen)
 
-install(TARGETS MiniQbt DESTINATION ${miniqbt_lib_destination} )
-install(FILES ${PUBLIC_INCLUDES} DESTINATION ${miniqbt_include_destination})
+#install(TARGETS MiniQbt DESTINATION ${miniqbt_lib_destination} )
+#install( DIRECTORY ${miniQbt_SOURCE_DIR}/include/ DESTINATION ${miniqbt_include_destination} FILES_MATCHING PATTERN "*.hpp*" )
 
+#setup tests
 add_subdirectory(tests)

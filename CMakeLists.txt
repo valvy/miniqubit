@@ -12,6 +12,3 @@ SET(miniqbt_include_destination "include")
 add_subdirectory(MiniQbt)
 add_subdirectory(cli)
 
-enable_testing()
-add_test(testEmulator emulatorTests)
-add_test(testIntepreter IntepreterTest)
