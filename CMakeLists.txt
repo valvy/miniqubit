@@ -7,10 +7,10 @@ include(externalCatch)
 
 SET(miniqbt_destination "bin")
 SET(miniqbt_lib_destination "lib")
+SET(miniqbt_include_destination "include")
 
 add_subdirectory(MiniQbt)
 add_subdirectory(cli)
-add_subdirectory(tests)
 
 enable_testing()
 add_test(testEmulator emulatorTests)
