@@ -9,7 +9,7 @@ SET(miniqbt_destination "bin")
 SET(miniqbt_lib_destination "lib")
 
 add_subdirectory(MiniQbt)
-add_subdirectory(runtime)
+add_subdirectory(cli)
 add_subdirectory(tests)
 
 enable_testing()
