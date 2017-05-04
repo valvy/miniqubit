@@ -1,5 +1,4 @@
-#include <MiniQbtEmulator.hpp>
-#include <QasmAsyncIntepreter.hpp>
+#include <miniqbt/MiniQbt.hpp>
 #include "Utils.hpp"
 #include <iostream>
 
@@ -7,7 +6,7 @@
 
 int main(int argc, char** argv){
     using namespace MiniQbt::Core;
-    const std::string s = "\nqreg a[1]; creg d[2]; ";
+    const std::string s = "\n qreg a[1]; creg d[2]; ";
  
     std::regex words_regex("[^;]*;", std::regex::ECMAScript);
     auto words_begin = 

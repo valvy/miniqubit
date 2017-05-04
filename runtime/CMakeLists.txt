@@ -11,14 +11,13 @@ SET(srcfiles
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 include_directories(
-    ../lib/MiniQbtEmulator 
-    ../lib/QasmIntepreter/include
+    ../MiniQbt/include
 )
 
 #include_directories( ${miniQbt_INCLUDE_DIRS} )
 
 add_executable(miniQbt ${srcfiles})
-target_link_libraries(miniQbt  Eigen3::Eigen QasmIntepreter)
+target_link_libraries(miniQbt  Eigen3::Eigen MiniQbt)
 
 
 install(TARGETS miniQbt DESTINATION "${miniqbt_destination}")

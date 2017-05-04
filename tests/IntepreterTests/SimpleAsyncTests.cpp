@@ -1,11 +1,9 @@
 #include "catch.hpp"
-#include <QasmAsyncIntepreter.hpp>
+#include <miniqbt/intepreter/QasmAsyncIntepreter.hpp>
 #include <iostream>
 
 TEST_CASE( "Asyncronous coding tests") {
     
-
-
     constexpr char ONE_PAULI[] = "One PauliX test";
     SECTION(ONE_PAULI){
         MiniQbt::QasmAsyncIntepreter intepreter;

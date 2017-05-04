@@ -13,8 +13,7 @@ SET(srcfiles
 )
 
 include_directories(
-    ../../lib/MiniQbtEmulator 
-    ../../lib/QasmIntepreter/include
+    ../../MiniQbt/include 
 )
 
 

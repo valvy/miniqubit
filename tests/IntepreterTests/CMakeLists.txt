@@ -9,14 +9,13 @@ SET(srcfiles
 )
 
 include_directories(
-    ../../lib/MiniQbtEmulator 
-    ../../lib/QasmIntepreter/include
+    ../../MiniQbt/include 
 )
 
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 add_executable(IntepreterTests ${srcfiles})
-target_link_libraries(IntepreterTests Eigen3::Eigen QasmIntepreter)
+target_link_libraries(IntepreterTests Eigen3::Eigen MiniQbt)
 
 add_custom_target(IntepreterTest
     COMMAND IntepreterTests

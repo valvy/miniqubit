@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include <MiniQbtEmulator.hpp>
+#include <miniqbt/emulator/MiniQbtEmulator.hpp>
 
 
 TEST_CASE( "Shor algorithms") {
