@@ -1,12 +1,11 @@
 # Miniqbt, a runtime for the IBM Quantum experience
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
-The scope of MiniQbt:
+MiniQbt is a emulator for the IBM quantum experience, the scope:
 
 1.  Emulate a quantum computer with generic amount of qubits and classical bits
 2.  Parse and execute [openQASM](https://github.com/IBM/qiskit-openqasm) files
 3.  Easy and understandable code is preferred instead of highly optimized code
-4.  Single API for handling quantum computers
 
 
 ## Command line interface usage
