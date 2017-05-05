@@ -15,6 +15,15 @@ namespace MiniQbt{
             virtual void accept(TokenVisitor& visitor) = 0;
         };
 
+        class MassAddToken : public Token{
+            protected:
+            int size = -1;
+            public:
+            MassAddToken(int size) : size(size) {}
+            bool linkEntireToken() const { return size == -1; }
+            int getSize() const { return this->size ; }
+        };
+
         class ErrorToken : public Token {
             std::string line;
             public:
@@ -59,47 +68,44 @@ namespace MiniQbt{
 
         };
 
-        class HadamardGateToken : public Token{
+        class HadamardGateToken : public MassAddToken{
             std::string name;
-            int size;
             public:
-            HadamardGateToken(std::string name, int size) : name(name), size(size) {}
+            HadamardGateToken(std::string name, int size) : name(name), MassAddToken(size) {}
+            HadamardGateToken(std::string name) : name(name), MassAddToken(-1) {}
             std::string getName() const { return this->name; }
-            int getSize() const { return this->size ; }
             virtual void accept(TokenVisitor& visitor) override;
 
         };
 
-        class PauliZToken : public Token{
+        class PauliZToken : public MassAddToken{
             std::string name;
-            int size;
             public:
-            PauliZToken(std::string name, int size) : name(name), size(size) {}
+            PauliZToken(std::string name, int size) : name(name), MassAddToken(size) {}
+            PauliZToken(std::string name) : name(name), MassAddToken(-1) {}
             std::string getName() const { return this->name; }
-            int getSize() const { return this->size ; }
             virtual void accept(TokenVisitor& visitor) override;
 
         };
 
-        class PauliYToken : public Token{
+        class PauliYToken : public MassAddToken{
             std::string name;
-            int size;
             public:
-            PauliYToken(std::string name, int size) : name(name), size(size) {}
+            PauliYToken(std::string name, int size) : name(name), MassAddToken(size) {}
+            PauliYToken(std::string name) : name(name), MassAddToken(-1) {}
             std::string getName() const { return this->name; }
-            int getSize() const { return this->size ; }
             virtual void accept(TokenVisitor& visitor) override;
 
         };
 
 
-        class PauliXToken : public Token{
+        class PauliXToken : public MassAddToken{
             std::string name;
-            int size;
             public:
-            PauliXToken(std::string name, int size) : name(name), size(size) {}
+            PauliXToken(std::string name, int size) : name(name), MassAddToken(size) {}
+            PauliXToken(std::string name) : name(name), MassAddToken(-1) {}
             std::string getName() const { return this->name; }
-            int getSize() const { return this->size ; }
+            
             virtual void accept(TokenVisitor& visitor) override;
 
         };
@@ -110,8 +116,13 @@ namespace MiniQbt{
             std::string classicReg;
             int bit;
             public:
-            MeasureToken(std::string quReg, int qubit, std::string classicReg, int bit) : quReg(quReg), qubit(qubit), classicReg(classicReg), bit(bit) {}
+            MeasureToken(std::string quReg, int qubit, std::string classicReg, int bit)
+             : quReg(quReg), qubit(qubit), classicReg(classicReg), bit(bit) {}
+            MeasureToken(std::string quReg,  std::string classicReg) 
+             : quReg(quReg), qubit(-1), classicReg(classicReg), bit(-1) {}
+
             virtual void accept(TokenVisitor& visitor) override;
+            bool linkEntireToken() const { return qubit == -1; }
             int getQubitPos() const {return qubit; }
             int getClassicPos() const {return bit; }
             std::string getQureg() const { return quReg; }

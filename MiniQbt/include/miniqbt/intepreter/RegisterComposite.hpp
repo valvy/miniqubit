@@ -14,6 +14,7 @@ namespace MiniQbt{
             virtual void visit(PauliZToken& pauliGate) = 0;
             virtual void visit(HadamardGateToken& hadamard) = 0;
             virtual void visit(CNotToken& cnot) = 0;
+            virtual size_t getSize() const = 0;
             virtual bool operator[](int pos) const = 0;
             virtual void collapse() = 0;
             virtual std::string getName() const = 0;
@@ -31,6 +32,10 @@ namespace MiniQbt{
             RegisterComposite(const std::string& registerName) : name(registerName){ }
             virtual ~RegisterComposite(){
 
+            }
+            
+            virtual size_t getSize() const override{
+                return registerSize;
             }
 
             virtual bool operator[](int pos) const override{
@@ -54,19 +59,46 @@ namespace MiniQbt{
             }
 
             virtual void visit(PauliXToken& pauliGate) override{
-                emulator.pauliX(pauliGate.getSize(), state);
+                if(pauliGate.linkEntireToken()){
+                    for(size_t i = 0; i < registerSize; i++){
+                        emulator.pauliX(i, state);
+                    }
+                } else {
+                    emulator.pauliX(pauliGate.getSize(), state);
+                }
+
+             
             }
 
             virtual void visit(PauliYToken& pauliGate) override{
-                emulator.pauliY(pauliGate.getSize(), state);
+                if(pauliGate.linkEntireToken()){
+                    for(size_t i = 0; i < registerSize; i++){
+                        emulator.pauliY(i, state);
+                    }
+                } else {
+                    emulator.pauliY(pauliGate.getSize(), state);
+                }
             }
 
             virtual void visit(PauliZToken& pauliGate) override{
-                emulator.pauliZ(pauliGate.getSize(), state);
+                if(pauliGate.linkEntireToken()){
+                    for(size_t i = 0; i < registerSize; i++){
+                        emulator.pauliZ(i, state);
+                    }
+                } else {
+                    emulator.pauliZ(pauliGate.getSize(), state);
+                }
+              
             }
 
             virtual void visit(HadamardGateToken& hadamard) override{
-                emulator.hadamardGate(hadamard.getSize(), state);
+                if(hadamard.linkEntireToken()){
+                    for(size_t i = 0; i < registerSize; i++){
+                        emulator.hadamardGate(i, state);
+                    }
+                } else {
+                    emulator.hadamardGate(hadamard.getSize(), state);
+                }
             }
 
   

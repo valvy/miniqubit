@@ -141,9 +141,24 @@ void TokenVisitor::visit(MeasureToken& measure){
         if(qReg->getName() == measure.getQureg()){//quantum register exists
             for(ClassicRegister& cReg : classicRegisters){
                 if(cReg.getName() == measure.getClassicReg()){
-                    std::string errorMsg = "";
-                    if(!cReg.linkRegister(measure.getClassicPos(),measure.getQubitPos(), qReg->getName(), errorMsg)){
-                          errors.push_back( errorMsg);
+                    if(measure.linkEntireToken()){
+                        if(cReg.getSize() != qReg->getSize()){
+                             errors.push_back("Registers are not the same size");
+                             return;
+                        }
+
+
+                        std::string errorMsg = "";
+                        for(size_t i = 0; i < cReg.getSize(); i++){
+                            if(!cReg.linkRegister(i,i, qReg->getName(), errorMsg)){
+                                errors.push_back(errorMsg);
+                            }
+                        }
+                    } else {
+                        std::string errorMsg = "";
+                        if(!cReg.linkRegister(measure.getClassicPos(),measure.getQubitPos(), qReg->getName(), errorMsg)){
+                            errors.push_back( errorMsg);
+                        }
                     }
                 }
             }
