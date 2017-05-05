@@ -1,12 +1,15 @@
 # Miniqbt, a runtime for the IBM Quantum experience
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
-MiniQbt emulates the assembly language up to 20 qubits (the header can go up to infinite qubits). It's written in c++ 14
-This is alpha software and not ready for production, I would like to receive feedback or suggestions!
+The scope of MiniQbt:
+
+1.  Emulate a quantum computer with generic amount of qubits and classical bits
+2.  Parse and execute [openQASM](https://github.com/IBM/qiskit-openqasm) files
+3.  Easy and understandable code is preferred instead of highly optimized code
+4.  Single API for handling quantum computers
 
 
-
-## Runtime usage
+## Command line interface usage
 You can execute quantum algorithms using the miniqbt binary. The cap is 20 although this takes quite a while. 
 To read from a file just pass the name into the arguments.
 
