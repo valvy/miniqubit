@@ -7,9 +7,8 @@ include(externalCatch)
 
 SET(miniqbt_destination "bin")
 SET(miniqbt_lib_destination "lib")
+SET(miniqbt_include_destination "include")
 
-add_subdirectory(runtime)
-add_subdirectory(tests)
+add_subdirectory(MiniQbt)
+add_subdirectory(cli)
 
-enable_testing()
-add_test(NAME testMiniQbt COMMAND testMiniQbt)

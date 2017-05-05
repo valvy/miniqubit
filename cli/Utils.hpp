@@ -3,11 +3,6 @@
 
 #include <string>
 #include <iostream>
-//#include "core/QuantumState.hpp"
-
-
-//void assertInput(const bool as, std::string msg = "Invalid input detected");
-
 
 template<typename T>
 constexpr void printInfo(T& msg){

@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include <MiniQbt.hpp>
+#include <miniqbt/emulator/MiniQbtEmulator.hpp>
 
 TEST_CASE( "Basic circuits algorithms") {
 

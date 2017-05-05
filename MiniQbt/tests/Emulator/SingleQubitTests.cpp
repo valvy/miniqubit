@@ -1,7 +1,6 @@
 
 #include "catch.hpp"
-#include <MiniQbt.hpp>
-//#include <iostream>
+#include <miniqbt/emulator/MiniQbtEmulator.hpp>
 
 TEST_CASE( "Single qubit algorithms") {
     typedef MiniQbt::QuantumEmulator<1, false> DebugQuantum1;

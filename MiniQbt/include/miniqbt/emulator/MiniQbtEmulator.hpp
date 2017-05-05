@@ -1,21 +1,15 @@
-#ifndef MINI_QBT_HPP
-#define MINI_QBT_HPP
+#ifndef MINI_QBT_EMULATOR_HPP
+#define MINI_QBT_EMULATOR_HPP
 
-#include "core/HadamardGate.hpp"
-#include "core/Measure.hpp"
-#include "core/Exceptions.hpp"
-#include "core/ControlledNotGate.hpp"
-#include "core/PauliGates.hpp"
+#include "HadamardGate.hpp"
+#include "Measure.hpp"
+#include "Exceptions.hpp"
+#include "ControlledNotGate.hpp"
+#include "PauliGates.hpp"
 #include <random>
 #include <bitset>
-#include <memory>
 
 namespace MiniQbt{
-    constexpr char VERSION[] = "0.2.0";
-    constexpr char NAME[] = "MiniQBT";
-
-
-
     template<size_t registerSize, bool strictMode = true>
     struct QuantumEmulator{
         Core::QuantumState<registerSize> generateRegister() const{
