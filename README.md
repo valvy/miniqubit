@@ -49,7 +49,7 @@ You can simply load in quantum source code like this.
     }
 ```
 Or you can handle the quantum instructions in c++ aswell.
-```
+```c++
     #include <miniqbt/MiniQbt.hpp>
     #include <iostream>
 
