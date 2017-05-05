@@ -10,6 +10,8 @@ namespace MiniQbt{
         class AbstractRegister {
             public:
             virtual void visit(PauliXToken& pauliGate) = 0;
+            virtual void visit(PauliYToken& pauliGate) = 0;
+            virtual void visit(PauliZToken& pauliGate) = 0;
             virtual void visit(HadamardGateToken& hadamard) = 0;
             virtual void visit(CNotToken& cnot) = 0;
             virtual bool operator[](int pos) const = 0;
@@ -53,6 +55,14 @@ namespace MiniQbt{
 
             virtual void visit(PauliXToken& pauliGate) override{
                 emulator.pauliX(pauliGate.getSize(), state);
+            }
+
+            virtual void visit(PauliYToken& pauliGate) override{
+                emulator.pauliY(pauliGate.getSize(), state);
+            }
+
+            virtual void visit(PauliZToken& pauliGate) override{
+                emulator.pauliZ(pauliGate.getSize(), state);
             }
 
             virtual void visit(HadamardGateToken& hadamard) override{

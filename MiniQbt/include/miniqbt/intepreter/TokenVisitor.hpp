@@ -22,7 +22,10 @@ namespace MiniQbt{
             std::vector<std::string> getClassicRegisters() const;
             std::vector<bool> getClassicRegister(const std::string& name);
             std::string getError();
+            bool doesRegisterExists(const std::string& registerName) const;
             void visit(PauliXToken& pauliGate);
+            void visit(PauliYToken& pauliGate);
+            void visit(PauliZToken& pauliGate);
             void visit(ClassicRegisterToken& regist);
             void visit(HadamardGateToken& hadamard);
             void visit(MeasureToken& measure);

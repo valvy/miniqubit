@@ -9,10 +9,13 @@ std::vector<std::shared_ptr<MiniQbt::Core::Token>> MiniQbt::Core::parseExpressio
     if(line == ""){
         return result;
     }
-    
-    if(line.find_first_not_of('\n') != std::string::npos){//check if the line is not only new lines
+    //Filter out all the comments
+    const std::regex comment ("(//[^\\n]*\\n)|(//.*?$)",std::regex::ECMAScript);
+    const std::string removedComments = std::regex_replace (line,comment,"");
+
+    if(removedComments.find_first_not_of('\n') != std::string::npos){//check if the line is not only new lines
         std::regex splitExpressions("[^;]*;", std::regex::ECMAScript);
-        auto expression_begin = std::sregex_iterator(line.begin(), line.end(), splitExpressions);
+        auto expression_begin = std::sregex_iterator(removedComments.begin(), removedComments.end(), splitExpressions);
         auto expression_end = std::sregex_iterator();
 
         for (std::sregex_iterator i = expression_begin; i != expression_end; ++i) {
@@ -29,12 +32,8 @@ std::vector<std::shared_ptr<MiniQbt::Core::Token>> MiniQbt::Core::parseExpressio
 }
 
 std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::string& line){
-    using namespace MiniQbt::Core;
-    if(line[0] == '/' && line[1] == '/'){
-        return std::shared_ptr<Token>(new CommentToken());
-    }
- 
-    std::regex regex_creg_qreg_x_h("\\s*(qreg|creg|x|h|)\\s*([a-z|A-Z]+)\\s?\\[([0-9]*)\\](\\s?|\\s*);",std::regex::ECMAScript);
+    using namespace MiniQbt::Core;    
+    std::regex regex_creg_qreg_x_h("\\s*([a-z|A-Z]*)\\s*([a-z|A-Z]+)\\s?\\[([0-9]*)\\](\\s?|\\s*);",std::regex::ECMAScript);
     std::smatch m;
     std::regex_match(line, m, regex_creg_qreg_x_h);
     if(m[1] == "qreg"){
@@ -45,6 +44,12 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
     }
     else if(m[1] == "x"){
         return std::shared_ptr<Token>(new PauliXToken (m[2],std::stoi(m[3])));
+    }
+    else if(m[1] == "z"){
+        return std::shared_ptr<Token>(new PauliZToken (m[2],std::stoi(m[3])));
+    }
+    else if(m[1] == "y"){
+        return std::shared_ptr<Token>(new PauliYToken (m[2],std::stoi(m[3])));
     }
     else if(m[1] == "h"){
         return std::shared_ptr<Token>(new HadamardGateToken(m[2],std::stoi(m[3])));
@@ -64,6 +69,19 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
         return std::shared_ptr<Token>(new CNotToken(m[2], std::stoi(m[3]), m[4], std::stoi(m[5])));
     }
   
- //   printWarning("Invalid syntax : ",  line , "\n");
-    return std::shared_ptr<Token>(new ErrorToken("Invalid token on " + line));  
+    //Check for the more uncommon tokens
+    std::regex regex_assembly_type("\\s*(OPENQASM)\\s+([0-9]*\\.[0-9]*)\\s*;",std::regex::ECMAScript);
+    std::regex_match(line, m, regex_assembly_type);
+    if(m[1] == "OPENQASM"){
+        return std::shared_ptr<Token>(new AssemblyVersionToken(m[2]));
+    }
+
+    //include
+    std::regex regex_include("\\s*(include)\\s*\\\"([a-z|A-Z|0-9|\\.]*)\\\"\\s*;",std::regex::ECMAScript);
+    std::regex_match(line, m, regex_include);
+    if(m[1] == "include"){
+        return std::shared_ptr<Token>(new IncludeToken(m[2]));
+    }
+
+    return std::shared_ptr<Token>(new ErrorToken("Invalid token: " + line));  
 }

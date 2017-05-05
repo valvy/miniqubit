@@ -23,9 +23,18 @@ namespace MiniQbt{
             virtual void accept(TokenVisitor& visitor) override;
         };
 
-        class CommentToken : public Token{ 
+        class IncludeToken : public Token{
+            std::string incl;
             public:
-            virtual void accept(TokenVisitor& visitor) override {}
+            IncludeToken(std::string incl) : incl(incl) {}
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+
+        class AssemblyVersionToken : public Token{
+            std::string version;
+            public:
+            AssemblyVersionToken(std::string version) : version(version) {}
+            virtual void accept(TokenVisitor& visitor) override;
         };
 
         class ClassicRegisterToken : public Token{
@@ -60,6 +69,29 @@ namespace MiniQbt{
             virtual void accept(TokenVisitor& visitor) override;
 
         };
+
+        class PauliZToken : public Token{
+            std::string name;
+            int size;
+            public:
+            PauliZToken(std::string name, int size) : name(name), size(size) {}
+            std::string getName() const { return this->name; }
+            int getSize() const { return this->size ; }
+            virtual void accept(TokenVisitor& visitor) override;
+
+        };
+
+        class PauliYToken : public Token{
+            std::string name;
+            int size;
+            public:
+            PauliYToken(std::string name, int size) : name(name), size(size) {}
+            std::string getName() const { return this->name; }
+            int getSize() const { return this->size ; }
+            virtual void accept(TokenVisitor& visitor) override;
+
+        };
+
 
         class PauliXToken : public Token{
             std::string name;

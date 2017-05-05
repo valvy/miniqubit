@@ -14,6 +14,7 @@ namespace MiniQbt{
         std::vector<std::string> getRegisters() const;
         void intepret(const std::string& line);
         std::vector<bool> readClassicRegister(const std::string& registerName);
+        bool doesRegisterExists(const std::string& registerName) const;
         void stop();
         bool hasErrors() const;
         std::string getError();

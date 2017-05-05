@@ -6,6 +6,8 @@ set (CMAKE_CXX_STANDARD 14)
 SET(srcfiles 
     Main.cpp
     SimpleAsyncTests.cpp
+    ResultChecks.cpp
+    SyntaxTests.cpp
 )
 
 include_directories(

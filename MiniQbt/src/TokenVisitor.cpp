@@ -7,6 +7,15 @@ TokenVisitor::TokenVisitor(){
 
 }
 
+bool TokenVisitor::doesRegisterExists(const std::string& registerName) const{
+    for(const ClassicRegister& reg : classicRegisters){
+        if(reg.getName() == registerName){
+            return true;
+        }
+    }
+    return false;
+}
+
 
 bool TokenVisitor::hasErrors() const{
     return !errors.empty();
@@ -31,7 +40,8 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
     for(const ClassicRegister& classicReg : classicRegisters){
         if(classicReg.getName() == name){
             for(size_t i = 0; i < classicReg.getSize(); i++ ){
-                const Bit bit = classicReg[i];
+                const Bit bit = classicReg[classicReg.getSize() - i - 1];
+               // const Bit bit = classicReg[ i ];
                 if(bit.link == ""){
                     result.push_back(0);
                     continue;
@@ -40,12 +50,14 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
                     if(bit.link == quantumReg->getName()){
                         quantumReg->collapse();
                         bool res = (*quantumReg)[classicReg.getSize() - bit.quantumPos - 1];
+                        //bool res = (*quantumReg)[bit.quantumPos];
                         result.push_back(res);
                     }
                 }
             }
         } 
     }
+    
     return result;
 }
 
@@ -85,6 +97,26 @@ bool TokenVisitor::registerDoesExist(const std::string& name) const{
 }
 
 void TokenVisitor::visit(PauliXToken& pauliGate){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == pauliGate.getName()){
+            reg->visit(pauliGate);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + pauliGate.getName() + " Does not exist..");
+}
+
+void TokenVisitor::visit(PauliYToken& pauliGate){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == pauliGate.getName()){
+            reg->visit(pauliGate);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + pauliGate.getName() + " Does not exist..");
+}
+
+void TokenVisitor::visit(PauliZToken& pauliGate){
     for(AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == pauliGate.getName()){
             reg->visit(pauliGate);

@@ -7,6 +7,10 @@ QasmAsyncIntepreter::QasmAsyncIntepreter(){
    
 }
 
+bool QasmAsyncIntepreter::doesRegisterExists(const std::string& registerName) const{
+    return visitor.doesRegisterExists(registerName);
+}
+
 std::vector<std::string> QasmAsyncIntepreter::getRegisters() const{
     return visitor.getClassicRegisters();
 }

@@ -11,12 +11,28 @@ void ClassicRegisterToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
+void AssemblyVersionToken::accept(TokenVisitor& visitor){
+    //nothing yet
+}
+
+void IncludeToken::accept(TokenVisitor& visitor){
+
+}
+
 
 void HadamardGateToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
 void ErrorToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
+
+void PauliYToken::accept(TokenVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+void PauliZToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
 }
 
