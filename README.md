@@ -16,8 +16,10 @@ The runtime also contains a REPL allowing you execute commands on the fly.
 
 
 ## Library usage
+
 You can simply load in quantum source code like this.
-```
+
+```c++
     #include <miniqbt/MiniQbt.hpp>
     #include <iostream>
     #include <vector>
