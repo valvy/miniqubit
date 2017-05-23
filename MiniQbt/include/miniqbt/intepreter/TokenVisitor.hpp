@@ -15,8 +15,10 @@ namespace MiniQbt{
             bool registerDoesExist(const std::string& name) const;
             std::vector<AbstractRegister*> quantumRegisters;
             std::vector<ClassicRegister> classicRegisters;
+            std::vector<GateToken> customGates;
             std::vector<std::string> errors;
             public:
+            ~TokenVisitor();
             TokenVisitor();
             bool hasErrors() const;
             std::vector<std::string> getClassicRegisters() const;
@@ -32,6 +34,7 @@ namespace MiniQbt{
             void visit(QuantumRegisterToken& registe);
             void visit(CNotToken& cnot);
             void visit(ErrorToken& token);
+            void visit(GateToken& gate);
 
         };
     }

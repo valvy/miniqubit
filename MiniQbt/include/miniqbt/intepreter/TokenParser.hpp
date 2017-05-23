@@ -9,8 +9,14 @@
 namespace MiniQbt{
     namespace Core{
         class Token;
-        
+        /**
+        *   Parses a single token.
+        **/
         std::shared_ptr<Token> parseToken(const std::string& line);
+
+        /**
+        *   Parses an entire string for a list of tokens.
+        */
         std::vector<std::shared_ptr<Token>> parseExpressions(const std::string& line);
 
     }

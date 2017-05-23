@@ -15,7 +15,7 @@ namespace MiniQbt{
                 size_t quantumPos;
                 std::string link;
                 Bit(size_t bitPos, size_t quantumPos, std::string link) :
-                bitPos(bitPos), quantumPos(quantumPos), link(link) { }
+                bitPos(bitPos), quantumPos(quantumPos), link(link) { }      
          };
 
         class ClassicRegister{

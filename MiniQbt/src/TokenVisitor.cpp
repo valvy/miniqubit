@@ -35,6 +35,12 @@ std::vector<std::string> TokenVisitor::getClassicRegisters() const{
     return result;
 }
 
+
+
+void TokenVisitor::visit(GateToken& gate){
+    customGates.push_back(gate);
+}
+
 std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
     std::vector<bool> result;
     for(const ClassicRegister& classicReg : classicRegisters){
@@ -212,3 +218,9 @@ void TokenVisitor::visit(QuantumRegisterToken& registe){
     quantumRegisters.push_back(delegate);
 
 }
+
+ TokenVisitor::~TokenVisitor(){
+     for(AbstractRegister* delegate : quantumRegisters){
+         delete delegate;
+     }
+ }

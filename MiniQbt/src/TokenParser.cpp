@@ -3,6 +3,22 @@
 #include <regex>
 #include <iostream>
 
+
+std::vector<std::shared_ptr<MiniQbt::Core::GateToken>> parseFunction(const std::string& line){
+    std::vector<std::shared_ptr<MiniQbt::Core::GateToken>> result;
+    std::regex regex_custom_gate("\\s*gate\\s*[a-z|A-Z|0-9]+\\s*\\(?[^\\)]*\\)?\\s*[^{]*\\{[^}]*\\}", std::regex::ECMAScript);
+    std::smatch m;//.*{gate\s*[a-z|A-Z|0-9]+}
+    auto expression_begin = std::sregex_iterator(line.begin(), line.end(), regex_custom_gate);
+    auto expression_end = std::sregex_iterator();
+
+    for (std::sregex_iterator i = expression_begin; i != expression_end; ++i) {
+        std::smatch match = *i;
+        result.push_back(std::shared_ptr<MiniQbt::Core::GateToken>(new MiniQbt::Core::GateToken(match.str())));
+    }
+    return result;
+}
+
+
 std::vector<std::shared_ptr<MiniQbt::Core::Token>> MiniQbt::Core::parseExpressions(const std::string& line){
     using namespace MiniQbt::Core;
     std::vector<std::shared_ptr<MiniQbt::Core::Token>> result;
@@ -11,7 +27,12 @@ std::vector<std::shared_ptr<MiniQbt::Core::Token>> MiniQbt::Core::parseExpressio
     }
     //Filter out all the comments
     const std::regex comment ("(//[^\\n]*\\n)|(//.*?$)",std::regex::ECMAScript);
-    const std::string removedComments = std::regex_replace (line,comment,"");
+    std::string removedComments = std::regex_replace (line,comment,"");
+
+    std::vector<std::shared_ptr<MiniQbt::Core::GateToken>> meth = parseFunction(removedComments);
+    result.insert(result.end(), meth.begin(), meth.end());
+    const std::regex methods ("(\\s*gate\\s*[a-z|A-Z|0-9]+\\s*\\(?[^\\)]*\\)?\\s*[^{]*\\{[^}]*\\})",std::regex::ECMAScript);
+    removedComments = std::regex_replace (removedComments,methods,"");
 
     if(removedComments.find_first_not_of('\n') != std::string::npos){//check if the line is not only new lines
         std::regex splitExpressions("[^;]*;", std::regex::ECMAScript);
@@ -19,8 +40,7 @@ std::vector<std::shared_ptr<MiniQbt::Core::Token>> MiniQbt::Core::parseExpressio
         auto expression_end = std::sregex_iterator();
 
         for (std::sregex_iterator i = expression_begin; i != expression_end; ++i) {
-            std::smatch match = *i;
-            //const std::string expr = match.str();                                     
+            std::smatch match = *i;                                    
             result.push_back(parseToken(match.str()));
             
         }
@@ -61,9 +81,8 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
         return std::shared_ptr<Token>(new HadamardGateToken(m[2],targetBit));
     }
 
-    //Checking for measure
-   // std::regex regex_measure("\\s*(measure)\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\]\\s+->\\s+([a-z|A-Z]+)\\s?\\[([0-9])+\\];",std::regex::ECMAScript);
-     std::regex regex_measure("\\s*(measure)\\s*([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?\\s+->\\s+([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?;",std::regex::ECMAScript);
+
+    std::regex regex_measure("\\s*(measure)\\s*([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?\\s+->\\s+([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?;",std::regex::ECMAScript);
     std::regex_match(line, m, regex_measure);
     if(m[1] == "measure"){
         if(m[3] == "" && m[5] == ""){
@@ -75,11 +94,13 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
     }
 
     //checking for cnot
-    std::regex regex_CNot("\\s*(cx)\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\]\\s*\\,\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\];",std::regex::ECMAScript);
+    std::regex regex_CNot("\\s*(cx)\\s*([a-z|A-Z]+)\\s*\\[([0-9])+\\]\\s*\\,\\s*([a-z|A-Z]+)\\s?\\[([0-9])+\\];",std::regex::ECMAScript);
     std::regex_match(line, m, regex_CNot);
     if(m[1] == "cx"){
         return std::shared_ptr<Token>(new CNotToken(m[2], std::stoi(m[3]), m[4], std::stoi(m[5])));
     }
+
+
   
     //Check for the more uncommon tokens
     std::regex regex_assembly_type("\\s*(OPENQASM)\\s+([0-9]*\\.[0-9]*)\\s*;",std::regex::ECMAScript);
@@ -93,6 +114,12 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
     std::regex_match(line, m, regex_include);
     if(m[1] == "include"){
         return std::shared_ptr<Token>(new IncludeToken(m[2]));
+    }
+
+    //Alright check for a custom command
+    std::regex regex_unknown_gate("\\s*([a-z|A-Z|0-9]+)\\s*([^;]+);",std::regex::ECMAScript);
+    if(m[1] != ""){
+        return std::shared_ptr<Token>(new UnkownGateToken(m[1], "",m[2]));
     }
 
     return std::shared_ptr<Token>(new ErrorToken("Invalid token: " + line));  

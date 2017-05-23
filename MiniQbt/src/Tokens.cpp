@@ -1,7 +1,29 @@
 #include "miniqbt/intepreter/Tokens.hpp"
 #include "miniqbt/intepreter/TokenVisitor.hpp"
+#include <regex>
 
 using namespace MiniQbt::Core;
+
+
+
+GateToken::GateToken(const std::string& data){
+    std::regex parseToken("\\s*gate\\s*([a-z|A-Z|0-9]+)\\s*\\(?([^\\)]*)\\)?\\s*([^{]*)\\{([^}]*)\\}", std::regex::ECMAScript);
+    std::smatch m;
+    std::regex_match(data, m, parseToken);
+    this->name = m[1];
+    this->classicArguments = m[2];
+    this->quantumArguments = m[3];
+    this->instructions = m[4];
+}
+
+
+UnkownGateToken:: UnkownGateToken(const std::string& name, const std::string classicArguments, const std::string quantumArguments){
+    this->name = name;
+}
+
+void UnkownGateToken::accept(TokenVisitor& visitor){
+
+}
 
 void QuantumRegisterToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);
@@ -19,6 +41,10 @@ void IncludeToken::accept(TokenVisitor& visitor){
 
 }
 
+
+void GateToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
 
 void HadamardGateToken::accept(TokenVisitor& visitor) {
     visitor.visit(*this);

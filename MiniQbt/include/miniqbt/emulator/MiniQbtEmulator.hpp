@@ -6,6 +6,7 @@
 #include "Exceptions.hpp"
 #include "ControlledNotGate.hpp"
 #include "PauliGates.hpp"
+#include "PhaseGates.hpp"
 #include <random>
 #include <bitset>
 
@@ -42,7 +43,7 @@ namespace MiniQbt{
         }
 
         void phaseS(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
-            throw QuantumException("Not yet implemented :(");
+            Core::phaseS<registerSize>(bit_index, state);
         }
     };
 

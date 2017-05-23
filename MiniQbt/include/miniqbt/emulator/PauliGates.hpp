@@ -12,6 +12,8 @@ namespace MiniQbt{
                 ChanceOrder<registerSize> ord(i, state.getState()(i,0));
                 if(ord[bit_index] == 0){
                     ord.data = ord.data * std::complex<double>(0,-1);
+                } else {
+                    ord.data = std::complex<double>(0,1) * ord.data;
                 }
                 everything[i] = ord;
             }

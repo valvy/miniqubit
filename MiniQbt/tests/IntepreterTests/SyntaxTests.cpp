@@ -4,6 +4,8 @@
 
 TEST_CASE( "Syntax tests") {
     
+   
+
     constexpr char ENTIRE_MEASURE[] = "Entire measure";
     SECTION(ENTIRE_MEASURE){
         //Checking if the syntax with all the pauli gates works

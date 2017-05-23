@@ -27,4 +27,5 @@ add_custom_target(emulatorTest
     DEPENDS emulatorTests
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
+enable_testing()
 add_test(testEmulator emulatorTests)

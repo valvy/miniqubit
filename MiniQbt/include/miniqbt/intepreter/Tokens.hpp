@@ -2,17 +2,50 @@
 #define MINI_QBT_QASM_INTEPRETER_CORE_TOKEN_HPP
 
 #include <string>
-
+#include <vector>
 
 
 namespace MiniQbt{
     namespace Core{
 
         class TokenVisitor;
+        class AbstractRegister;
+
+        class LinkedRegister{
+            std::shared_ptr<AbstractRegister> link;
+            size_t position;
+            public:
+            LinkedRegister(std::shared_ptr<AbstractRegister> link, size_t position)
+            : link(link), position(position){}
+
+        };
 
         class Token{
             public:
             virtual void accept(TokenVisitor& visitor) = 0;
+        };
+
+        class GateToken : public Token{
+            private:
+            std::string name;
+            std::string classicArguments;
+            std::string quantumArguments;
+            std::string instructions;
+            public:
+            std::string getName() const { return this->name ;}
+            GateToken(const std::string& data);
+            virtual void accept(TokenVisitor& visitor) override;
+            
+        };
+
+        class UnkownGateToken : public Token{
+            private:
+            std::string name;
+            std::vector<std::string> classicArguments;
+            std::vector<std::string> quantumArguments;
+            public:
+            UnkownGateToken(const std::string& name, const std::string classicArguments, const std::string quantumArguments);
+            virtual void accept(TokenVisitor& visitor) override;
         };
 
         class MassAddToken : public Token{
