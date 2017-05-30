@@ -24,4 +24,4 @@ add_custom_target(IntepreterTest
     DEPENDS IntepreterTests
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
-add_test(testIntepreter IntepreterTest)
+add_test(NAME testIntepreter COMMAND ${CMAKE_CURRENT_BINARY_DIR}/IntepreterTests)

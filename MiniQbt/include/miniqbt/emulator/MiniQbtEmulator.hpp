@@ -43,8 +43,21 @@ namespace MiniQbt{
         }
 
         void phaseS(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
-            Core::phaseS<registerSize>(bit_index, state);
+            Core::phaseS<registerSize>(bit_index, state, false);
         }
+
+        void phaseSDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+            Core::phaseS<registerSize>(bit_index, state, true);
+        }
+
+        void phaseT(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+            Core::phaseT<registerSize>(bit_index, state, false);
+        }
+
+        void phaseTDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+            Core::phaseT<registerSize>(bit_index, state, true);
+        }
+        
     };
 
     /**

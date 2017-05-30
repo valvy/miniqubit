@@ -223,4 +223,5 @@ void TokenVisitor::visit(QuantumRegisterToken& registe){
      for(AbstractRegister* delegate : quantumRegisters){
          delete delegate;
      }
+     quantumRegisters.clear();
  }

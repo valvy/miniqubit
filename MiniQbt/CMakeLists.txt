@@ -4,6 +4,7 @@ PROJECT(miniQbt)
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
+
 SET(LIB_SOURCES 
     src/QasmAsyncIntepreter.cpp
     src/Tokens.cpp
@@ -28,4 +29,7 @@ target_link_libraries(MiniQbt Eigen3::Eigen)
 #install( DIRECTORY ${miniQbt_SOURCE_DIR}/include/ DESTINATION ${miniqbt_include_destination} FILES_MATCHING PATTERN "*.hpp*" )
 
 #setup tests
+
 add_subdirectory(tests)
+
+
