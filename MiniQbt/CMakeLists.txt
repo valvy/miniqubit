@@ -30,6 +30,6 @@ target_link_libraries(MiniQbt Eigen3::Eigen)
 
 #setup tests
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 

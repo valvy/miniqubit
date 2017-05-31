@@ -36,7 +36,3 @@ bool QasmAsyncIntepreter::hasErrors() const{
 std::string QasmAsyncIntepreter::getError(){
     return visitor.getError();
 }
-
-void QasmAsyncIntepreter::stop(){
-
-}

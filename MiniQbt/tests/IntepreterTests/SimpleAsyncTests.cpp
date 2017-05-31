@@ -59,10 +59,11 @@ TEST_CASE( "Asyncronous coding tests") {
         MiniQbt::QasmAsyncIntepreter intepreter;
         intepreter.intepret("qreg q[5]; creg c[5];");
         intepreter.intepret(";");//error
+         REQUIRE(intepreter.hasErrors());
         intepreter.intepret("x q[2];");
         intepreter.intepret("measure q[0] -> c[0];");
         auto res = intepreter.readClassicRegister("c");
-        REQUIRE(intepreter.hasErrors());
+       
     }
 
     constexpr char EMPTY_EXPRESSION_WITH_SPACES[] = "Empty expression with spaces"; 

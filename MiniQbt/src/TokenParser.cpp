@@ -100,8 +100,6 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
         return std::shared_ptr<Token>(new CNotToken(m[2], std::stoi(m[3]), m[4], std::stoi(m[5])));
     }
 
-
-  
     //Check for the more uncommon tokens
     std::regex regex_assembly_type("\\s*(OPENQASM)\\s+([0-9]*\\.[0-9]*)\\s*;",std::regex::ECMAScript);
     std::regex_match(line, m, regex_assembly_type);
