@@ -15,8 +15,10 @@ namespace MiniQbt{
             std::shared_ptr<AbstractRegister> link;
             size_t position;
             public:
-            LinkedRegister(std::shared_ptr<AbstractRegister> link, size_t position)
-            : link(link), position(position){}
+            LinkedRegister(std::shared_ptr<AbstractRegister> link, size_t position){
+                this->link = link;
+                this->position = position;
+            }
 
         };
 
@@ -52,7 +54,9 @@ namespace MiniQbt{
             protected:
             int size = -1;
             public:
-            MassAddToken(int size) : size(size) {}
+            MassAddToken(int size){
+                this->size = size;
+            }
             bool linkEntireToken() const { return size == -1; }
             int getSize() const { return this->size ; }
         };
@@ -60,7 +64,9 @@ namespace MiniQbt{
         class ErrorToken : public Token {
             std::string line;
             public:
-            ErrorToken(std::string line) : line(line) {}
+            ErrorToken(std::string line){
+                this->line = line;
+            }
             std::string getLine() const { return this->line; }
             virtual void accept(TokenVisitor& visitor) override;
         };
@@ -68,14 +74,18 @@ namespace MiniQbt{
         class IncludeToken : public Token{
             std::string incl;
             public:
-            IncludeToken(std::string incl) : incl(incl) {}
+            IncludeToken(std::string incl){
+                this->incl = incl;
+            }
             virtual void accept(TokenVisitor& visitor) override;
         };
 
         class AssemblyVersionToken : public Token{
             std::string version;
             public:
-            AssemblyVersionToken(std::string version) : version(version) {}
+            AssemblyVersionToken(std::string version){
+                this->version = version;
+            }
             virtual void accept(TokenVisitor& visitor) override;
         };
 
@@ -83,7 +93,10 @@ namespace MiniQbt{
             std::string name;
             int size;
             public:
-            ClassicRegisterToken(std::string name, int size) : name(name), size(size) {}
+            ClassicRegisterToken(std::string name, int size){
+                this->name = name;
+                this->size = size;
+            }
             std::string getName() const { return this->name; }
             int getSize() const { return this->size ; }
             virtual void accept(TokenVisitor& visitor) override;
@@ -93,7 +106,10 @@ namespace MiniQbt{
             std::string name;
             int size;
             public:
-            QuantumRegisterToken(std::string name, int size) : name(name), size(size) {}
+            QuantumRegisterToken(std::string name, int size){
+                this->name = name;
+                this->size = size;
+            }
             std::string getName() const { return this->name; }
             int getSize() const { return this->size ; }
             virtual void accept(TokenVisitor& visitor) override;
@@ -104,8 +120,12 @@ namespace MiniQbt{
         class HadamardGateToken : public MassAddToken{
             std::string name;
             public:
-            HadamardGateToken(std::string name, int size) : name(name), MassAddToken(size) {}
-            HadamardGateToken(std::string name) : name(name), MassAddToken(-1) {}
+            HadamardGateToken(std::string name, int size) : MassAddToken(size){
+                this->name = name;
+            }
+            HadamardGateToken(std::string name) :  MassAddToken(-1) {
+                this->name = name;
+            }
             std::string getName() const { return this->name; }
             virtual void accept(TokenVisitor& visitor) override;
 
@@ -114,8 +134,12 @@ namespace MiniQbt{
         class PauliZToken : public MassAddToken{
             std::string name;
             public:
-            PauliZToken(std::string name, int size) : name(name), MassAddToken(size) {}
-            PauliZToken(std::string name) : name(name), MassAddToken(-1) {}
+            PauliZToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PauliZToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
             std::string getName() const { return this->name; }
             virtual void accept(TokenVisitor& visitor) override;
 
@@ -124,8 +148,12 @@ namespace MiniQbt{
         class PauliYToken : public MassAddToken{
             std::string name;
             public:
-            PauliYToken(std::string name, int size) : name(name), MassAddToken(size) {}
-            PauliYToken(std::string name) : name(name), MassAddToken(-1) {}
+            PauliYToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PauliYToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
             std::string getName() const { return this->name; }
             virtual void accept(TokenVisitor& visitor) override;
 
@@ -135,8 +163,12 @@ namespace MiniQbt{
         class PauliXToken : public MassAddToken{
             std::string name;
             public:
-            PauliXToken(std::string name, int size) : name(name), MassAddToken(size) {}
-            PauliXToken(std::string name) : name(name), MassAddToken(-1) {}
+            PauliXToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PauliXToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
             std::string getName() const { return this->name; }
             
             virtual void accept(TokenVisitor& visitor) override;
@@ -149,10 +181,18 @@ namespace MiniQbt{
             std::string classicReg;
             int bit;
             public:
-            MeasureToken(std::string quReg, int qubit, std::string classicReg, int bit)
-             : quReg(quReg), qubit(qubit), classicReg(classicReg), bit(bit) {}
-            MeasureToken(std::string quReg,  std::string classicReg) 
-             : quReg(quReg), qubit(-1), classicReg(classicReg), bit(-1) {}
+            MeasureToken(std::string quReg, int qubit, std::string classicReg, int bit){
+                this->quReg = quReg;
+                this->qubit = qubit;
+                this->classicReg = classicReg;
+                this->bit = bit;
+            }
+            MeasureToken(std::string quReg,  std::string classicReg) {
+                this->quReg = quReg;
+                this->classicReg = classicReg;
+                this->qubit = -1;
+                this->bit = -1;
+            }
 
             virtual void accept(TokenVisitor& visitor) override;
             bool linkEntireToken() const { return qubit == -1; }
@@ -171,8 +211,12 @@ namespace MiniQbt{
             public:
             virtual void accept(TokenVisitor& visitor) override;
 
-            CNotToken(std::string lh, size_t lhIndex, std::string rh, size_t rhIndex) :
-            lh(lh), lhIndex(lhIndex), rh(rh), rhIndex(rhIndex){ }
+            CNotToken(std::string lh, size_t lhIndex, std::string rh, size_t rhIndex){
+                this->lh = lh;
+                this->rh = rh;
+                this->lhIndex = lhIndex;
+                this->rhIndex = rhIndex;
+            }
             std::string getLeftHand() const { return lh; }
             std::string getRightHand() const { return rh; }
             size_t getLeftHandIndex() const { return lhIndex; }

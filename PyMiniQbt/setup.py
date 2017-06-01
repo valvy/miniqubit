@@ -4,7 +4,9 @@ module = Extension(
       'MiniQbtNative', 
       sources=['${PyMiniQbt_SOURCE_FILES}'],
       extra_compile_args = ['-O3','-std=c++11'],
-      include_dirs = ['${PyMiniQbt_INCLUDE_LIB}', '${PyMiniQbt_EIGEN_INCLUDE_LIB}']
+      include_dirs = ['${PyMiniQbt_INCLUDE_LIB}', '${PyMiniQbt_EIGEN_INCLUDE_LIB}'],
+      extra_link_args=['-static'],
+      libraries = ['MiniQbt']
       )
 
 setup(name='MiniQbt',

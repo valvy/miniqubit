@@ -23,6 +23,10 @@ if (PYTHON)
       ${EIGEN3_INCLUDE_DIR}
     )
     
+    set(
+      PyMiniQbt_LIB
+      MiniQbt
+    )
 
     configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
@@ -33,5 +37,6 @@ if (PYTHON)
 
     add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
 
+   # install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} build)")
    install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
 endif()

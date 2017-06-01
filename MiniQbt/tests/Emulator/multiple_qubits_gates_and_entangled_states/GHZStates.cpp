@@ -123,7 +123,7 @@ TEST_CASE( "GHZ States") {
 
 
     constexpr char THREE_Q_GHZ_STATE_XYY_MEASUREMENT[] = "3Q GHZ state XYY-Measurement";
-        SECTION(THREE_Q_GHZ_STATE_XYY_MEASUREMENT){
+    SECTION(THREE_Q_GHZ_STATE_XYY_MEASUREMENT){
             DebugQuantum3 emulator;
             auto ent = emulator.generateRegister();
             first(ent,emulator);

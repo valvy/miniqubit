@@ -34,21 +34,21 @@ namespace MiniQbt{
 
                 const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> d = state.getState();
                 //Define the pattern.. 
-                size_t divide = state.getAmountOfPossibilities();
-                for(size_t i = bit_index + 1; i > 0; i--){
+                int divide = state.getAmountOfPossibilities();
+                for(int i = bit_index + 1; i > 0; i--){
                     divide /= 2;
                 }
 
-                size_t lhIndex = 0;
-                size_t rhIndex = 0;
-                for(size_t i = 0; i < d.rows() ; i += divide * 2){
+                int lhIndex = 0;
+                int rhIndex = 0;
+                for(int i = 0; i < d.rows() ; i += divide * 2){
                     
-                    for(size_t j = i ; j < (divide + i); j++){
+                    for(int j = i ; j < (divide + i); j++){
                         result[0][lhIndex] = ChanceOrder<registerSize>(j, d(j,0));
                         lhIndex++;
                     }
                  
-                    for(size_t j = i + divide; j < ((divide * 2) + i); j++){
+                    for(int j = i + divide; j < ((divide * 2) + i); j++){
                         result[1][rhIndex] = ChanceOrder<registerSize>(j, d(j,0));
                         rhIndex++;
                     }
