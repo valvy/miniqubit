@@ -12,7 +12,5 @@ SET(miniqbt_lib_destination "lib")
 SET(miniqbt_include_destination "include")
 enable_testing ()
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
-add_subdirectory(MiniQbt)
-add_subdirectory(cli)
-add_subdirectory(PyMiniQbt)
+add_subdirectory(modules)
 
