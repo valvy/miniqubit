@@ -12,11 +12,6 @@ if (PYTHON)
       PyMiniQbt_SOURCE_FILES
       ${CMAKE_CURRENT_SOURCE_DIR}/MiniQbt.cpp
     )
-    
-    set(
-      PyMiniQbt_INCLUDE_LIB
-      ${CMAKE_CURRENT_SOURCE_DIR}/../core/include
-    )
 
     set(
       PyMiniQbt_EIGEN_INCLUDE_LIB
@@ -37,6 +32,9 @@ if (PYTHON)
 
     add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
 
-   # install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} build)")
-   install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
+
+  add_test(NAME pyTest COMMAND ${PYTHON} tests/test.py)
+  
+#  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/IntepreterTests)
+  install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
 endif()
