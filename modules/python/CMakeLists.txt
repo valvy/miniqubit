@@ -33,8 +33,8 @@ if (PYTHON)
     add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
 
 
-  add_test(NAME pyTest COMMAND ${PYTHON} tests/test.py)
-  
+  add_test(NAME pyNativeTests COMMAND ${PYTHON} ${PyMiniQbt_SOURCE_DIR}/tests/native_tests_without_allocating.py)
+  add_test(NAME pyThreadedTests COMMAND ${PYTHON} ${PyMiniQbt_SOURCE_DIR}/tests/multi_threaded_tests.py)
 #  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/IntepreterTests)
   install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
 endif()

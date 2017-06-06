@@ -8,8 +8,11 @@
 constexpr char ASYNC_CONSTANT[] = "[MiniQbt Async reference]";
 static std::vector<std::pair<int, MiniQbt::QasmAsyncIntepreter*>> asyncIntepreters;
 
+static PyObject *MiniQbtNativeException;
+
 static PyObject* get_version(){
-     return Py_BuildValue("s", MiniQbt::VERSION);
+
+    return Py_BuildValue("s", MiniQbt::VERSION);
 }
 
 static PyObject* get_name(){
@@ -33,16 +36,21 @@ static PyObject* qasm_async_intepret(PyObject* self, PyObject* args){
     if(!PyArg_ParseTuple(args, "(si)s",&command, &reference, &src)){ 
         return nullptr;
     }
-    
+    bool found = false;
     for(auto& intepreters : asyncIntepreters){
         if(intepreters.first == reference){
-            Py_BEGIN_ALLOW_THREADS
+            found = true;
+            //Py_BEGIN_ALLOW_THREADS
             intepreters.second->intepret(std::string(src));
-            Py_END_ALLOW_THREADS
+            //Py_END_ALLOW_THREADS
             break;
         }
     }
-  
+    if(!found){
+        PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+        return nullptr;
+    }
+
     return Py_BuildValue("");
 }
 
@@ -58,7 +66,8 @@ static PyObject* qasm_async_intepreter_has_errors(PyObject* self, PyObject* args
             return Py_BuildValue("b", intepreters.second->hasErrors());
         }
     }
-    return Py_BuildValue("");
+    PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+    return nullptr;
 }
 
 static PyObject* qasm_async_intepreter_get_registers(PyObject* self, PyObject* args){
@@ -71,13 +80,13 @@ static PyObject* qasm_async_intepreter_get_registers(PyObject* self, PyObject* a
         if(intepreters.first == reference){
             PyObject* result = PyList_New(0);
             for(const std::string& d : intepreters.second->getRegisters()){
-                
                 PyList_Append(result,Py_BuildValue("s",d.c_str()));
             }
             return result;
         }
     }
-    return Py_BuildValue("");
+    PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+    return nullptr;
 }
 
 static PyObject* qasm_async_intepreter_get_error(PyObject* self, PyObject* args){
@@ -92,7 +101,8 @@ static PyObject* qasm_async_intepreter_get_error(PyObject* self, PyObject* args)
             return Py_BuildValue("s", intepreters.second->getError().c_str());
         }
     }
-    return Py_BuildValue("");
+    PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+    return nullptr;
 }
 
 static PyObject* qasm_async_read_classic_register(PyObject* self, PyObject* args){
@@ -103,19 +113,22 @@ static PyObject* qasm_async_read_classic_register(PyObject* self, PyObject* args
     if(!PyArg_ParseTuple(args, "(si)s",&command, &reference, &name)){ 
         return nullptr;
     }
-
+    bool found = false;
     for(auto& intepreters : asyncIntepreters){
         if(intepreters.first == reference){
+            found = true;
             std::vector<bool> d = intepreters.second->readClassicRegister(std::string(name));
             for(const bool& r : d){
-                
                 result += std::to_string(r);
             }
             break;
         }
     }
-
-    return Py_BuildValue("s", result.c_str());
+    if(found){
+        return Py_BuildValue("s", result.c_str());
+    }
+    PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+    return nullptr;   
 }
 
 
@@ -204,19 +217,19 @@ static PyMethodDef MiniQbtMethods[] = {
         "qasm_async_intepreter_has_errors",
         qasm_async_intepreter_has_errors,
         METH_VARARGS,
-        ""
+        "Native call to check if the specified quantum computer has an error."
     },
     {
         "qasm_async_intepreter_get_error",
         qasm_async_intepreter_get_error,
         METH_VARARGS,
-        ""
+        "Native call to get an error as string from the specified quantum computer.\n When the quantum computer doesn't exists it will raise an exception."
     },
     {
         "qasm_async_intepreter_get_registers",
         qasm_async_intepreter_get_registers,
         METH_VARARGS,
-        ""
+        " Native call to get all the registers from the specified quantum computer. \n When the quantum computer doesn't exists it will raise an exception."
     },
     {nullptr,nullptr,0,nullptr}
 }; 
@@ -238,5 +251,9 @@ static struct PyModuleDef MiniQbtModuleMethods = {
 
 
 PyMODINIT_FUNC PyInit_MiniQbtNative(void){
-    return PyModule_Create(&MiniQbtModuleMethods);
+    MiniQbtNativeException = PyErr_NewException("MiniQbt.error", NULL, NULL);
+    PyObject *module = PyModule_Create(&MiniQbtModuleMethods);
+    Py_INCREF(MiniQbtNativeException);
+    PyModule_AddObject(module, "error",MiniQbtNativeException );
+    return module;
 }
