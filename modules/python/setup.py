@@ -3,7 +3,7 @@ import os
 import platform
 
 def getCompileArguments():
-      if(platform.system() == 'windows'):
+      if(platform.system() == 'Windows'):
             return []
       else:
             return ['-fPIC','-O3','-std=c++14']
@@ -20,9 +20,10 @@ module = Extension(
 		os.path.abspath('${MiniQbt_BINARY_DIR}/include/')],
 	  libraries = ['MiniQbt'],
 	  library_dirs = [
-	  os.path.abspath('${PyMiniQbt_LIB}')
-	  ]
-
+	  	os.path.abspath('${PyMiniQbt_LIB}')
+	  ]#, 
+#      extra_link_args=['-static'] 
+	  
 )
 
 
