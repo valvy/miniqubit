@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from MiniQbt.Globals import getVersion, getName
 from MiniQbt.Intepreter import QasmAsyncIntepreter
 import sys

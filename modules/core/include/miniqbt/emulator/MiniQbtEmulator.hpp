@@ -11,49 +11,109 @@
 #include <bitset>
 
 namespace MiniQbt{
+
+    /**
+    *   Facade class containing all the quantum gates and allows for generating quantum registers.
+    *   @author Heiko van der Heijden.
+    */
     template<size_t registerSize, bool strictMode = true>
     struct QuantumEmulator{
+        /**
+        *   Generates a quantum register to be used on this quantum emulator.
+        */
         Core::QuantumState<registerSize> generateRegister() const{
             static_assert(registerSize > 0 , "You need to have a register of at least on qubit...");
             return Core::QuantumState<registerSize>();
         }
 
+        /**
+        *   Applies the hadamard gate to the specified quantum register and the specified quantum bit.
+        *   @param bit, the bit index you wish to apply the quantum gate on.
+        *   @param state, the quantum register you wish to apply the hadamard gate on.
+        */
         void hadamardGate(const size_t& bit, Core::QuantumState<registerSize>& state) const{
             Core::hadamardGate<registerSize, strictMode>(bit,state);
         }
 
+        /**
+        *   Applies the controlled not gate on the specified states and bits.
+        *   @param control, the control bit you wish to check.
+        *   @param target, the target bit you wish to flip based on the control.
+        *   @param state, the state you wish to alter.
+        */
         void controlledNot(const size_t& control, const size_t& target, Core::QuantumState<registerSize>& state) const{
             Core::cnotGate<registerSize>(control,target,state);
         }
 
+        /**
+        *   Measures the result of a quantum state.
+        *   @param state, the state you wish to measure.
+        *   @param generator, the random number generator.
+        */
         std::bitset<registerSize> measure(Core::QuantumState<registerSize>& state, std::default_random_engine& generator) const{
             return Core::measure<registerSize, strictMode>(state, generator);
         }
 
+        /**
+        *   Applies the pauli X (bit flip) gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to flip.
+        *   @param state, the register you wish to alter.
+        */
         void pauliX(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliX<registerSize>(bit_index, state);
         }
 
+       /**
+        *   Applies the pauli y  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void pauliY(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliY<registerSize>(bit_index, state);
         }
 
+       /**
+        *   Applies the pauli z  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void pauliZ(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliZ<registerSize>(bit_index, state);
         }
 
+        /**
+        *   Applies the phase s  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void phaseS(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseS<registerSize>(bit_index, state, false);
         }
 
+        /**
+        *   Applies the phase s dagger  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void phaseSDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseS<registerSize>(bit_index, state, true);
         }
 
+        /**
+        *   Applies the phase Transpose  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void phaseT(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseT<registerSize>(bit_index, state, false);
         }
 
+
+        /**
+        *   Applies the phase Transpose Dagger  gate to the specified qubit and state.
+        *   @param bit_index, the qubit you wish to alter.
+        *   @param state, the register you wish to alter.
+        */
         void phaseTDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseT<registerSize>(bit_index, state, true);
         }

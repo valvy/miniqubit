@@ -7,7 +7,7 @@ find_package(PythonInterp ${python_version} REQUIRED)
 find_package(PythonLibs ${python_version} REQUIRED)
 find_package (Eigen3 3.3 NO_MODULE)
 
-if (PythonInterp)
+if (PYTHONINTERP_FOUND)
     set(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py")
     set(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
     set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build")
@@ -34,15 +34,15 @@ if (PythonInterp)
     configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
     add_custom_command(OUTPUT ${OUTPUT}
-                       COMMAND ${PYTHON} ${SETUP_PY} build
+                       COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
-                       DEPENDS cmd)
+                       )
 
     add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
 
 
-  add_test(NAME pyNativeTests COMMAND ${PYTHON} ${PyMiniQbt_SOURCE_DIR}/tests/native_tests_without_allocating.py)
-  add_test(NAME pyThreadedTests COMMAND ${PYTHON} ${PyMiniQbt_SOURCE_DIR}/tests/multi_threaded_tests.py)
+  add_test(NAME pyNativeTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/native_tests_without_allocating.py)
+  add_test(NAME pyThreadedTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/multi_threaded_tests.py)
 #  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/IntepreterTests)
-  install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
+  install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} install)")
 endif()

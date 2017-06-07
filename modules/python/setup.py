@@ -1,21 +1,29 @@
 from distutils.core import setup, Extension
 import os
+import platform
+
+def getCompileArguments(){
+      if(platform.system() == 'windows'):
+            return []
+      else:
+            return ['-fPIC','-O3','-std=c++14']
+      
+}
 
 module = Extension(
       'MiniQbtNative', 
       language="c++",
       sources=[os.path.abspath('${PyMiniQbt_SOURCE_FILES}')],
- #     extra_compile_args = ['-fPIC','-O3','-std=c++14'],
+      extra_compile_args = getCompileArguments(),
       include_dirs = [
 		os.path.abspath('${EIGEN3_INCLUDE_DIRS}'),
 		os.path.abspath('${MiniQbt_SOURCE_DIR}/include/'),
 		os.path.abspath('${MiniQbt_BINARY_DIR}/include/')],
-	  libraries = ['MiniQbt','python36'],
+	  libraries = ['MiniQbt'],
 	  library_dirs = [
-	  os.path.abspath('${PyMiniQbt_LIB}'),'C:\\Program Files\\Python36\\libs'
+	  os.path.abspath('${PyMiniQbt_LIB}')
 	  ]
-	 # extra_link_args= []
-      #extra_link_args= ['-L/usr/local/lib', '-lMiniQbt']
+
 )
 
 

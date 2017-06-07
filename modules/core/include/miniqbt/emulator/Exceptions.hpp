@@ -4,11 +4,17 @@
 #include <string>
 
 namespace MiniQbt{
+
+    /**
+    *   Main exception thrown when something is wrong.
+    *   @author Heiko van der Heijden
+    */
     class QuantumException{
         private:
         std::string msg;
         public: 
         QuantumException(char const* msg){
+            
             this->msg = std::string(msg);
         }
 

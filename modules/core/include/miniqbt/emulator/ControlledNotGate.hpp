@@ -10,7 +10,7 @@ namespace MiniQbt{
 
         /**
         *   Applies a controlled not gate on a quantum state.
-        *   @Author Heiko van der Heijden
+        *   @author Heiko van der Heijden
         *   
         *   See the quantum state as a array wherein the index corresponds to the binary resperentation.
         *   Such as (register size 2) [0 == 00, 1 == 01, 2 == 10, 3 == 11]. When you want to flip bit 0 based on bit 1.

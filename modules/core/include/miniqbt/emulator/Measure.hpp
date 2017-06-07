@@ -11,7 +11,7 @@ namespace MiniQbt{
 
         /**
         *   Measures a quantumstate and returns the classic bitset.
-        *   @Author Heiko van der Heijden
+        *   @author Heiko van der Heijden
         *
         *   See the quantum state as a array wherein the index corresponds to the binary resperentation.
         *   Such as (register size 2) [0 == 00, 1 == 01, 2 == 10, 3 == 11]. When we want to measure the register we need to take a random number between 0 and 1.
