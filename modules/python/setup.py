@@ -2,13 +2,12 @@ from distutils.core import setup, Extension
 import os
 import platform
 
-def getCompileArguments(){
+def getCompileArguments():
       if(platform.system() == 'windows'):
             return []
       else:
             return ['-fPIC','-O3','-std=c++14']
       
-}
 
 module = Extension(
       'MiniQbtNative', 
