@@ -3,6 +3,7 @@
 
 
 TEST_CASE( "Learning parity with noise") {
+
     constexpr size_t MINIMAL_TEST_AMOUNT = 100;
     using namespace MiniQbt;
     typedef QuantumEmulator<5, false> DebugQuantum5;

@@ -4,6 +4,7 @@
 
 
 TEST_CASE( "hadamard with Controlled not") {
+
     using namespace MiniQbt;
 
     constexpr size_t MINIMAL_TEST_AMOUNT = 100;
@@ -70,22 +71,7 @@ TEST_CASE( "hadamard with Controlled not") {
         }
     }
     
-    constexpr char PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE[] = "Pauli x after hadamard and controlled not gate";
-    SECTION(PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE){
-        DebugQuantum5 emulator;
-        auto ent = emulator.generateRegister();
-        emulator.controlledNot(0,1, ent);
-        emulator.pauliX(0, ent);
-        for(size_t i = 0; i < MINIMAL_TEST_AMOUNT; i++){
-            try{
-                std::bitset<5> bitset = emulator.measure(ent, generator);
-                INFO(PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE << " failed because answer that has been given: " << bitset << " is wrong");
-                REQUIRE(bitset[5] != bitset[4]);//Bits are opposite of each other
-             } catch(const QuantumException& exp){
-                 FAIL(PAULI_X_AFTER_HADAMARD_AND_CONTROLLED_NOT_GATE << " failed with the exception " << exp.getMessage() );
-            }
-        }
-    }
+ 
     
     constexpr char QUADRUPLE_HADAMARD_WITH_IN_OTHER_ORDER_CNOT[] = "Quadruple hadamard with in other order CNOT";
     SECTION(QUADRUPLE_HADAMARD_WITH_IN_OTHER_ORDER_CNOT){

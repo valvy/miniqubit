@@ -8,7 +8,6 @@
 #include <memory>
 #include <ostream>
 #include "Exceptions.hpp"
-#include <unsupported/Eigen/KroneckerProduct>
 #include <cmath>
 
 

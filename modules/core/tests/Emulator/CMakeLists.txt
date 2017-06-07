@@ -18,9 +18,9 @@ include_directories(
     ../../include 
 )
 
-
+#add_subdirectory(${EXT_PROJECTS_DIR}/catch)
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 add_executable(emulatorTests ${srcfiles})
-target_link_libraries(emulatorTests Eigen3::Eigen)
+target_link_libraries(emulatorTests Eigen3::Eigen MiniQbt)
 
 add_test(NAME testEmulator COMMAND ${CMAKE_CURRENT_BINARY_DIR}/emulatorTests)

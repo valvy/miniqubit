@@ -2,7 +2,6 @@ cmake_minimum_required (VERSION 3.5)
 project(IntepreterTests)
 set (CMAKE_CXX_STANDARD 14)
 
-
 SET(srcfiles 
     Main.cpp
     SimpleAsyncTests.cpp
@@ -13,7 +12,7 @@ SET(srcfiles
 include_directories(
     ../../include 
 )
-
+#add_subdirectory(${EXT_PROJECTS_DIR}/catch)
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 add_executable(IntepreterTests ${srcfiles})
