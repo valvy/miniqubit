@@ -140,19 +140,25 @@ static PyObject* destroy_qasm_async_intepreter(PyObject* self, PyObject* args){
     if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
         return nullptr;
     }
-
+    bool found = false;
     asyncIntepreters.erase(
         std::remove_if(asyncIntepreters.begin(), asyncIntepreters.end(), 
-        [=](std::pair<int, MiniQbt::QasmAsyncIntepreter*> x) { 
+        [&found, &reference](std::pair<int, MiniQbt::QasmAsyncIntepreter*> x) { 
             if(x.first == reference){
                 delete x.second;
+                found = true;
                 return true;
             }
             return false;
         }), asyncIntepreters.end()
     );
-
-    return Py_BuildValue("");
+    if(found){
+        return Py_BuildValue("");
+    } else {
+        PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+        return nullptr;
+    }
+    
 }
 
 static PyObject* init_qasm_async_intepreter(PyObject* self, PyObject* args){
