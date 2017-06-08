@@ -20,7 +20,7 @@ if (PYTHONINTERP_FOUND)
 	if(WIN32)
 		set(
 			PyMiniQbt_LIB
-			${MiniQbt_BINARY_DIR}/x64/Debug
+			${CMAKE_BINARY_DIR}/x64/Release
 		)
 	else()
 		set(

@@ -22,7 +22,12 @@ set(MINIQBT_INCLUDE_DIRS ${MiniQbt_SOURCE_DIR}/include/ ${CMAKE_CURRENT_BINARY_D
 include_directories(${MINIQBT_INCLUDE_DIRS} )
 
 
-add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
+if(WIN32)
+	add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
+else()
+	add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
+endif()
+
 target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
 
 

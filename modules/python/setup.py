@@ -20,9 +20,9 @@ module = Extension(
 		os.path.abspath('${MiniQbt_BINARY_DIR}/include/')],
 	  libraries = ['MiniQbt'],
 	  library_dirs = [
-	  	os.path.abspath('${PyMiniQbt_LIB}')
+	  	os.path.abspath('${PyMiniQbt_LIB}/')
 	  ],
-       runtime_library_dirs=[os.path.abspath('${PyMiniQbt_LIB}')] 
+      runtime_library_dirs=[os.path.abspath('${PyMiniQbt_LIB}/')] 
 #      extra_link_args=['-static'] 
 	  
 )
