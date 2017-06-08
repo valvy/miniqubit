@@ -10,7 +10,7 @@ def getCompileArguments():
       
 
 module = Extension(
-      'MiniQbtNative', 
+      name='MiniQbtNative', 
       language="c++",
       sources=[os.path.abspath('${PyMiniQbt_SOURCE_FILES}')],
       extra_compile_args = getCompileArguments(),
@@ -21,7 +21,8 @@ module = Extension(
 	  libraries = ['MiniQbt'],
 	  library_dirs = [
 	  	os.path.abspath('${PyMiniQbt_LIB}')
-	  ]#, 
+	  ],
+       runtime_library_dirs=[os.path.abspath('${PyMiniQbt_LIB}')] 
 #      extra_link_args=['-static'] 
 	  
 )

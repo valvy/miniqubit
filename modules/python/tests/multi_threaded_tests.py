@@ -7,7 +7,8 @@ class NativeTests(unittest.TestCase):
 
     def thread(self):
         
-        for x in range(0, 400):
+        for x in range(0, 200):
+            print(x)
             x = QasmAsyncIntepreter()
             x.intepret("qreg q[1]; creg c[1]; x q; measure q -> c;")
             self.assertFalse(x.hasErrors())
@@ -36,8 +37,8 @@ class NativeTests(unittest.TestCase):
     def test_ten_threads(self):
         self.activate_multiple_threads(10)
 
-    def test_thirty_threads(self):
-        self.activate_multiple_threads(30)
+    def test_twenty_threads(self):
+        self.activate_multiple_threads(20)
 
     
 
