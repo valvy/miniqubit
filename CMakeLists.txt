@@ -2,14 +2,21 @@ cmake_minimum_required (VERSION 3.5)
 project(miniQbt)
 
 LIST( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
+
+include(ExternalProject)
 include(externalCatch)
 
 
-SET(miniqbt_destination "bin")
-SET(miniqbt_lib_destination "lib")
-SET(miniqbt_include_destination "include")
+set(miniQbt_MAJOR_VERSION 0)
+set(miniQbt_MINOR_VERSION 5)
+set(miniQbt_PATCH_VERSION 0)
+set(miniQbt_version ${miniQbt_MAJOR_VERSION}.${miniQbt_MINOR_VERSION}.${miniQbt_PATCH_VERSION})
+set(miniQbt_name MiniQbt)
+
+set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
+set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
+
 enable_testing ()
-add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
-add_subdirectory(MiniQbt)
-add_subdirectory(cli)
+add_subdirectory(modules)
 

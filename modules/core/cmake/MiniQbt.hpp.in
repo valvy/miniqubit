@@ -1,0 +1,12 @@
+#ifndef MINI_QBT
+#define MINI_QBT
+
+#include "miniqbt/emulator/MiniQbtEmulator.hpp"
+#include "miniqbt/intepreter/QasmAsyncIntepreter.hpp"
+
+namespace MiniQbt{
+    constexpr char VERSION[] = "${miniQbt_version}";
+    constexpr char NAME[] = "${miniQbt_name}";
+}
+
+#endif
