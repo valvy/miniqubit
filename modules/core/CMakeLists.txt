@@ -51,7 +51,7 @@ foreach(p LIB BIN INCLUDE CMAKE)
 endforeach()
 
 #setup tests
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
 
 
