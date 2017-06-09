@@ -1,24 +1,20 @@
 # Miniqbt, a runtime for the IBM Quantum experience
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
-MiniQbt is a emulator for the IBM quantum experience, the scope:
+MiniQbt is a emulator for the IBM quantum experience, with a generic amount of qubits and classical bits.
 
-1.  Emulate a quantum computer with generic amount of qubits and classical bits
-2.  Parse and execute [openQASM](https://github.com/IBM/qiskit-openqasm) files
-3.  Easy and understandable code is preferred instead of highly optimized code
+## installation
+The best way of installation is to compile the program from source. For this you need to install the following dependancies. Please consult the individual tools for help.
+1. Eigen3 (Compile from source at the website since some linux distros only have an old version in the repositories)
+2. CMake
+3. Python3 and the native development tools for python3
+4. Git
+5. Please use for Windows the Visual studio 2015 or later.
 
-
-## Command line interface usage
-You can execute quantum algorithms using the miniqbt binary. The cap is 20 although this takes quite a while. 
-To read from a file just pass the name into the arguments.
-
-The runtime also contains a REPL allowing you execute commands on the fly.
-![alt tag](https://raw.github.com/valvy/miniqubit/master/media/miniqbtScreen.png)
-
+When done create a new build folder and let Cmake unpack everything there.
 
 
 ## Library usage
-
 You can simply load in quantum source code like this.
 
 ```c++
@@ -50,27 +46,17 @@ You can simply load in quantum source code like this.
         std::cout << "\n";
     }
 ```
-Or you can handle the quantum instructions in c++ aswell.
-```c++
-    #include <miniqbt/MiniQbt.hpp>
-    #include <iostream>
+The library has a wrapper for python3
+```python
+    from MiniQbt.Intepreter import QasmAsyncIntepreter
 
-    int main(int argc, char** argv){
-        using namespace MiniQbt;
-        //5 = Create a quantum emulator of 5 qubits
-        //false = Allow for remeasurement
-        QuantumEmulator<5, false> quantumEmulator;
-        //Generate a register of 5 qubits
-        auto quantumRegister = quantumEmulator.generateRegister();
-        //Apply the hadamard gate on the first qubit
-        quantumEmulator.hadamardGate(0, quantumRegister);
-
-        std::random_device rd;
-        std::default_random_engine generator(rd());
-        //measure with a random number        
-        std::bitset<5> bitset = quantumEmulator.measure(ent, generator);
-        std::cout << "Result of the quantum algorithm : " << bitset << "\n";
-    }
+    source = "OPENQASM 2.0; include \"qelib1.inc\";  qreg q[1]; creg c[1]; h q[0]; measure q[0] -> c[0];"
+    intepreter = QasmAsyncIntepreter()
+    result = intepreter.readClassicRegister("c")
+    while intepreter.hasErrors():
+        print(intepreter.getError())
+    print("result of the algorithm: ")
+    print(result)
 
 ```
 
