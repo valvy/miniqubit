@@ -13,9 +13,9 @@ namespace MiniQbt{
 
         class LinkedRegister{
             std::shared_ptr<AbstractRegister> link;
-            size_t position;
+            int position;
             public:
-            LinkedRegister(std::shared_ptr<AbstractRegister> link, size_t position){
+            LinkedRegister(std::shared_ptr<AbstractRegister> link, int position){
                 this->link = link;
                 this->position = position;
             }

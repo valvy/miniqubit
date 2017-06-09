@@ -11,10 +11,10 @@ namespace MiniQbt{
         class AbstractRegister;
 
         struct Bit{
-                size_t bitPos;
-                size_t quantumPos;
+                int bitPos;
+                int quantumPos;
                 std::string link;
-                Bit(size_t bitPos, size_t quantumPos, std::string link) :
+                Bit(int bitPos, int quantumPos, std::string link) :
                 bitPos(bitPos), quantumPos(quantumPos), link(link) { }      
          };
 
@@ -22,14 +22,14 @@ namespace MiniQbt{
             private:
             std::string name;
             std::vector<Bit> data;
-            size_t size;
+            int size;
             public:
-            ClassicRegister(std::string name, size_t size) : name(name), size(size){}
+            ClassicRegister(std::string name, int size) : name(name), size(size){}
             Bit operator[] (int position) const;
             std::string getName() const;
-            void setSize(const size_t& size);
-            size_t getSize() const { return size; }
-            bool linkRegister(size_t bitPos, size_t quantumPos, const std::string& link, std::string& errorMsg);
+            void setSize(const int& size);
+            int getSize() const { return size; }
+            bool linkRegister(int bitPos, int quantumPos, const std::string& link, std::string& errorMsg);
         };
     }
 }

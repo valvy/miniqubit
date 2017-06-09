@@ -45,7 +45,7 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
     std::vector<bool> result;
     for(const ClassicRegister& classicReg : classicRegisters){
         if(classicReg.getName() == name){
-            for(size_t i = 0; i < classicReg.getSize(); i++ ){
+            for(int i = 0; i < classicReg.getSize(); i++ ){
                 const Bit bit = classicReg[classicReg.getSize() - i - 1];
                // const Bit bit = classicReg[ i ];
                 if(bit.link == ""){
@@ -155,7 +155,7 @@ void TokenVisitor::visit(MeasureToken& measure){
 
 
                         std::string errorMsg = "";
-                        for(size_t i = 0; i < cReg.getSize(); i++){
+                        for(int i = 0; i < cReg.getSize(); i++){
                             if(!cReg.linkRegister(i,i, qReg->getName(), errorMsg)){
                                 errors.push_back(errorMsg);
                             }
@@ -176,8 +176,8 @@ void TokenVisitor::visit(MeasureToken& measure){
 
 void TokenVisitor::visit(QuantumRegisterToken& registe){
     if(registerDoesExist(registe.getName())){
-        size_t remove = 0;
-        for(size_t i = 0; i < quantumRegisters.size(); i++){
+        int remove = 0;
+        for(int i = 0; i < quantumRegisters.size(); i++){
             if(quantumRegisters[i]->getName() == registe.getName()){
                 delete quantumRegisters[i];
                 remove = i;
