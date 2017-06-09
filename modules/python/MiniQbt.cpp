@@ -89,6 +89,26 @@ static PyObject* qasm_async_intepreter_get_registers(PyObject* self, PyObject* a
     return nullptr;
 }
 
+static PyObject* qasm_async_get_quantum_registers(PyObject* self, PyObject* args){
+    int reference = 0;
+    const char* command;
+    if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
+        return nullptr;
+    }
+    for(auto& intepreters : asyncIntepreters){
+        if(intepreters.first == reference){
+            PyObject* result = PyList_New(0);
+            for(const std::string& d : intepreters.second->getQuantumRegisters()){
+                PyList_Append(result,Py_BuildValue("s",d.c_str()));
+            }
+            return result;
+        }
+    }
+    PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+    return nullptr;
+}
+
+
 static PyObject* qasm_async_intepreter_get_error(PyObject* self, PyObject* args){
     int reference = 0;
     const char* command;
@@ -161,6 +181,30 @@ static PyObject* destroy_qasm_async_intepreter(PyObject* self, PyObject* args){
     
 }
 
+static PyObject* qasm_async_intepreter_reset_super_position(PyObject* self, PyObject* args){
+    int reference = 0;
+    const char* name;
+    const char* command;
+    if(!PyArg_ParseTuple(args, "(si)s",&command, &reference, &name)){ 
+        return nullptr;
+    }
+    bool found = false;
+    for(auto& intepreters : asyncIntepreters){
+        if(intepreters.first == reference){
+            found = true;
+            intepreters.second->resetSuperPosition(std::string(name));
+            break;
+        }
+    }
+
+    if(found){
+        return Py_BuildValue("");
+    } else {
+        PyErr_SetString(MiniQbtNativeException, "Invalid reference");
+        return nullptr;
+    }
+}
+
 static PyObject* init_qasm_async_intepreter(PyObject* self, PyObject* args){
     int nr = getUniqueNumber();     
     asyncIntepreters.push_back(
@@ -201,6 +245,12 @@ static PyMethodDef MiniQbtMethods[] = {
         "Initializes the asynchronous intepreter"
     },
     {
+        "qasm_async_intepreter_reset_super_position",
+        qasm_async_intepreter_reset_super_position,
+        METH_VARARGS,
+        "Resets the quantum register to a quantum state. This is not possible on real quantum computers"
+    },
+    {
         "async_intepret",
         qasm_async_intepret,
         METH_VARARGS,
@@ -211,6 +261,12 @@ static PyMethodDef MiniQbtMethods[] = {
         destroy_qasm_async_intepreter,
         METH_VARARGS,
         ""
+    },
+    {
+        "qasm_async_get_quantum_registers",
+        qasm_async_get_quantum_registers,
+        METH_VARARGS,
+        "Gets all the quantum registers"
     },
     {
         "qasm_async_read_classic_register",

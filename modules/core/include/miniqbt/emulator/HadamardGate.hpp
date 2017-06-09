@@ -23,8 +23,8 @@ namespace MiniQbt{
         *   @param state,               The state containing all the information
         *   @throws QuantumException    When the program is in strictmode and is already collapsed, also when the controlbit is invalid
         */
-        template<size_t registerSize, bool strictMode = true>
-        void hadamardGate(const size_t& bit_index, QuantumState<registerSize>& state){
+        template<int registerSize, bool strictMode = true>
+        void hadamardGate(const int& bit_index, QuantumState<registerSize>& state){
             using namespace Tools;
             assertInput(bit_index > registerSize - 1, "The control bit must be within range of the amount of qbits residing in this state..");
             if(strictMode){
@@ -35,7 +35,7 @@ namespace MiniQbt{
             */
             constexpr double F = 0.7071067811865476;
             std::array<ChanceOrder<registerSize>, Tools::vectorLength<registerSize>::value> everything;
-            for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+            for(int i = 0; i < state.getAmountOfPossibilities(); i++){
                 everything[i] = ChanceOrder<registerSize>(i, state.getState()(i,0));
             }
             std::array<ChanceOrder<registerSize>, Tools::vectorLength<registerSize>::value> copy = everything;

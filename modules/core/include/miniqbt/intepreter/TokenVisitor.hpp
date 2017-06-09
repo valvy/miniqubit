@@ -22,12 +22,18 @@ namespace MiniQbt{
             TokenVisitor();
             bool hasErrors() const;
             std::vector<std::string> getClassicRegisters() const;
+            std::vector<std::string> getQuantumRegisters() const;
             std::vector<bool> getClassicRegister(const std::string& name);
             std::string getError();
+            void resetSuperPosition(const std::string& quantumRegister);
             bool doesRegisterExists(const std::string& registerName) const;
             void visit(PauliXToken& pauliGate);
             void visit(PauliYToken& pauliGate);
             void visit(PauliZToken& pauliGate);
+            void visit(PhaseSToken& phaseSToken);
+            void visit(PhaseSDGToken& phaseSDGToken);
+            void visit(PhaseTToken& phaseTToken);
+            void visit(PhaseTDGToken& phaseTDGToken);
             void visit(ClassicRegisterToken& regist);
             void visit(HadamardGateToken& hadamard);
             void visit(MeasureToken& measure);

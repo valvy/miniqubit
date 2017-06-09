@@ -12,6 +12,9 @@ SET(srcfiles
 include_directories(
     ../../include 
 )
+if(NOT WIN32)
+    ADD_DEFINITIONS( "-g -Wall -fPIC -Werror" )
+endif()
 #add_subdirectory(${EXT_PROJECTS_DIR}/catch)
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})

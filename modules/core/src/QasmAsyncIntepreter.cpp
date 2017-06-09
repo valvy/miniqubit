@@ -11,6 +11,14 @@ bool QasmAsyncIntepreter::doesRegisterExists(const std::string& registerName) co
     return visitor.doesRegisterExists(registerName);
 }
 
+void QasmAsyncIntepreter::resetSuperPosition(const std::string& quantumRegister){
+    visitor.resetSuperPosition(quantumRegister);
+}
+
+std::vector<std::string> QasmAsyncIntepreter::getQuantumRegisters() const{
+    return visitor.getQuantumRegisters();
+}
+
 std::vector<std::string> QasmAsyncIntepreter::getRegisters() const{
     return visitor.getClassicRegisters();
 }

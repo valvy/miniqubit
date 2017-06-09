@@ -64,23 +64,25 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
     }
     if(m[1] == "qreg" && targetBit != -1){
         return std::shared_ptr<Token>(new QuantumRegisterToken(m[2],targetBit));
-    }
-    else if(m[1] == "creg" && targetBit != -1){
+    } else if(m[1] == "creg" && targetBit != -1){
         return std::shared_ptr<Token>(new ClassicRegisterToken(m[2], targetBit));
-    }
-    else if(m[1] == "x"){
+    } else if(m[1] == "x"){
         return std::shared_ptr<Token>(new PauliXToken (m[2],targetBit));
-    }
-    else if(m[1] == "z"){
+    } else if(m[1] == "z"){
         return std::shared_ptr<Token>(new PauliZToken (m[2],targetBit));
-    }
-    else if(m[1] == "y"){
+    } else if(m[1] == "y"){
         return std::shared_ptr<Token>(new PauliYToken (m[2],targetBit));
-    }
-    else if(m[1] == "h"){
+    } else if(m[1] == "h"){
         return std::shared_ptr<Token>(new HadamardGateToken(m[2],targetBit));
+    } else if(m[1] == "s"){
+        return std::shared_ptr<Token>(new PhaseSToken(m[2],targetBit));
+    } else if (m[1] == "sdg"){
+        return std::shared_ptr<Token>(new PhaseSDGToken(m[2],targetBit));
+    } else if (m[1] == "t"){
+        return std::shared_ptr<Token>(new PhaseTToken(m[2],targetBit));
+    } else if (m[1] == "tdg"){
+        return std::shared_ptr<Token>(new PhaseTDGToken(m[2],targetBit));
     }
-
 
     std::regex regex_measure("\\s*(measure)\\s*([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?\\s+->\\s+([a-z|A-Z]+)\\s?\\[?([0-9])*\\]?;",std::regex::ECMAScript);
     std::regex_match(line, m, regex_measure);
@@ -114,11 +116,10 @@ std::shared_ptr<MiniQbt::Core::Token> MiniQbt::Core::parseToken(const std::strin
         return std::shared_ptr<Token>(new IncludeToken(m[2]));
     }
 
-    //Alright check for a custom command
-    std::regex regex_unknown_gate("\\s*([a-z|A-Z|0-9]+)\\s*([^;]+);",std::regex::ECMAScript);
-    if(m[1] != ""){
-        return std::shared_ptr<Token>(new UnkownGateToken(m[1], "",m[2]));
+    std::regex regex_barrier("\\s*(barrier)[^;]*;",std::regex::ECMAScript);
+    std::regex_match(line, m, regex_barrier);
+    if(m[1] == "barrier"){
+        return std::shared_ptr<Token>(new BarrierToken());
     }
-
     return std::shared_ptr<Token>(new ErrorToken("Invalid token: " + line));  
 }

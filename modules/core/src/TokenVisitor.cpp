@@ -7,6 +7,9 @@ TokenVisitor::TokenVisitor(){
 
 }
 
+
+
+
 bool TokenVisitor::doesRegisterExists(const std::string& registerName) const{
     for(const ClassicRegister& reg : classicRegisters){
         if(reg.getName() == registerName){
@@ -35,7 +38,54 @@ std::vector<std::string> TokenVisitor::getClassicRegisters() const{
     return result;
 }
 
+std::vector<std::string> TokenVisitor::getQuantumRegisters() const{
+    std::vector<std::string> result;
+    for(const AbstractRegister* reg : quantumRegisters){
+        result.push_back(reg->getName());
+    }
+    return result;
+}
 
+
+void TokenVisitor::visit(PhaseSToken& phaseSToken){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == phaseSToken.getName()){
+            reg->visit(phaseSToken);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + phaseSToken.getName() + " Does not exist..");
+}
+
+void TokenVisitor::visit(PhaseSDGToken& phaseSDGToken){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == phaseSDGToken.getName()){
+            reg->visit(phaseSDGToken);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + phaseSDGToken.getName() + " Does not exist..");
+}
+
+void TokenVisitor::visit(PhaseTToken& phaseTToken){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == phaseTToken.getName()){
+            reg->visit(phaseTToken);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + phaseTToken.getName() + " Does not exist..");
+}
+
+void TokenVisitor::visit(PhaseTDGToken& phaseTDGToken){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == phaseTDGToken.getName()){
+            reg->visit(phaseTDGToken);
+            return;
+        }
+    }
+    errors.push_back( "Variable :  " + phaseTDGToken.getName() + " Does not exist..");
+}
 
 void TokenVisitor::visit(GateToken& gate){
     customGates.push_back(gate);
@@ -102,6 +152,8 @@ bool TokenVisitor::registerDoesExist(const std::string& name) const{
     return false;
 }
 
+
+
 void TokenVisitor::visit(PauliXToken& pauliGate){
     for(AbstractRegister* reg : quantumRegisters){
         if(reg->getName() == pauliGate.getName()){
@@ -130,6 +182,16 @@ void TokenVisitor::visit(PauliZToken& pauliGate){
         }
     }
     errors.push_back( "Variable :  " + pauliGate.getName() + " Does not exist..");
+}
+
+void TokenVisitor::resetSuperPosition(const std::string& quantumRegister){
+    for(AbstractRegister* reg : quantumRegisters){
+        if(reg->getName() == quantumRegister){
+            reg->resetSuperPosition();
+            return;
+        }
+    }
+    errors.push_back( "Quantum register :  " +  quantumRegister + " Does not exist..");
 }
 
 void TokenVisitor::visit(HadamardGateToken& hadamard){
@@ -177,7 +239,7 @@ void TokenVisitor::visit(MeasureToken& measure){
 void TokenVisitor::visit(QuantumRegisterToken& registe){
     if(registerDoesExist(registe.getName())){
         int remove = 0;
-        for(int i = 0; i < quantumRegisters.size(); i++){
+        for(size_t i = 0; i < quantumRegisters.size(); i++){
             if(quantumRegisters[i]->getName() == registe.getName()){
                 delete quantumRegisters[i];
                 remove = i;

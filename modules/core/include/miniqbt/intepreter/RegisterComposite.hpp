@@ -12,16 +12,21 @@ namespace MiniQbt{
             virtual void visit(PauliXToken& pauliGate) = 0;
             virtual void visit(PauliYToken& pauliGate) = 0;
             virtual void visit(PauliZToken& pauliGate) = 0;
+            virtual void visit(PhaseSToken& phaseSToken) = 0;
+            virtual void visit(PhaseSDGToken& phaseSDGToken) = 0;
+            virtual void visit(PhaseTToken& phaseTToken) = 0;
+            virtual void visit(PhaseTDGToken& phaseTDGToken) = 0;
             virtual void visit(HadamardGateToken& hadamard) = 0;
             virtual void visit(CNotToken& cnot) = 0;
-            virtual size_t getSize() const = 0;
+            virtual void resetSuperPosition() = 0;
+            virtual int getSize() const = 0;
             virtual bool operator[](int pos) const = 0;
             virtual void collapse() = 0;
             virtual std::string getName() const = 0;
             virtual ~AbstractRegister(){ }
         };
 
-        template<size_t registerSize, bool strictMode = false>
+        template<int registerSize, bool strictMode = false>
         class RegisterComposite : public AbstractRegister{
             std::string name;
             MiniQbt::QuantumEmulator<registerSize, strictMode> emulator;
@@ -34,7 +39,7 @@ namespace MiniQbt{
 
             }
             
-            virtual size_t getSize() const override{
+            virtual int getSize() const override{
                 return registerSize;
             }
 
@@ -51,16 +56,60 @@ namespace MiniQbt{
                    // std::cout << collapsedResult << "\n";
                 }
             }
+            
+            virtual void resetSuperPosition() override {
+                collapsed = false;
+            }
+
+            virtual void visit(PhaseSToken& phaseSToken) override{
+                if(phaseSToken.linkEntireToken()){
+                    for(int i = 0; i < registerSize; i++){
+                        emulator.phaseS(i,state);
+                    }
+                } else {
+                    emulator.phaseS(phaseSToken.getSize(), state);
+                }
+            }
+
+            virtual void visit(PhaseSDGToken& phaseSDGToken) override{
+                if(phaseSDGToken.linkEntireToken()){
+                    for(int i = 0; i < registerSize; i++){
+                        emulator.phaseSDG(i,state);
+                    }
+                } else {
+                    emulator.phaseSDG(phaseSDGToken.getSize(), state);
+                }
+            }
+
+            virtual void visit(PhaseTToken& phaseTToken) override{
+                if(phaseTToken.linkEntireToken()){
+                    for(int i = 0; i < registerSize; i++){
+                        emulator.phaseT(i,state);
+                    }
+                } else {
+                    emulator.phaseT(phaseTToken.getSize(), state);
+                }
+            }
+
+            virtual void visit(PhaseTDGToken& phaseTDGToken) override{
+                if(phaseTDGToken.linkEntireToken()){
+                    for(int i = 0; i < registerSize; i++){
+                        emulator.phaseTDG(i,state);
+                    }
+                } else {
+                    emulator.phaseTDG(phaseTDGToken.getSize(), state);
+                }
+            }
 
             virtual void visit(CNotToken& cnot) override{
-                size_t lh = cnot.getLeftHandIndex();
-                size_t rh = cnot.getRightHandIndex();
+                int lh = cnot.getLeftHandIndex();
+                int rh = cnot.getRightHandIndex();
                 emulator.controlledNot(lh,rh , state);
             }
 
             virtual void visit(PauliXToken& pauliGate) override{
                 if(pauliGate.linkEntireToken()){
-                    for(size_t i = 0; i < registerSize; i++){
+                    for(int i = 0; i < registerSize; i++){
                         emulator.pauliX(i, state);
                     }
                 } else {
@@ -72,7 +121,7 @@ namespace MiniQbt{
 
             virtual void visit(PauliYToken& pauliGate) override{
                 if(pauliGate.linkEntireToken()){
-                    for(size_t i = 0; i < registerSize; i++){
+                    for(int i = 0; i < registerSize; i++){
                         emulator.pauliY(i, state);
                     }
                 } else {
@@ -82,7 +131,7 @@ namespace MiniQbt{
 
             virtual void visit(PauliZToken& pauliGate) override{
                 if(pauliGate.linkEntireToken()){
-                    for(size_t i = 0; i < registerSize; i++){
+                    for(int i = 0; i < registerSize; i++){
                         emulator.pauliZ(i, state);
                     }
                 } else {
@@ -93,7 +142,7 @@ namespace MiniQbt{
 
             virtual void visit(HadamardGateToken& hadamard) override{
                 if(hadamard.linkEntireToken()){
-                    for(size_t i = 0; i < registerSize; i++){
+                    for(int i = 0; i < registerSize; i++){
                         emulator.hadamardGate(i, state);
                     }
                 } else {

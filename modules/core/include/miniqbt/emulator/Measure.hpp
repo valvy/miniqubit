@@ -24,7 +24,7 @@ namespace MiniQbt{
         *   @param generator,           The generator deciding the random number
         *   @throws QuantumException,   When the state is already collapsed in strictmode or when the state was invalid
         */
-        template<size_t registerSize, bool strictMode = true>
+        template<int registerSize, bool strictMode = true>
         std::bitset<registerSize> measure (QuantumState<registerSize>& state, std::default_random_engine& generator){
             if(strictMode){
                 if(!state.usable()){
@@ -37,7 +37,7 @@ namespace MiniQbt{
             const double rand = distribution(generator);//Getting a random double between 0.0 and 
             int collapsedResult = 0;
             double sum = 0.0;
-            for(size_t i = 0; i < s.rows(); i++){
+            for(int i = 0; i < s.rows(); i++){
                     collapsedResult++;
                     double norm = std::norm(s(i,0));
                     sum += norm;

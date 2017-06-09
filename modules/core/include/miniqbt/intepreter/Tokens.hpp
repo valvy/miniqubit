@@ -80,6 +80,11 @@ namespace MiniQbt{
             virtual void accept(TokenVisitor& visitor) override;
         };
 
+        class BarrierToken : public Token{
+            public:
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+
         class AssemblyVersionToken : public Token{
             std::string version;
             public:
@@ -130,6 +135,61 @@ namespace MiniQbt{
             virtual void accept(TokenVisitor& visitor) override;
 
         };
+
+        class PhaseSToken : public MassAddToken{
+            std::string name;
+            public:
+            PhaseSToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PhaseSToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
+            std::string getName() const { return this->name; }
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+
+        class PhaseSDGToken : public MassAddToken{
+            std::string name;
+            public:
+            PhaseSDGToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PhaseSDGToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
+            std::string getName() const { return this->name; }
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+        
+
+        class PhaseTToken : public MassAddToken{
+            std::string name;
+            public:
+            PhaseTToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PhaseTToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
+            std::string getName() const { return this->name; }
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+
+
+        class PhaseTDGToken : public MassAddToken{
+            std::string name;
+            public:
+            PhaseTDGToken(std::string name, int size) : MassAddToken(size) {
+                this->name = name;
+            }
+            PhaseTDGToken(std::string name) : MassAddToken(-1) {
+                this->name = name;
+            }
+            std::string getName() const { return this->name; }
+            virtual void accept(TokenVisitor& visitor) override;
+        };
+    
 
         class PauliZToken : public MassAddToken{
             std::string name;

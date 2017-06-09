@@ -35,7 +35,7 @@ else:
 			os.path.abspath('${MiniQbt_SOURCE_DIR}/include/'),
 			os.path.abspath('${MiniQbt_BINARY_DIR}/include/')],
 		libraries = ['MiniQbt'],
-		runtime_library_dirs=[os.path.abspath('${PyMiniQbt_LIB}/')]
+		runtime_library_dirs=['${PyMiniQbt_LIB}/']
 	)
 		  
 	

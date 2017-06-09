@@ -15,7 +15,7 @@
 namespace MiniQbt{
     namespace Core{
 
-        template<size_t registerSize>
+        template<int registerSize>
         class QuantumState {
             private:
             bool invalid = false;
@@ -24,7 +24,7 @@ namespace MiniQbt{
             QuantumState(){
                 this->data = Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>::Zero(std::pow(2,registerSize));
                 data(0,0) = 1;
-                for(size_t i = 1; i < this->data.rows(); i++){
+                for(int i = 1; i < this->data.rows(); i++){
                     data(i,0) = 0;
                 }
             }
@@ -41,7 +41,7 @@ namespace MiniQbt{
             Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> getState() const{
                 return this->data;
             }
-            size_t getAmountOfPossibilities() const{
+            int getAmountOfPossibilities() const{
                 return this->data.rows();
             }
             QuantumState& operator=(const Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1>& lh){

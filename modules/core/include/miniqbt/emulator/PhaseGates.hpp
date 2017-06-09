@@ -6,14 +6,14 @@
 namespace MiniQbt{
     namespace Core{
 
-        template<size_t registerSize>
-        void phaseS(const size_t& bit_index, QuantumState<registerSize>& state, bool transpose = false){
+        template<int registerSize>
+        void phaseS(const int& bit_index, QuantumState<registerSize>& state, bool transpose = false){
             using namespace Tools;
 			
             assertInput(bit_index >= registerSize, "Bit index exceeds the registerSize");
             std::array<ChanceOrder<registerSize>, Tools::vectorLength<registerSize>::value> everything;
             const std::complex<double> imag(0,(transpose)? -1 : 1);
-            for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+            for(int i = 0; i < state.getAmountOfPossibilities(); i++){
                 ChanceOrder<registerSize> ord(i, state.getState()(i,0));
                 if(ord[bit_index] == 1){
                     ord.data = imag * ord.data;
@@ -29,8 +29,8 @@ namespace MiniQbt{
 
         }
 
-        template<size_t registerSize>
-        void phaseT(const size_t& bit_index, QuantumState<registerSize>& state, bool transpose = false){
+        template<int registerSize>
+        void phaseT(const int& bit_index, QuantumState<registerSize>& state, bool transpose = false){
             using namespace Tools;
             assertInput(bit_index >= registerSize, "Bit index exceeds the registerSize");
 			constexpr double PI = 3.141592653589793238462643383279502884197;
@@ -39,7 +39,7 @@ namespace MiniQbt{
             const std::complex<double> imag(0,(transpose)? -1 : 1);
             const std::complex<double> multi = std::pow(E, imag * PI / 4.0);
 
-            for(size_t i = 0; i < state.getAmountOfPossibilities(); i++){
+            for(int i = 0; i < state.getAmountOfPossibilities(); i++){
                 ChanceOrder<registerSize> ord(i, state.getState()(i,0));
                 if(ord[bit_index] == 1){
                     ord.data = multi * ord.data;

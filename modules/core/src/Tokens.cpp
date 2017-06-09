@@ -4,7 +4,26 @@
 
 using namespace MiniQbt::Core;
 
+void PhaseSToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
 
+void PhaseSDGToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
+
+void PhaseTDGToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
+
+
+void PhaseTToken::accept(TokenVisitor& visitor){
+    visitor.visit(*this);
+}
+
+void BarrierToken::accept(TokenVisitor& visitor){
+    //do nothing
+}
 
 GateToken::GateToken(const std::string& data){
     std::regex parseToken("\\s*gate\\s*([a-z|A-Z|0-9]+)\\s*\\(?([^\\)]*)\\)?\\s*([^{]*)\\{([^}]*)\\}", std::regex::ECMAScript);
@@ -17,7 +36,7 @@ GateToken::GateToken(const std::string& data){
 }
 
 
-UnkownGateToken:: UnkownGateToken(const std::string& name, const std::string classicArguments, const std::string quantumArguments){
+UnkownGateToken::UnkownGateToken(const std::string& name, const std::string classicArguments, const std::string quantumArguments){
     this->name = name;
 }
 

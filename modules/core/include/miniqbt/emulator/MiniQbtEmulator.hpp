@@ -16,7 +16,7 @@ namespace MiniQbt{
     *   Facade class containing all the quantum gates and allows for generating quantum registers.
     *   @author Heiko van der Heijden.
     */
-    template<size_t registerSize, bool strictMode = true>
+    template<int registerSize, bool strictMode = true>
     struct QuantumEmulator{
         /**
         *   Generates a quantum register to be used on this quantum emulator.
@@ -31,7 +31,7 @@ namespace MiniQbt{
         *   @param bit, the bit index you wish to apply the quantum gate on.
         *   @param state, the quantum register you wish to apply the hadamard gate on.
         */
-        void hadamardGate(const size_t& bit, Core::QuantumState<registerSize>& state) const{
+        void hadamardGate(const int& bit, Core::QuantumState<registerSize>& state) const{
             Core::hadamardGate<registerSize, strictMode>(bit,state);
         }
 
@@ -41,7 +41,7 @@ namespace MiniQbt{
         *   @param target, the target bit you wish to flip based on the control.
         *   @param state, the state you wish to alter.
         */
-        void controlledNot(const size_t& control, const size_t& target, Core::QuantumState<registerSize>& state) const{
+        void controlledNot(const int& control, const int& target, Core::QuantumState<registerSize>& state) const{
             Core::cnotGate<registerSize>(control,target,state);
         }
 
@@ -59,7 +59,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to flip.
         *   @param state, the register you wish to alter.
         */
-        void pauliX(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void pauliX(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliX<registerSize>(bit_index, state);
         }
 
@@ -68,7 +68,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void pauliY(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void pauliY(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliY<registerSize>(bit_index, state);
         }
 
@@ -77,7 +77,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void pauliZ(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void pauliZ(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::pauliZ<registerSize>(bit_index, state);
         }
 
@@ -86,7 +86,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void phaseS(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void phaseS(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseS<registerSize>(bit_index, state, false);
         }
 
@@ -95,7 +95,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void phaseSDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void phaseSDG(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseS<registerSize>(bit_index, state, true);
         }
 
@@ -104,7 +104,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void phaseT(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void phaseT(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseT<registerSize>(bit_index, state, false);
         }
 
@@ -114,7 +114,7 @@ namespace MiniQbt{
         *   @param bit_index, the qubit you wish to alter.
         *   @param state, the register you wish to alter.
         */
-        void phaseTDG(const size_t& bit_index, Core::QuantumState<registerSize>& state) const{
+        void phaseTDG(const int& bit_index, Core::QuantumState<registerSize>& state) const{
             Core::phaseT<registerSize>(bit_index, state, true);
         }
         

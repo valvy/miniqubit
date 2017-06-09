@@ -9,6 +9,12 @@ class QasmAsyncIntepreter:
     def __init__(self):
         self.__pointer = MiniQbtNative.init_qasm_async_intepreter(self)
 
+    def resetSuperPosition(self, quantumRegister):
+        return MiniQbtNative.qasm_async_intepreter_reset_super_position(self.__pointer, quantumRegister)
+
+    def getQuantumRegisters(self):
+        return MiniQbtNative.qasm_async_get_quantum_registers(self.__pointer)
+
     def intepret(self, source):
         '''
         Inteprets a block of quantum assembly code.

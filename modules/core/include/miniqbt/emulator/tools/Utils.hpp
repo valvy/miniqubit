@@ -13,7 +13,7 @@ namespace MiniQbt{
             /*
             *   On compile time power of 2 to registerSize
             */
-            template<size_t registerSize> 
+            template<int registerSize> 
             struct vectorLength{ enum { value = 2 * vectorLength<registerSize-1>::value}; };
             template<> 
             struct vectorLength<0>{ enum { value = 1 }; };
@@ -26,9 +26,9 @@ namespace MiniQbt{
             *   when the first bit is static on three bit state: [[000,001,010,011],[100,101,110,111]].
             *   It will return always two vectors with the order
             */
-            template<size_t registerSize> 
+            template<int registerSize> 
             std::array<std::array<ChanceOrder<registerSize>, vectorLength<registerSize>::value / 2> ,2> 
-            orderByBit(const size_t bit_index, const QuantumState<registerSize>& state){
+            orderByBit(const int bit_index, const QuantumState<registerSize>& state){
                 assertInput(bit_index > registerSize - 1, "The control bit must be within range of the amount of qbits residing in this state..");
                 std::array<std::array<ChanceOrder<registerSize>, vectorLength<registerSize>::value / 2> ,2>  result;
 
@@ -57,7 +57,7 @@ namespace MiniQbt{
                 return result;
             }
 
-            template<size_t bitSize>
+            template<int bitSize>
             QuantumState<bitSize> mergeOrderProb(
                 const std::array<ChanceOrder<bitSize>, vectorLength<bitSize>::value / 2>& lh, 
                 const std::array<ChanceOrder<bitSize>, vectorLength<bitSize>::value / 2>& rh){
@@ -76,9 +76,9 @@ namespace MiniQbt{
             }
 
 
-            template<size_t bitSize>
-            bool oppositeBitset(const ChanceOrder<bitSize>& lh, const ChanceOrder<bitSize>& rh, const size_t& targetBit){
-                for(size_t i = 0; i < bitSize; i++){
+            template<int bitSize>
+            bool oppositeBitset(const ChanceOrder<bitSize>& lh, const ChanceOrder<bitSize>& rh, const int& targetBit){
+                for(int i = 0; i < bitSize; i++){
                     if(i == targetBit){
                         if(lh[i] == rh[i]){
                             return false; //that bit needs to be opposite..

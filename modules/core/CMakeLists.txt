@@ -6,7 +6,8 @@ PROJECT(MiniQbt VERSION ${miniQbt_version})
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
-ADD_DEFINITIONS( "-g -Wall -fPIC" )
+
+
 SET(LIB_SOURCES 
     src/QasmAsyncIntepreter.cpp
     src/Tokens.cpp
@@ -23,8 +24,10 @@ include_directories(${MINIQBT_INCLUDE_DIRS} )
 
 
 if(WIN32)
+  
 	add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
 else()
+  ADD_DEFINITIONS( "-g -Wall -fPIC -Werror" )
 	add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
 endif()
 

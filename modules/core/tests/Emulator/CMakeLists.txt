@@ -14,6 +14,10 @@ SET(srcfiles
     multiple_qubits_gates_and_entangled_states/GHZStates.cpp
 )
 
+if(NOT WIN32)
+    ADD_DEFINITIONS( "-g -Wall -fPIC -Werror" )
+endif()
+
 include_directories(
     ../../include 
 )

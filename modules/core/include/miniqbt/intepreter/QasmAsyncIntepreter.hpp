@@ -12,6 +12,8 @@ namespace MiniQbt{
         public:
         QasmAsyncIntepreter();
         std::vector<std::string> getRegisters() const;
+        std::vector<std::string> getQuantumRegisters() const;
+        void resetSuperPosition(const std::string& quantumRegister);
         void intepret(const std::string& line);
         std::vector<bool> readClassicRegister(const std::string& registerName);
         bool doesRegisterExists(const std::string& registerName) const;
