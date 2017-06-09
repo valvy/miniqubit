@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.5)
 project(cliMiniQbt)
 set (CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_FLAGS_RELEASE "-O3")
-
+find_library(MiniQbt REQUIRED)
 
 SET(srcfiles 
     Main.cpp

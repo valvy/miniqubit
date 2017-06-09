@@ -73,23 +73,31 @@ int main(int argc, char** argv){
             printInfo(
                 "Interactive shell for the Qasm language\n",
                 "Exit program -> exit \n",
-                "Show version -> about \n"
+                "Show version -> about \n",
+				"show a classic register (and collapse the quantum)-> collapse <classic register name> \n",
+				"Reset the quantum register to super position -> reset <quantum register name>\n"
             );
             continue;
         }
          
-        if(command == "collapse"){
-            for(const std::string& reg: intepreter.getRegisters()){
-                std::vector<bool> result = intepreter.readClassicRegister(reg);
-                std::cout << "Result registery  " << reg << ": ";
-                for(const bool& r : result){
-                    std::cout << r;
-                }
-                std::cout << "\n";
-            }
-            continue;
-        }
+		std::regex resetQuantum("\\s*(reset|collapse)\\s*([a-z|A-Z|0-9]*)", std::regex_constants::ECMAScript);
+		std::smatch m;
+		std::regex_match(command,  m,resetQuantum);
+		if (m[1] == "reset") {
+			intepreter.resetSuperPosition(m[2]);
+			continue;
+		}
+		else if (m[1] == "collapse") {
+			std::vector<bool> result = intepreter.readClassicRegister(m[2]);
+			std::cout << "Result registery  " << m[1] << ": ";
+			for (const bool& r : result) {
+				std::cout << r;
+			}
+			std::cout << "\n";
+			continue;
+		}
 
+      
         if(command[0] == '!'){
             std::cout.flush();
             system(command.substr(1).c_str());
