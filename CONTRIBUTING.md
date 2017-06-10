@@ -10,7 +10,7 @@ Thank you for considering to contributing to MiniQbt. Please before you start re
   * [Suggesting Enhancements](#suggesting-enhancements)
   * [Pull Requests](#pull-requests)
 [Styleguides](#styleguides)
-  * [c++](#c++)
+  * [c++](#c-plus-plus)
 
 ## How Can I Contribute?
 ### Using miniqbt
@@ -38,7 +38,7 @@ I welcome pull requests, but keep in mind the following:
 * The change complies with the style guide
 
 ## Styleguides
-### c++
+### C plus plus
 All c++ code must be written using modern day standards using version 14.
 Specific wishes:
 * Don't use raw pointers if you don't have to, instead use smart pointers introduced in c++11
