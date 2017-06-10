@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from MiniQbt.Globals import getVersion, getName
-from MiniQbt.Intepreter import QasmAsyncIntepreter
+from MiniQbt.Interpreter import QasmAsyncInterpreter
 import sys
 
 
@@ -12,14 +12,14 @@ def main(arguments):
     print("Using", getName(), "version:", getVersion())
     with open(arguments[1]) as dat:
         src = dat.read()
-        intepreter = QasmAsyncIntepreter()
-        intepreter.intepret(src)
-        while intepreter.hasErrors():
-            print(intepreter.getError())
+        interpreter = QasmAsyncInterpreter()
+        interpreter.interpret(src)
+        while interpreter.hasErrors():
+            print(interpreter.getError())
         
         print("results:")
-        for register in intepreter.getRegisters():
-            print(register,":",intepreter.readClassicRegister(register))
+        for register in interpreter.getRegisters():
+            print(register,":",interpreter.readClassicRegister(register))
         
 
 

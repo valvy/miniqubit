@@ -1,32 +1,32 @@
 import MiniQbtNative
 
 
-class QasmAsyncIntepreter:
+class QasmAsyncInterpreter:
     '''
-    Class for asynchronous intepretation of quantum assembly code.
+    Class for asynchronous interpretation of quantum assembly code.
     This wraps the QasmAsyncClass from c++ MiniQbt.
     '''
     def __init__(self):
-        self.__pointer = MiniQbtNative.init_qasm_async_intepreter(self)
+        self.__pointer = MiniQbtNative.init_qasm_async_interpreter(self)
 
     def resetSuperPosition(self, quantumRegister):
-        return MiniQbtNative.qasm_async_intepreter_reset_super_position(self.__pointer, quantumRegister)
+        return MiniQbtNative.qasm_async_interpreter_reset_super_position(self.__pointer, quantumRegister)
 
     def getQuantumRegisters(self):
         return MiniQbtNative.qasm_async_get_quantum_registers(self.__pointer)
 
-    def intepret(self, source):
+    def interpret(self, source):
         '''
-        Inteprets a block of quantum assembly code.
+        interprets a block of quantum assembly code.
         @param source, the source code in string form.
         '''
-        return MiniQbtNative.async_intepret(self.__pointer,source)
+        return MiniQbtNative.async_interpret(self.__pointer,source)
 
     def getRegisters(self):
         '''
         Get all the active classical registers in the quantum computer.
         '''
-        return MiniQbtNative.qasm_async_intepreter_get_registers(self.__pointer)
+        return MiniQbtNative.qasm_async_interpreter_get_registers(self.__pointer)
 
     def readClassicRegister(self, name):
         '''
@@ -52,7 +52,7 @@ class QasmAsyncIntepreter:
         Check if the quantum computer has an error.
         Returns either a true or false.
         '''
-        return MiniQbtNative.qasm_async_intepreter_has_errors(self.__pointer)
+        return MiniQbtNative.qasm_async_interpreter_has_errors(self.__pointer)
 
     def getError(self):
         '''
@@ -60,7 +60,7 @@ class QasmAsyncIntepreter:
         This will remove the error from the list of errors.
         Returns a string with the error message
         '''
-        return MiniQbtNative.qasm_async_intepreter_get_error(self.__pointer) 
+        return MiniQbtNative.qasm_async_interpreter_get_error(self.__pointer) 
 
     def __del__(self):
-        MiniQbtNative.destroy_qasm_async_intepreter(self.__pointer)
+        MiniQbtNative.destroy_qasm_async_interpreter(self.__pointer)

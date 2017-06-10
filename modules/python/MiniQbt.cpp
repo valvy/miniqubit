@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 constexpr char ASYNC_CONSTANT[] = "[MiniQbt Async reference]";
-static std::vector<std::pair<int, MiniQbt::QasmAsyncIntepreter*>> asyncIntepreters;
+static std::vector<std::pair<int, MiniQbt::QasmAsyncInterpreter*>> asyncInterpreters;
 
 static PyObject *MiniQbtNativeException;
 
@@ -25,10 +25,10 @@ int getUniqueNumber(){
 }
 
 /**
-*   Calls a specific intepreter.
+*   Calls a specific interpreter.
 *   
 */
-static PyObject* qasm_async_intepret(PyObject* self, PyObject* args){
+static PyObject* qasm_async_interpret(PyObject* self, PyObject* args){
     int reference = 0;
     const char* src;
     const char* command;
@@ -37,12 +37,10 @@ static PyObject* qasm_async_intepret(PyObject* self, PyObject* args){
         return nullptr;
     }
     bool found = false;
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
             found = true;
-            //Py_BEGIN_ALLOW_THREADS
-            intepreters.second->intepret(std::string(src));
-            //Py_END_ALLOW_THREADS
+            interpreters.second->interpret(std::string(src));
             break;
         }
     }
@@ -54,32 +52,32 @@ static PyObject* qasm_async_intepret(PyObject* self, PyObject* args){
     return Py_BuildValue("");
 }
 
-static PyObject* qasm_async_intepreter_has_errors(PyObject* self, PyObject* args){
+static PyObject* qasm_async_interpreter_has_errors(PyObject* self, PyObject* args){
     int reference = 0;
     const char* command;
     std::string result ="";
     if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
         return nullptr;
     }
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
-            return Py_BuildValue("b", intepreters.second->hasErrors());
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
+            return Py_BuildValue("b", interpreters.second->hasErrors());
         }
     }
     PyErr_SetString(MiniQbtNativeException, "Invalid reference");
     return nullptr;
 }
 
-static PyObject* qasm_async_intepreter_get_registers(PyObject* self, PyObject* args){
+static PyObject* qasm_async_interpreter_get_registers(PyObject* self, PyObject* args){
     int reference = 0;
     const char* command;
     if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
         return nullptr;
     }
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
             PyObject* result = PyList_New(0);
-            for(const std::string& d : intepreters.second->getRegisters()){
+            for(const std::string& d : interpreters.second->getRegisters()){
                 PyList_Append(result,Py_BuildValue("s",d.c_str()));
             }
             return result;
@@ -95,10 +93,10 @@ static PyObject* qasm_async_get_quantum_registers(PyObject* self, PyObject* args
     if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
         return nullptr;
     }
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
             PyObject* result = PyList_New(0);
-            for(const std::string& d : intepreters.second->getQuantumRegisters()){
+            for(const std::string& d : interpreters.second->getQuantumRegisters()){
                 PyList_Append(result,Py_BuildValue("s",d.c_str()));
             }
             return result;
@@ -109,16 +107,16 @@ static PyObject* qasm_async_get_quantum_registers(PyObject* self, PyObject* args
 }
 
 
-static PyObject* qasm_async_intepreter_get_error(PyObject* self, PyObject* args){
+static PyObject* qasm_async_interpreter_get_error(PyObject* self, PyObject* args){
     int reference = 0;
     const char* command;
     std::string result ="";
     if(!PyArg_ParseTuple(args, "(si)",&command, &reference)){ 
         return nullptr;
     }
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
-            return Py_BuildValue("s", intepreters.second->getError().c_str());
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
+            return Py_BuildValue("s", interpreters.second->getError().c_str());
         }
     }
     PyErr_SetString(MiniQbtNativeException, "Invalid reference");
@@ -134,10 +132,10 @@ static PyObject* qasm_async_read_classic_register(PyObject* self, PyObject* args
         return nullptr;
     }
     bool found = false;
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
             found = true;
-            std::vector<bool> d = intepreters.second->readClassicRegister(std::string(name));
+            std::vector<bool> d = interpreters.second->readClassicRegister(std::string(name));
             for(const bool& r : d){
                 result += std::to_string(r);
             }
@@ -153,7 +151,7 @@ static PyObject* qasm_async_read_classic_register(PyObject* self, PyObject* args
 
 
 
-static PyObject* destroy_qasm_async_intepreter(PyObject* self, PyObject* args){
+static PyObject* destroy_qasm_async_interpreter(PyObject* self, PyObject* args){
     int reference = 0;
     const char* command;
     
@@ -161,16 +159,16 @@ static PyObject* destroy_qasm_async_intepreter(PyObject* self, PyObject* args){
         return nullptr;
     }
     bool found = false;
-    asyncIntepreters.erase(
-        std::remove_if(asyncIntepreters.begin(), asyncIntepreters.end(), 
-        [&found, &reference](std::pair<int, MiniQbt::QasmAsyncIntepreter*> x) { 
+    asyncInterpreters.erase(
+        std::remove_if(asyncInterpreters.begin(), asyncInterpreters.end(), 
+        [&found, &reference](std::pair<int, MiniQbt::QasmAsyncInterpreter*> x) { 
             if(x.first == reference){
                 delete x.second;
                 found = true;
                 return true;
             }
             return false;
-        }), asyncIntepreters.end()
+        }), asyncInterpreters.end()
     );
     if(found){
         return Py_BuildValue("");
@@ -181,7 +179,7 @@ static PyObject* destroy_qasm_async_intepreter(PyObject* self, PyObject* args){
     
 }
 
-static PyObject* qasm_async_intepreter_reset_super_position(PyObject* self, PyObject* args){
+static PyObject* qasm_async_interpreter_reset_super_position(PyObject* self, PyObject* args){
     int reference = 0;
     const char* name;
     const char* command;
@@ -189,10 +187,10 @@ static PyObject* qasm_async_intepreter_reset_super_position(PyObject* self, PyOb
         return nullptr;
     }
     bool found = false;
-    for(auto& intepreters : asyncIntepreters){
-        if(intepreters.first == reference){
+    for(auto& interpreters : asyncInterpreters){
+        if(interpreters.first == reference){
             found = true;
-            intepreters.second->resetSuperPosition(std::string(name));
+            interpreters.second->resetSuperPosition(std::string(name));
             break;
         }
     }
@@ -205,12 +203,12 @@ static PyObject* qasm_async_intepreter_reset_super_position(PyObject* self, PyOb
     }
 }
 
-static PyObject* init_qasm_async_intepreter(PyObject* self, PyObject* args){
+static PyObject* init_qasm_async_interpreter(PyObject* self, PyObject* args){
     int nr = getUniqueNumber();     
-    asyncIntepreters.push_back(
+    asyncInterpreters.push_back(
         std::make_pair(
             nr,
-            new MiniQbt::QasmAsyncIntepreter()
+            new MiniQbt::QasmAsyncInterpreter()
         )
     );
 
@@ -218,10 +216,10 @@ static PyObject* init_qasm_async_intepreter(PyObject* self, PyObject* args){
 }
 
 static void clear_memory(void* mem){
-    for(auto& d : asyncIntepreters){
+    for(auto& d : asyncInterpreters){
         delete d.second;
     }
-    asyncIntepreters.clear();
+    asyncInterpreters.clear();
 }
 
 
@@ -239,26 +237,26 @@ static PyMethodDef MiniQbtMethods[] = {
         ""
     },
     {
-        "init_qasm_async_intepreter",
-        init_qasm_async_intepreter,
+        "init_qasm_async_interpreter",
+        init_qasm_async_interpreter,
         METH_VARARGS,
-        "Initializes the asynchronous intepreter"
+        "Initializes the asynchronous interpreter"
     },
     {
-        "qasm_async_intepreter_reset_super_position",
-        qasm_async_intepreter_reset_super_position,
+        "qasm_async_interpreter_reset_super_position",
+        qasm_async_interpreter_reset_super_position,
         METH_VARARGS,
         "Resets the quantum register to a quantum state. This is not possible on real quantum computers"
     },
     {
-        "async_intepret",
-        qasm_async_intepret,
+        "async_interpret",
+        qasm_async_interpret,
         METH_VARARGS,
         ""
     },
     {
-        "destroy_qasm_async_intepreter",
-        destroy_qasm_async_intepreter,
+        "destroy_qasm_async_interpreter",
+        destroy_qasm_async_interpreter,
         METH_VARARGS,
         ""
     },
@@ -276,20 +274,20 @@ static PyMethodDef MiniQbtMethods[] = {
         
     },
     {
-        "qasm_async_intepreter_has_errors",
-        qasm_async_intepreter_has_errors,
+        "qasm_async_interpreter_has_errors",
+        qasm_async_interpreter_has_errors,
         METH_VARARGS,
         "Native call to check if the specified quantum computer has an error."
     },
     {
-        "qasm_async_intepreter_get_error",
-        qasm_async_intepreter_get_error,
+        "qasm_async_interpreter_get_error",
+        qasm_async_interpreter_get_error,
         METH_VARARGS,
         "Native call to get an error as string from the specified quantum computer.\n When the quantum computer doesn't exists it will raise an exception."
     },
     {
-        "qasm_async_intepreter_get_registers",
-        qasm_async_intepreter_get_registers,
+        "qasm_async_interpreter_get_registers",
+        qasm_async_interpreter_get_registers,
         METH_VARARGS,
         " Native call to get all the registers from the specified quantum computer. \n When the quantum computer doesn't exists it will raise an exception."
     },

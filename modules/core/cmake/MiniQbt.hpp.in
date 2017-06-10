@@ -2,7 +2,7 @@
 #define MINI_QBT
 
 #include "miniqbt/emulator/MiniQbtEmulator.hpp"
-#include "miniqbt/intepreter/QasmAsyncIntepreter.hpp"
+#include "miniqbt/interpreter/QasmAsyncInterpreter.hpp"
 
 namespace MiniQbt{
     constexpr char VERSION[] = "${miniQbt_version}";

@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include <miniqbt/intepreter/QasmAsyncIntepreter.hpp>
+#include <miniqbt/interpreter/QasmAsyncInterpreter.hpp>
 #include <sstream>
 
 TEST_CASE( "Syntax tests") {
@@ -9,7 +9,7 @@ TEST_CASE( "Syntax tests") {
     constexpr char ENTIRE_MEASURE[] = "Entire measure";
     SECTION(ENTIRE_MEASURE){
         //Checking if the syntax with all the pauli gates works
-        MiniQbt::QasmAsyncIntepreter intepreter;
+        MiniQbt::QasmAsyncInterpreter interpreter;
         const char * src = 
         "// a comment               \n"
         "OPENQASM 2.0;              \n"
@@ -17,13 +17,13 @@ TEST_CASE( "Syntax tests") {
         "qreg q[3]; creg c[3];      \n"
         "x q[0]; x q[1]; x q[2];    \n"
         "measure q -> c;            \n";
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("c");
-        const bool failed = intepreter.hasErrors();
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("c");
+        const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << ENTIRE_MEASURE << " Failed with errors: \n";
-        while(intepreter.hasErrors()){
-            ss << intepreter.getError() << "\n";
+        while(interpreter.hasErrors()){
+            ss << interpreter.getError() << "\n";
         }
 
         INFO(ss.str());
@@ -35,7 +35,7 @@ TEST_CASE( "Syntax tests") {
     constexpr char IN_EQUAL_MEASURE[] = "Inequal measure";
     SECTION(IN_EQUAL_MEASURE){
         //Checking if the syntax with all the pauli gates works
-        MiniQbt::QasmAsyncIntepreter intepreter;
+        MiniQbt::QasmAsyncInterpreter interpreter;
         const char * src = 
         "// a comment               \n"
         "OPENQASM 2.0;              \n"
@@ -43,9 +43,9 @@ TEST_CASE( "Syntax tests") {
         "qreg q[4]; creg c[3];      \n"
         "x q[0]; x q[1]; x q[2];    \n"
         "measure q -> c;            \n";
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("c");
-        const bool failed = intepreter.hasErrors();
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("c");
+        const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << ENTIRE_MEASURE << " Failed with errors: \n";
         INFO(ss.str());
@@ -56,7 +56,7 @@ TEST_CASE( "Syntax tests") {
     constexpr char PAULI_SYNTAX[] = "All Pauli gates";
     SECTION(PAULI_SYNTAX){
         //Checking if the syntax with all the pauli gates works
-        MiniQbt::QasmAsyncIntepreter intepreter;
+        MiniQbt::QasmAsyncInterpreter interpreter;
         const char * src = 
         "// a comment               \n"
         "OPENQASM 2.0;              \n"
@@ -65,13 +65,13 @@ TEST_CASE( "Syntax tests") {
         "x q[0]; y q[1]; z q[2];    \n"
         "measure q[1] -> c[1];      \n"
         "measure q[2] -> c[2];      \n";
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("c");
-        const bool failed = intepreter.hasErrors();
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("c");
+        const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << PAULI_SYNTAX << " Failed with errors: \n";
-        while(intepreter.hasErrors()){
-            ss << intepreter.getError() << "\n";
+        while(interpreter.hasErrors()){
+            ss << interpreter.getError() << "\n";
         }
 
         INFO(ss.str());
@@ -81,7 +81,7 @@ TEST_CASE( "Syntax tests") {
     constexpr char HADAMARD_CX_SYNTAX[] = "Syntax of hadamard with cx";
     SECTION(HADAMARD_CX_SYNTAX){
         //Checking if the syntax with all the pauli gates works
-        MiniQbt::QasmAsyncIntepreter intepreter;
+        MiniQbt::QasmAsyncInterpreter interpreter;
         const char * src = 
         "// a comment               \n"
         "OPENQASM 2.0;              \n"
@@ -91,13 +91,13 @@ TEST_CASE( "Syntax tests") {
         "cx q[1], q[2];             \n"
         "measure q[1] -> c[1];      \n"
         "measure q[2] -> c[2];      \n";
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("c");
-        const bool failed = intepreter.hasErrors();
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("c");
+        const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << HADAMARD_CX_SYNTAX << " Failed with errors: \n";
-        while(intepreter.hasErrors()){
-            ss << intepreter.getError() << "\n";
+        while(interpreter.hasErrors()){
+            ss << interpreter.getError() << "\n";
         }
 
         INFO(ss.str());

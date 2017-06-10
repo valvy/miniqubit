@@ -9,7 +9,7 @@ TEST_CASE( "Result checks") {
 
     constexpr char CHECK_MIRROR [] = "Checking if calculations aren't mirrored";
     SECTION(CHECK_MIRROR){
-        //The intepreter
+        //The interpreter
         const char* src = 
         "qreg a[5]; creg b[5];"
         "x a[0];"
@@ -19,10 +19,10 @@ TEST_CASE( "Result checks") {
         "measure a[3] -> b[3];"
         "measure a[4] -> b[4];";
 
-        MiniQbt::QasmAsyncIntepreter intepreter;
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("b");
-        REQUIRE(!intepreter.hasErrors());
+        MiniQbt::QasmAsyncInterpreter interpreter;
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("b");
+        REQUIRE(!interpreter.hasErrors());
 
         constexpr size_t REGISTER_SIZE = 5;
         MiniQbt::QuantumEmulator<REGISTER_SIZE,true> emulator;
@@ -31,7 +31,7 @@ TEST_CASE( "Result checks") {
         std::bitset<REGISTER_SIZE> bitset = emulator.measure(ent, generator);
         
         std::stringstream ss;
-        ss << CHECK_MIRROR << " answer from the intepreter was : " ;
+        ss << CHECK_MIRROR << " answer from the interpreter was : " ;
         for(const bool d : res){
             ss << d;
         }
@@ -49,7 +49,7 @@ TEST_CASE( "Result checks") {
 
     constexpr char MEASURE_CHECK[] = "Checking measure";
     SECTION(MEASURE_CHECK){
-        //The intepreter
+        //The interpreter
         const char* src = 
         "qreg a[5]; creg b[5];"
         "x a[0]; x a[2]; x a[4];"
@@ -59,10 +59,10 @@ TEST_CASE( "Result checks") {
         "measure a[3] -> b[3];"
         "measure a[4] -> b[4];";
 
-        MiniQbt::QasmAsyncIntepreter intepreter;
-        intepreter.intepret(std::string(src));
-        auto res = intepreter.readClassicRegister("b");
-        REQUIRE(!intepreter.hasErrors());
+        MiniQbt::QasmAsyncInterpreter interpreter;
+        interpreter.interpret(std::string(src));
+        auto res = interpreter.readClassicRegister("b");
+        REQUIRE(!interpreter.hasErrors());
        
         constexpr size_t REGISTER_SIZE = 5;
         MiniQbt::QuantumEmulator<REGISTER_SIZE,true> emulator;

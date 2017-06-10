@@ -2,6 +2,7 @@
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
 MiniQbt is a emulator for the IBM quantum experience, with a generic amount of qubits and classical bits.
+To contribute to MiniQbt please refer to [contributing](https://github.com/valvy/miniqubit/blob/master/CONTRIBUTING,MD)
 
 ## installation
 The best way of installation is to compile the program from source. For this you need to install the following dependancies. Please consult the individual tools for help.
@@ -31,11 +32,11 @@ You can simply load in quantum source code like this.
         "h q[0];                    \n"
         "measure q[0] -> c[0];      \n";
 
-        QasmAsyncIntepreter intepreter;
-        intepreter.intepret(std::string(src));
-        std::vector<bool> res = intepreter.readClassicRegister("c");
-        while(intepreter.hasErrors()){
-            std::cout << intepreter.getError() << "\n";
+        QasmAsyncIntepreter interpreter;
+        interpreter.interpret(std::string(src));
+        std::vector<bool> res = interpreter.readClassicRegister("c");
+        while(interpreter.hasErrors()){
+            std::cout << interpreter.getError() << "\n";
         }
 
 
@@ -48,13 +49,14 @@ You can simply load in quantum source code like this.
 ```
 The library has a wrapper for python3
 ```python
-    from MiniQbt.Intepreter import QasmAsyncIntepreter
+    from MiniQbt.Interpreter import QasmAsyncInterpreter
 
     source = "OPENQASM 2.0; include \"qelib1.inc\";  qreg q[1]; creg c[1]; h q[0]; measure q[0] -> c[0];"
-    intepreter = QasmAsyncIntepreter()
-    result = intepreter.readClassicRegister("c")
-    while intepreter.hasErrors():
-        print(intepreter.getError())
+    interpreter = QasmAsyncInterpreter()
+    interpreter.interpret(source)
+    result = interpreter.readClassicRegister("c")
+    while interpreter.hasErrors():
+        print(interpreter.getError())
     print("result of the algorithm: ")
     print(result)
 

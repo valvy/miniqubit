@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from MiniQbt.Intepreter import QasmAsyncIntepreter
+from MiniQbt.Interpreter import QasmAsyncInterpreter
 import unittest
 import threading
 
@@ -8,8 +8,8 @@ class NativeTests(unittest.TestCase):
     def thread(self):
         
         for x in range(0, 200):
-            x = QasmAsyncIntepreter()
-            x.intepret("qreg q[1]; creg c[1]; x q; measure q -> c;")
+            x = QasmAsyncInterpreter()
+            x.interpret("qreg q[1]; creg c[1]; x q; measure q -> c;")
             self.assertFalse(x.hasErrors())
             for register in x.getRegisters():
                 self.assertEqual(x.readClassicRegister(register), '1')

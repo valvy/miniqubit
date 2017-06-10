@@ -24,7 +24,7 @@ std::string filereader(const std::string& fileName){
 
 int main(int argc, char** argv){
 
-    MiniQbt::QasmAsyncIntepreter intepreter;
+    MiniQbt::QasmAsyncInterpreter interpreter;
     if(argc > 1){
         if(std::string(argv[1]) == "--version"){
             printInfo(MiniQbt::NAME, " : ", MiniQbt::VERSION, "\n");
@@ -32,13 +32,13 @@ int main(int argc, char** argv){
         }
         else {
             const std::string src = filereader(std::string(argv[1]));
-            intepreter.intepret(src);
-            while(intepreter.hasErrors()){
-                printError("",intepreter.getError(), "\n");
+            interpreter.intepret(src);
+            while(interpreter.hasErrors()){
+                printError("",interpreter.getError(), "\n");
             }
             
-            for(const std::string& reg: intepreter.getRegisters()){
-                std::vector<bool> result = intepreter.readClassicRegister(reg);
+            for(const std::string& reg: interpreter.getRegisters()){
+                std::vector<bool> result = interpreter.readClassicRegister(reg);
                 std::cout << "Result registery  " << reg << ": ";
                 for(const bool& r : result){
                     std::cout << r;
@@ -79,8 +79,8 @@ int main(int argc, char** argv){
         }
          
         if(command == "collapse"){
-            for(const std::string& reg: intepreter.getRegisters()){
-                std::vector<bool> result = intepreter.readClassicRegister(reg);
+            for(const std::string& reg: interpreter.getRegisters()){
+                std::vector<bool> result = interpreter.readClassicRegister(reg);
                 std::cout << "Result registery  " << reg << ": ";
                 for(const bool& r : result){
                     std::cout << r;
@@ -96,10 +96,10 @@ int main(int argc, char** argv){
             continue;
         }
 
-        intepreter.intepret(command);
+        interpreter.intepret(command);
         
-        while(intepreter.hasErrors()){
-            printError("",intepreter.getError(), "\n");
+        while(interpreter.hasErrors()){
+            printError("",interpreter.getError(), "\n");
         }
     
     }

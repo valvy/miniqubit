@@ -6,15 +6,15 @@
 #include <string>
 
 namespace MiniQbt{
-    class QasmAsyncIntepreter{
+    class QasmAsyncInterpreter{
         private:
         Core::TokenVisitor visitor;
         public:
-        QasmAsyncIntepreter();
+        QasmAsyncInterpreter();
         std::vector<std::string> getRegisters() const;
         std::vector<std::string> getQuantumRegisters() const;
         void resetSuperPosition(const std::string& quantumRegister);
-        void intepret(const std::string& line);
+        void interpret(const std::string& line);
         std::vector<bool> readClassicRegister(const std::string& registerName);
         bool doesRegisterExists(const std::string& registerName) const;
         bool hasErrors() const;
