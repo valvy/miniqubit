@@ -1,5 +1,6 @@
-#Changes
-##version 0.6.0
+Changes
+
+version 0.6.0
 June 10 2017
 First (pre) release of MiniQbt. With basic functionality as intepreter of OpenQasml
 What works:
