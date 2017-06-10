@@ -13,7 +13,7 @@ Thank you for considering to contributing to MiniQbt. Please before you start re
   * [C++] (#c++)
 
 ## How Can I Contribute?
-### Using MiniQbt
+### Using miniqbt
 Using MiniQbt in your own projects will increase interest in the project
 
 ### Reporting Bugs

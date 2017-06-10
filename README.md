@@ -2,7 +2,7 @@
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
 MiniQbt is a emulator for the IBM quantum experience, with a generic amount of qubits and classical bits.
-To contribute to MiniQbt please refer to [contributing](https://github.com/valvy/miniqubit/blob/master/CONTRIBUTING,MD)
+To contribute to MiniQbt please refer to [contributing](https://github.com/valvy/miniqubit/blob/master/CONTRIBUTING.md)
 
 ## installation
 The best way of installation is to compile the program from source. For this you need to install the following dependancies. Please consult the individual tools for help.
