@@ -4,6 +4,7 @@ Thank you for considering to contributing to MiniQbt. Please before you start re
 2. Be respectfull
 
 ## Table of contents
+[How does MiniQbt versioning work?](#how-does-miniqbt-versioning-work)
 [How Can I Contribute?](#how-can-i-contribute)
   * [Using MiniQbt](#using-miniqbt)
   * [Reporting Bugs](#reporting-bugs)
@@ -11,6 +12,11 @@ Thank you for considering to contributing to MiniQbt. Please before you start re
   * [Pull Requests](#pull-requests)
 [Styleguides](#styleguides)
   * [c++](#c-plus-plus)
+
+## how does MiniQbt versioning work?
+MiniQbt uses Sementantic versioning for the library.
+Meaning that everytime a major version bump comes, an incompatible API change is made.
+The minor version adds functionality to the api.
 
 ## How Can I Contribute?
 ### Using miniqbt
@@ -48,3 +54,4 @@ Specific wishes:
 * Do not use #Define but instead use the c++11 Constexpr 
 * All headers in c++ use the file extension .hpp
 * All c++ source files use the file extension .cpp
+* All methods are documented using javadoc
