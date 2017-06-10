@@ -5,12 +5,12 @@ Thank you for considering to contributing to MiniQbt. Please before you start re
 
 ## Table of contents
 [How Can I Contribute?](#how-can-i-contribute)
-  * [Using MiniQbt] (#using-miniqbt)
+  * [Using MiniQbt](#using-miniqbt)
   * [Reporting Bugs](#reporting-bugs)
   * [Suggesting Enhancements](#suggesting-enhancements)
   * [Pull Requests](#pull-requests)
-[Styleguides] (#style-guides)
-  * [C++] (#c++)
+[Styleguides](#styleguides)
+  * [C++](#c++)
 
 ## How Can I Contribute?
 ### Using miniqbt
