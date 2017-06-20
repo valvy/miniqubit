@@ -25,6 +25,9 @@ bool TokenVisitor::hasErrors() const{
 }
 
 std::string TokenVisitor::getError(){
+    if(errors.empty()){
+        return std::string("No error");
+    }
     std::string res = errors.back();
     errors.pop_back();
     return res;
@@ -95,6 +98,7 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
     std::vector<bool> result;
     for(const ClassicRegister& classicReg : classicRegisters){
         if(classicReg.getName() == name){
+           
             for(int i = 0; i < classicReg.getSize(); i++ ){
                 const Bit bit = classicReg[classicReg.getSize() - i - 1];
                // const Bit bit = classicReg[ i ];
@@ -111,9 +115,9 @@ std::vector<bool> TokenVisitor::getClassicRegister(const std::string& name){
                     }
                 }
             }
-        } 
+     
+        }
     }
-    
     return result;
 }
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_5f_5fpointer',['__pointer',['../class_mini_qbt_1_1_intepreter_1_1_qasm_async_intepreter.html#a4118cf7e93bd11613b832596f01bf843',1,'MiniQbt::Intepreter::QasmAsyncIntepreter']]]
+  ['_5f_5fpointer',['__pointer',['../class_mini_qbt_1_1_interpreter_1_1_qasm_async_interpreter.html#a3bbbd55843984e7a3bba26ceb938714f',1,'MiniQbt::Interpreter::QasmAsyncInterpreter']]]
 ];

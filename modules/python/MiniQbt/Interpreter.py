@@ -10,9 +10,18 @@ class QasmAsyncInterpreter:
         self.__pointer = MiniQbtNative.init_qasm_async_interpreter(self)
 
     def resetSuperPosition(self, quantumRegister):
+        '''
+            Resets a quantum register back to superposition.
+            This is not possible on a normal quantum computer and is thus cheating!
+            @param quantumRegister, the quantum register you wish to reset
+        '''
         return MiniQbtNative.qasm_async_interpreter_reset_super_position(self.__pointer, quantumRegister)
 
     def getQuantumRegisters(self):
+        '''
+            Get's all the names of the quantum registers currently in the quantum emulator.
+            @return list with all the quantum register names
+        '''
         return MiniQbtNative.qasm_async_get_quantum_registers(self.__pointer)
 
     def interpret(self, source):
@@ -63,4 +72,8 @@ class QasmAsyncInterpreter:
         return MiniQbtNative.qasm_async_interpreter_get_error(self.__pointer) 
 
     def __del__(self):
+        '''
+            Destroys the quantum emulator in native code.
+            Don't call this method directly!
+        '''
         MiniQbtNative.destroy_qasm_async_interpreter(self.__pointer)

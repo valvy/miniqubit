@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['hadamardgate_2ehpp',['HadamardGate.hpp',['../_hadamard_gate_8hpp.html',1,'']]],
-  ['hadamardtest_2ecpp',['HadamardTest.cpp',['../_hadamard_test_8cpp.html',1,'']]]
+  ['ghzstates_2ecpp',['GHZStates.cpp',['../_g_h_z_states_8cpp.html',1,'']]],
+  ['globals_2epy',['Globals.py',['../_globals_8py.html',1,'']]],
+  ['grovertests_2ecpp',['GroverTests.cpp',['../_grover_tests_8cpp.html',1,'']]]
 ];

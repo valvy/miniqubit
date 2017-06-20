@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['qasmasyncintepreter',['QasmAsyncIntepreter',['../class_mini_qbt_1_1_intepreter_1_1_qasm_async_intepreter.html',1,'MiniQbt.Intepreter.QasmAsyncIntepreter'],['../class_mini_qbt_1_1_qasm_async_intepreter.html',1,'MiniQbt::QasmAsyncIntepreter'],['../class_mini_qbt_1_1_qasm_async_intepreter.html#aa7887ff2c9a9ed23c08ece3db3aa58ed',1,'MiniQbt::QasmAsyncIntepreter::QasmAsyncIntepreter()']]],
-  ['qasmasyncintepreter_2ecpp',['QasmAsyncIntepreter.cpp',['../_qasm_async_intepreter_8cpp.html',1,'']]],
-  ['qasmasyncintepreter_2ehpp',['QasmAsyncIntepreter.hpp',['../_qasm_async_intepreter_8hpp.html',1,'']]],
+  ['qasmasyncinterpreter',['QasmAsyncInterpreter',['../class_mini_qbt_1_1_interpreter_1_1_qasm_async_interpreter.html',1,'MiniQbt.Interpreter.QasmAsyncInterpreter'],['../class_mini_qbt_1_1_qasm_async_interpreter.html',1,'MiniQbt::QasmAsyncInterpreter'],['../class_mini_qbt_1_1_qasm_async_interpreter.html#a0e375769c02d10d23aef89020b82ef96',1,'MiniQbt::QasmAsyncInterpreter::QasmAsyncInterpreter()']]],
+  ['qasmasyncinterpreter_2ecpp',['QasmAsyncInterpreter.cpp',['../_qasm_async_interpreter_8cpp.html',1,'']]],
+  ['qasmasyncinterpreter_2ehpp',['QasmAsyncInterpreter.hpp',['../_qasm_async_interpreter_8hpp.html',1,'']]],
   ['quantum1',['Quantum1',['../namespace_mini_qbt.html#a2e5837906fa9d39935a7b227d1ecd31f',1,'MiniQbt']]],
   ['quantum10',['Quantum10',['../namespace_mini_qbt.html#a73143b4ac15702355e0fa20fe7dcf075',1,'MiniQbt']]],
   ['quantum11',['Quantum11',['../namespace_mini_qbt.html#a9fb4fd904d4c71cec9a7f65ace241076',1,'MiniQbt']]],
@@ -26,7 +26,7 @@ var searchData=
   ['quantumarguments',['quantumArguments',['../class_mini_qbt_1_1_core_1_1_gate_token.html#a638cc016c4a82d03ea66ef7bf3e0757a',1,'MiniQbt::Core::GateToken::quantumArguments()'],['../class_mini_qbt_1_1_core_1_1_unkown_gate_token.html#a00e1977967a7fd5289e0e54b6c7678f4',1,'MiniQbt::Core::UnkownGateToken::quantumArguments()']]],
   ['quantumemulator',['QuantumEmulator',['../struct_mini_qbt_1_1_quantum_emulator.html',1,'MiniQbt']]],
   ['quantumexception',['QuantumException',['../class_mini_qbt_1_1_quantum_exception.html',1,'MiniQbt::QuantumException'],['../class_mini_qbt_1_1_quantum_exception.html#aa1b9f8fcae4650b4426081e020a0ae1e',1,'MiniQbt::QuantumException::QuantumException(char const *msg)'],['../class_mini_qbt_1_1_quantum_exception.html#af3ec6ac0f4bd5bfa84a43594eed20958',1,'MiniQbt::QuantumException::QuantumException(const std::string &amp;msg)']]],
-  ['quantumpos',['quantumPos',['../struct_mini_qbt_1_1_core_1_1_bit.html#abc94a8b3420c98305cd0310c708ed97a',1,'MiniQbt::Core::Bit']]],
+  ['quantumpos',['quantumPos',['../struct_mini_qbt_1_1_core_1_1_bit.html#ade143d630c1d6d7fe9830e6fe6919c35',1,'MiniQbt::Core::Bit']]],
   ['quantumregisters',['quantumRegisters',['../class_mini_qbt_1_1_core_1_1_token_visitor.html#a136e1d0a57bb8515e40f879fb3234239',1,'MiniQbt::Core::TokenVisitor']]],
   ['quantumregistertoken',['QuantumRegisterToken',['../class_mini_qbt_1_1_core_1_1_quantum_register_token.html',1,'MiniQbt::Core::QuantumRegisterToken'],['../class_mini_qbt_1_1_core_1_1_quantum_register_token.html#a0117401bc67da5d36d0a75a9dd8719ec',1,'MiniQbt::Core::QuantumRegisterToken::QuantumRegisterToken()']]],
   ['quantumstate',['QuantumState',['../class_mini_qbt_1_1_core_1_1_quantum_state.html',1,'MiniQbt::Core::QuantumState&lt; registerSize &gt;'],['../class_mini_qbt_1_1_core_1_1_quantum_state.html#a701b5d89e2abde5d7356245e65ac984a',1,'MiniQbt::Core::QuantumState::QuantumState()'],['../class_mini_qbt_1_1_core_1_1_quantum_state.html#a5c93295a28f821e69a3ed96d3693f9b8',1,'MiniQbt::Core::QuantumState::QuantumState(const Eigen::Matrix&lt; std::complex&lt; double &gt;, Eigen::Dynamic, 1 &gt; &amp;state)']]],

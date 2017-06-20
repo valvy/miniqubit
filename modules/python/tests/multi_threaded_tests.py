@@ -3,8 +3,11 @@ from MiniQbt.Interpreter import QasmAsyncInterpreter
 import unittest
 import threading
 
-class NativeTests(unittest.TestCase):
-
+class MultiThreadedTests(unittest.TestCase):
+    '''
+        Check if the native code and the python wrapper can be used in a multithreaded enviroment.
+        Due the fact that a global static vector in c++ stores all the data, I wanted to make sure
+    '''
     def thread(self):
         
         for x in range(0, 200):

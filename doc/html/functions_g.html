@@ -68,7 +68,7 @@ $(function() {
 : <a class="el" href="struct_mini_qbt_1_1_quantum_emulator.html#a558c9137b81b84021ee3c49d38896934">MiniQbt::QuantumEmulator&lt; registerSize, strictMode &gt;</a>
 </li>
 <li>getAmountOfPossibilities()
-: <a class="el" href="class_mini_qbt_1_1_core_1_1_quantum_state.html#a3f57ca7b261eb6718292025cf6c21350">MiniQbt::Core::QuantumState&lt; registerSize &gt;</a>
+: <a class="el" href="class_mini_qbt_1_1_core_1_1_quantum_state.html#a78666b894ef42f04d06eed97bcc9cd5a">MiniQbt::Core::QuantumState&lt; registerSize &gt;</a>
 </li>
 <li>getClassicPos()
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_measure_token.html#a82818724c33adc9d91d6a72fa5eaf3ee">MiniQbt::Core::MeasureToken</a>
@@ -83,9 +83,9 @@ $(function() {
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_token_visitor.html#a75f527ff5edac9c987d6fd711d066b49">MiniQbt::Core::TokenVisitor</a>
 </li>
 <li>getError()
-: <a class="el" href="class_mini_qbt_1_1_intepreter_1_1_qasm_async_intepreter.html#a8e1be6d4aa4b5892aec47de1c25240c7">MiniQbt.Intepreter.QasmAsyncIntepreter</a>
+: <a class="el" href="class_mini_qbt_1_1_interpreter_1_1_qasm_async_interpreter.html#a93f5b2f0e14bf05b3b410b65af5d590f">MiniQbt.Interpreter.QasmAsyncInterpreter</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_token_visitor.html#a78a9ae5ed48876198f2a6a250a1a6025">MiniQbt::Core::TokenVisitor</a>
-, <a class="el" href="class_mini_qbt_1_1_qasm_async_intepreter.html#a6b841231ae457c3efe4b553981f064f3">MiniQbt::QasmAsyncIntepreter</a>
+, <a class="el" href="class_mini_qbt_1_1_qasm_async_interpreter.html#a74b31ca4ffef9df060f3152b151f8b82">MiniQbt::QasmAsyncInterpreter</a>
 </li>
 <li>getLeftHand()
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_c_not_token.html#a49d2baf87ae606276aa0ea747f007c44">MiniQbt::Core::CNotToken</a>
@@ -108,8 +108,17 @@ $(function() {
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_pauli_x_token.html#ac5f538ed9182ddb2dede38909c249a49">MiniQbt::Core::PauliXToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_pauli_y_token.html#ae90ec4823acd02a46009f3c53ac75581">MiniQbt::Core::PauliYToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_pauli_z_token.html#ac7bfa9ace58ede6539ab687fceef0512">MiniQbt::Core::PauliZToken</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_phase_s_d_g_token.html#a65027b1249a0d6abf01159efd4bbb81a">MiniQbt::Core::PhaseSDGToken</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_phase_s_token.html#aa4aa1f44eb8ac863ab84afc74af58c3b">MiniQbt::Core::PhaseSToken</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_phase_t_d_g_token.html#a36b9c72b126452a5b53ce2d38457f318">MiniQbt::Core::PhaseTDGToken</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_phase_t_token.html#a61d8b5d9b3a4890404a83a9cdba59e99">MiniQbt::Core::PhaseTToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_quantum_register_token.html#af525ec1b73b88a8f9681a54e0d26e5d3">MiniQbt::Core::QuantumRegisterToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_register_composite.html#a8ebfb204dfbb2927fce7e51e651025a4">MiniQbt::Core::RegisterComposite&lt; registerSize, strictMode &gt;</a>
+</li>
+<li>getQuantumRegisters()
+: <a class="el" href="class_mini_qbt_1_1_interpreter_1_1_qasm_async_interpreter.html#a24d8e0f2d62104bd55f96323c3c3d063">MiniQbt.Interpreter.QasmAsyncInterpreter</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_token_visitor.html#a42f78d149ee9bf01eb98a4e2c61546d2">MiniQbt::Core::TokenVisitor</a>
+, <a class="el" href="class_mini_qbt_1_1_qasm_async_interpreter.html#a132a2a5199f6145e8b0b3a7376d94fc4">MiniQbt::QasmAsyncInterpreter</a>
 </li>
 <li>getQubitPos()
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_measure_token.html#a5d4f846ff0e9c2af0b1bdc166ab33847">MiniQbt::Core::MeasureToken</a>
@@ -118,8 +127,8 @@ $(function() {
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_measure_token.html#a864022a8844fc64fec8d9ebfc7ed1fc1">MiniQbt::Core::MeasureToken</a>
 </li>
 <li>getRegisters()
-: <a class="el" href="class_mini_qbt_1_1_intepreter_1_1_qasm_async_intepreter.html#a2caec10b09573778bb775fcdcf8ed4b1">MiniQbt.Intepreter.QasmAsyncIntepreter</a>
-, <a class="el" href="class_mini_qbt_1_1_qasm_async_intepreter.html#ae0c8144d220616a8ce4dd307af6500aa">MiniQbt::QasmAsyncIntepreter</a>
+: <a class="el" href="class_mini_qbt_1_1_interpreter_1_1_qasm_async_interpreter.html#aab0dc3b1b5415e534b5535fe01a30990">MiniQbt.Interpreter.QasmAsyncInterpreter</a>
+, <a class="el" href="class_mini_qbt_1_1_qasm_async_interpreter.html#a8236852d5c47bbe01c0b6ae6e134fdd7">MiniQbt::QasmAsyncInterpreter</a>
 </li>
 <li>getRightHand()
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_c_not_token.html#a5b44e8e33457499a9e9bffa9e93e5260">MiniQbt::Core::CNotToken</a>
@@ -128,12 +137,12 @@ $(function() {
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_c_not_token.html#abc5133615ac99152c6f5153d99f17689">MiniQbt::Core::CNotToken</a>
 </li>
 <li>getSize()
-: <a class="el" href="class_mini_qbt_1_1_core_1_1_abstract_register.html#a7ea032bf052d1efff966adb96f51d427">MiniQbt::Core::AbstractRegister</a>
-, <a class="el" href="class_mini_qbt_1_1_core_1_1_classic_register.html#a8b1314a6e28fb54187b864eefcabe617">MiniQbt::Core::ClassicRegister</a>
+: <a class="el" href="class_mini_qbt_1_1_core_1_1_abstract_register.html#a386f1b23e6eb46befeee063adc242621">MiniQbt::Core::AbstractRegister</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_classic_register.html#a8217a0d100b83a3749111b0e6a15596c">MiniQbt::Core::ClassicRegister</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_classic_register_token.html#a0155b06cfbe247d0e3e8d9a8926ca77b">MiniQbt::Core::ClassicRegisterToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_mass_add_token.html#a3fd289f2bd01518894c6e8c98a598d28">MiniQbt::Core::MassAddToken</a>
 , <a class="el" href="class_mini_qbt_1_1_core_1_1_quantum_register_token.html#a3dbf5b83d3ae78af3397b854f9ee39a5">MiniQbt::Core::QuantumRegisterToken</a>
-, <a class="el" href="class_mini_qbt_1_1_core_1_1_register_composite.html#a29103a84080a8bea831fb6bf864ade07">MiniQbt::Core::RegisterComposite&lt; registerSize, strictMode &gt;</a>
+, <a class="el" href="class_mini_qbt_1_1_core_1_1_register_composite.html#a7f9ac8f6523fc20b9623cc50b1b3a2d8">MiniQbt::Core::RegisterComposite&lt; registerSize, strictMode &gt;</a>
 </li>
 <li>getState()
 : <a class="el" href="class_mini_qbt_1_1_core_1_1_quantum_state.html#a091db399a9e13e64946351f9f312405e">MiniQbt::Core::QuantumState&lt; registerSize &gt;</a>
