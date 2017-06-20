@@ -32,7 +32,7 @@ You can simply load in quantum source code like this.
         "h q[0];                    \n"
         "measure q[0] -> c[0];      \n";
 
-        QasmAsyncIntepreter interpreter;
+        QasmAsyncInterpreter interpreter;
         interpreter.interpret(std::string(src));
         std::vector<bool> res = interpreter.readClassicRegister("c");
         while(interpreter.hasErrors()){
