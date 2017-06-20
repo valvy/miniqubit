@@ -8,3 +8,6 @@ What works:
 2. Single python3 and C++ api for handling the intepreter
 3. Windows, GNU/Linux and MacOS Support.
 
+version 0.6.1
+June 20 2017
+Fixes crash when an error message is asked when no error is available.

@@ -9,7 +9,7 @@ include(externalCatch)
 
 set(miniQbt_MAJOR_VERSION 0)
 set(miniQbt_MINOR_VERSION 6)
-set(miniQbt_PATCH_VERSION 0)
+set(miniQbt_PATCH_VERSION 1)
 set(miniQbt_version ${miniQbt_MAJOR_VERSION}.${miniQbt_MINOR_VERSION}.${miniQbt_PATCH_VERSION})
 set(miniQbt_name MiniQbt)
 
