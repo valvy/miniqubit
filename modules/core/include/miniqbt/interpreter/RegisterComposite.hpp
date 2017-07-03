@@ -7,6 +7,10 @@
 
 namespace MiniQbt{
     namespace Core{
+        /**
+        *   Generic class for handling different sizes of quantum registers.
+        *   @author Heiko van der Heijden
+        */
         class AbstractRegister {
             public:
             virtual void visit(PauliXToken& pauliGate) = 0;
