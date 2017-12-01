@@ -1,5 +1,5 @@
-#include "miniqbt/intepreter/TokenParser.hpp"
-#include "miniqbt/intepreter/Tokens.hpp"
+#include "miniqbt/interpreter/TokenParser.hpp"
+#include "miniqbt/interpreter/Tokens.hpp"
 #include <regex>
 #include <iostream>
 

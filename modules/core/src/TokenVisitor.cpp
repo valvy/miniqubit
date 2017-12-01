@@ -1,4 +1,4 @@
-#include "miniqbt/intepreter/TokenVisitor.hpp"
+#include "miniqbt/interpreter/TokenVisitor.hpp"
 
 
 using namespace MiniQbt::Core;

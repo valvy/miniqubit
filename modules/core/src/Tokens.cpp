@@ -1,5 +1,5 @@
-#include "miniqbt/intepreter/Tokens.hpp"
-#include "miniqbt/intepreter/TokenVisitor.hpp"
+#include "miniqbt/interpreter/Tokens.hpp"
+#include "miniqbt/interpreter/TokenVisitor.hpp"
 #include <regex>
 
 using namespace MiniQbt::Core;

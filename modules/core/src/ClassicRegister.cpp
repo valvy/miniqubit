@@ -1,5 +1,5 @@
-#include "miniqbt/intepreter/ClassicRegister.hpp"
-#include "miniqbt/intepreter/RegisterComposite.hpp"
+#include "miniqbt/interpreter/ClassicRegister.hpp"
+#include "miniqbt/interpreter/RegisterComposite.hpp"
 
 using namespace MiniQbt::Core;
 
