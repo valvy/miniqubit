@@ -32,7 +32,7 @@ int main(int argc, char** argv){
         }
         else {
             const std::string src = filereader(std::string(argv[1]));
-            interpreter.intepret(src);
+            interpreter.interpret(src);
             while(interpreter.hasErrors()){
                 printError("",interpreter.getError(), "\n");
             }
@@ -104,7 +104,7 @@ int main(int argc, char** argv){
             continue;
         }
 
-        interpreter.intepret(command);
+        interpreter.interpret(command);
         
         while(interpreter.hasErrors()){
             printError("",interpreter.getError(), "\n");
