@@ -54,8 +54,9 @@ foreach(p LIB BIN INCLUDE CMAKE)
 endforeach()
 
 #setup tests
+IF(ENABLED_TESTS)
 add_subdirectory(tests)
-
+ENDIF()
 
 
 export(TARGETS ${PROJECT_NAME}

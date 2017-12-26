@@ -3,9 +3,14 @@ project(miniQbt)
 
 LIST( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 
+OPTION(ENABLE_TESTS "Enable unit tests" OFF)
+OPTION(ENABLE_PYTHON "Enable building for python" OFF)
+OPTION(ENABLE_JAVA "Enable building for java" ON)
 include(ExternalProject)
-include(externalCatch)
 
+IF(ENABLED_TESTS)
+    include(externalCatch)
+ENDIF()
 
 set(miniQbt_MAJOR_VERSION 0)
 set(miniQbt_MINOR_VERSION 6)

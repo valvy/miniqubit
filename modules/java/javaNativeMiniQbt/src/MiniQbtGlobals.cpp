@@ -1,4 +1,4 @@
-#include "MiniQbtWrapper.hpp"
+#include "MiniQbtGlobals.hpp"
 #include <miniqbt/MiniQbt.hpp>
 #include <string.h>
 JNIEXPORT jstring JNICALL
