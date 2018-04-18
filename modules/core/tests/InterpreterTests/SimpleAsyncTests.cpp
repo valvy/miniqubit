@@ -84,7 +84,7 @@ TEST_CASE( "Asyncronous coding tests") {
         REQUIRE(!interpreter.hasErrors());
     }
     constexpr char EXPRESSION_WITH_ONLY_NLINE[] = "Expression with only a new line"; 
-    SECTION(EXPRESSION_WITH_NLINE){
+    SECTION(EXPRESSION_WITH_ONLY_NLINE){
         MiniQbt::QasmAsyncInterpreter interpreter;
         interpreter.interpret("qreg q[5];  creg c[5];");
         interpreter.interpret("\n");

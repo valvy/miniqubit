@@ -10,7 +10,7 @@ class MultiThreadedTests(unittest.TestCase):
     '''
     def thread(self):
         
-        for x in range(0, 200):
+        for x in range(0, 10):
             x = QasmAsyncInterpreter()
             x.interpret("qreg q[1]; creg c[1]; x q; measure q -> c;")
             self.assertFalse(x.hasErrors())
