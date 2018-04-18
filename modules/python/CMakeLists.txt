@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.5)
 project(PyMiniQbt)
 set (
-	python_version 3.5.0
+	python_version 3.4.0
 )
 find_package(PythonInterp ${python_version} REQUIRED)
 find_package(PythonLibs ${python_version} REQUIRED)
