@@ -5,8 +5,8 @@ compiler:
     - clang
 
 before_install:
-    - sudo apt update -y
-    - sudo apt install libpython3-all-dev    
+#    - sudo apt update -y
+#    - sudo apt install libpython3-all-dev    
     # Install Eigen3
     - git clone https://github.com/eigenteam/eigen-git-mirror.git
     - cd eigen-git-mirror/
