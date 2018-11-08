@@ -64,8 +64,5 @@ The library has a wrapper for python3
 
 ```
 
-## Licence
-Everything is licensed under the MIT license. 
-[License](LICENSE)
 
 
