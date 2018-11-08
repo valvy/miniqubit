@@ -1,5 +1,6 @@
 # Miniqbt, a runtime for the IBM Quantum experience
-[![Build Status](https://travis-ci.org/valvy/miniqubit.svg?branch=master)](https://travis-ci.org/valvy/miniqubit)
+[![Build Status](https://travis-ci.org/valvy/miniqubit.svg?branch=master)](https://travis-ci.org/valvy/miniqubit) [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 ## Introduction
 IBM research  [released](https://www.research.ibm.com/ibm-q/) a quantum computer accessable for the cloud.
 MiniQbt is a emulator for the IBM quantum experience, with a generic amount of qubits and classical bits.
