@@ -3,8 +3,15 @@ project(miniQbt)
 
 LIST( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 
+OPTION(ENABLE_TESTS "Enable unit tests" OFF)
+OPTION(ENABLE_PYTHON "Enable building for python" OFF)
+
+IF(ENABLE_TESTS)
 include(ExternalProject)
 include(externalCatch)
+enable_testing ()
+ENDIF()
+
 
 
 set(miniQbt_MAJOR_VERSION 0)
@@ -17,6 +24,6 @@ set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
 
-enable_testing ()
+
 add_subdirectory(modules)
 
