@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 #include <miniqbt/emulator/MiniQbtEmulator.hpp>
 
 TEST_CASE( "Bell tests") {
