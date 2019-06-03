@@ -1,6 +1,15 @@
 package nl.hvanderheijden.miniqbt;
+import java.io.Closeable;
 import java.util.List;
-public class QasmAsyncInterpreter{
+public class QasmAsyncInterpreter implements Closeable {
+
+    private long nativeQuasmPointer;
+
+    public QasmAsyncInterpreter() {
+
+    }
+
+    private native void init();
 
     public native void resetSuperPosition(String quantumRegister);
 
@@ -17,5 +26,12 @@ public class QasmAsyncInterpreter{
     public native boolean hasErrors();
 
     public native String getErrors();
+
+    @Override
+    public void close() {
+        dispose();
+    }
+
+    private native void dispose();
 
 }

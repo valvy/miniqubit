@@ -1,10 +1,12 @@
 cmake_minimum_required (VERSION 3.5)
+set (CMAKE_CXX_STANDARD 14)
 project(JavaNativeMiniQbt)
 find_package(JNI REQUIRED)
 find_package (Eigen3 3.3 NO_MODULE)
 
 SET(NATIVE_LIB_SOURCES 
     ./src/MiniQbtGlobals.cpp
+    ./src/MiniQbtQasmAsyncInterpreter.cpp
 )
 
 SET(JAVA_NATIVE_LIB_NAME

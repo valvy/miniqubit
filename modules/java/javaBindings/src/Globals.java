@@ -6,6 +6,12 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 
 public final class Globals{
+
+    static {
+        System.load("/home/heiko/Documents/Projectjes/miniqubit/build/modules/java/javaBindings/libJavaMiniQbtWrapper.so");
+    }
+    
+    /*
     static {
         final String tmpDirectory = System.getProperty("java.io.tmpdir");
         final String LIB_NAME = getLibraryName();
@@ -28,10 +34,7 @@ public final class Globals{
         
     }
 
-    /**
-     * Function to find out which library should be loaded.
-     * 
-     */
+  
     private static String getLibraryName(){
         final String BIT_VERSION;
         if(System.getProperty("os.arch").contains("64")){
@@ -46,7 +49,7 @@ public final class Globals{
             BIT_VERSION, 
             OS_VERSION);
     }
-
+*/
     private Globals(){
         throw new UnsupportedOperationException();
     }
@@ -58,5 +61,14 @@ public final class Globals{
     public static void main(String[] args){
         System.out.println(getName() + " : " + getVersion());
         System.out.println("teste");
+        try (QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
+            inte.interpret("test");
+            System.out.println(inte.hasErrors());
+        } finally {
+
+        }
+        QasmAsyncInterpreter inte = new QasmAsyncInterpreter();
+        inte.close();
+      
     }
 }

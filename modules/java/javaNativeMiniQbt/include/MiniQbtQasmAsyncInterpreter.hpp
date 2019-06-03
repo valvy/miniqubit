@@ -1,11 +1,17 @@
-#ifndef MINIQBT_GLOBALS_WRAPPEr_HPP
+#ifndef MINIQBT_GLOBALS_WRAPPER_HPP
 #define MINIQBT_GLOBALS_WRAPPER_HPP
 #include <jni.h>
 
 extern "C" {
-   // JNIEXPORT jstring JNICALL Java_nl_hvanderheijden_miniqbt_Globals_getName (JNIEnv *, jobject);
+  
+    JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_init (JNIEnv *env, jobject);
 
-    //JNIEXPORT jstring JNICALL Java_nl_hvanderheijden_miniqbt_Globals_getVersion (JNIEnv *, jobject);
+    JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_interpret (JNIEnv *env, jobject,jstring src);
+    
+    JNIEXPORT jboolean JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_hasErrors (JNIEnv *env, jobject);
+    JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_dispose (JNIEnv *env, jobject);
 }
+
+
 
 #endif
