@@ -1,12 +1,14 @@
 package nl.hvanderheijden.miniqbt;
 import java.io.Closeable;
 import java.util.List;
+
 public class QasmAsyncInterpreter implements Closeable {
 
-    private long nativeQuasmPointer;
+    private long nativeQasmPointer;
 
     public QasmAsyncInterpreter() {
-
+        this.nativeQasmPointer = 0;
+        this.init();
     }
 
     private native void init();

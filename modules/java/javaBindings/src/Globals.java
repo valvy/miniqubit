@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 public final class Globals{
 
     static {
+      //  System.load("/home/heiko/Documents/Projectjes/miniqubit/build/modules/java/javaBindings/libMiniQbt.so");
         System.load("/home/heiko/Documents/Projectjes/miniqubit/build/modules/java/javaBindings/libJavaMiniQbtWrapper.so");
     }
     
@@ -61,14 +62,21 @@ public final class Globals{
     public static void main(String[] args){
         System.out.println(getName() + " : " + getVersion());
         System.out.println("teste");
-        try (QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
+       try (QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
+       //     inte.init();
             inte.interpret("test");
-            System.out.println(inte.hasErrors());
+            System.out.println("errors " + inte.hasErrors());
+            QasmAsyncInterpreter inter = new QasmAsyncInterpreter();
+            inter.interpret(("creg a[4];"));
+            System.out.println("no errors " + inter.hasErrors());
+            inter.close();
         } finally {
 
         }
         QasmAsyncInterpreter inte = new QasmAsyncInterpreter();
+        //inte.init();
         inte.close();
+
       
     }
 }
