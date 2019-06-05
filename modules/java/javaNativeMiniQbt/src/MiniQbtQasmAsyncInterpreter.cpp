@@ -15,7 +15,6 @@ QasmAsyncInterpreter* getInterpreterFromMemory(JNIEnv *env, jobject obj) {
         POINTER_TYPE);
 
     const jlong pointer = env->GetLongField(obj, fid);
-
     if(pointer != 0) {
         return reinterpret_cast<QasmAsyncInterpreter*>(pointer);
     }
@@ -24,33 +23,36 @@ QasmAsyncInterpreter* getInterpreterFromMemory(JNIEnv *env, jobject obj) {
 
 
 JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_init (JNIEnv *env, jobject obj) {
-    // get the ID of nativeQuasmPointer
+    // Get the ID of nativeQuasmPointer
     jclass wrapperClass = env->GetObjectClass(obj);
     jfieldID fid = env->GetFieldID(
         wrapperClass,
         POINTER_NAME, 
         POINTER_TYPE);
     QasmAsyncInterpreter* interpreter = new QasmAsyncInterpreter();
-    // store the pointer in java
-    jlong a = reinterpret_cast<jlong>(interpreter);//(long int)&interpreter;
+    // Store the pointer in java
+    jlong a = reinterpret_cast<jlong>(interpreter);
     env->SetLongField(obj, fid, a);
-
 }
 
 JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_interpret (JNIEnv *env, jobject obj, jstring src){
     const char *inCStr = env->GetStringUTFChars(src, nullptr);
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     interpreter->interpret(std::string(inCStr));
-
+    env->ReleaseStringUTFChars(src, inCStr);
 }
 
 JNIEXPORT jboolean JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_hasErrors (JNIEnv *env, jobject obj){
     jclass clazz = (*env).FindClass("java/util/ArrayList");
-
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
-
-
     return interpreter->hasErrors();
+}
+
+JNIEXPORT jstring JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getError (JNIEnv *env, jobject obj) {
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    std::string res = interpreter->getError();
+    return env->NewStringUTF(res.c_str());
+    
 }
 
 JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_dispose (JNIEnv *env, jobject obj) {
@@ -61,30 +63,8 @@ JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_dispo
         POINTER_NAME, 
         POINTER_TYPE);
 
-   if(getInterpreterFromMemory != nullptr) {
+   if(getInterpreterFromMemory(env,obj) != nullptr) {
        env->SetLongField(obj, fid, 0); // Make sure it points to zero
        delete interpreter;
    }
-   /* jclass wrapperclass = env->GetObjectClass(obj);
-
-    jfieldID fid = env->GetFieldID(
-        wrapperclass,
-        POINTER_NAME, 
-        POINTER_TYPE);
-
-    jlong pointer = env->GetLongField(obj, fid);
-
-    printf("pointer %ld\n", pointer);
-    if (pointer != 0) {
-        MiniQbt::QasmAsyncInterpreter* interpreter = reinterpret_cast<MiniQbt::QasmAsyncInterpreter*>(pointer);
-        printf("pointer %ld\n", (long int)&pointer);
-        //interpreter->interpret(std::string("test"));
-        printf(interpreter->hasErrors()? "True" : "False");
-        env->SetLongField(obj, fid, 0);
-        //(MiniQbt::QasmAsyncInterpreter*) pointer;
-        delete interpreter;
-        // set it to null
-        
-    } */
-
 }

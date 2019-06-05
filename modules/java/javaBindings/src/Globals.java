@@ -64,18 +64,23 @@ public final class Globals{
         System.out.println("teste");
        try (QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
        //     inte.init();
-            inte.interpret("test");
+            inte.interpret("qreg a[1111];");
+            while(inte.hasErrors()) {
+                System.out.printf("[%s] has error %s", inte,  inte.getError());
+            }
+            
+            /*
             System.out.println("errors " + inte.hasErrors());
             QasmAsyncInterpreter inter = new QasmAsyncInterpreter();
             inter.interpret(("creg a[4];"));
             System.out.println("no errors " + inter.hasErrors());
-            inter.close();
+            inter.close();*/
         } finally {
 
         }
-        QasmAsyncInterpreter inte = new QasmAsyncInterpreter();
+        //QasmAsyncInterpreter inte = new QasmAsyncInterpreter();
         //inte.init();
-        inte.close();
+        //inte.close();
 
       
     }

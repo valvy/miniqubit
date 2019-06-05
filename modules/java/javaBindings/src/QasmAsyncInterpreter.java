@@ -27,7 +27,12 @@ public class QasmAsyncInterpreter implements Closeable {
 
     public native boolean hasErrors();
 
-    public native String getErrors();
+    public native String getError();
+
+    @Override
+    public String toString() {
+        return String.format("QasmAsyncInterpreter Ptr[%d]", this.nativeQasmPointer);
+    }
 
     @Override
     public void close() {
