@@ -62,19 +62,24 @@ public final class Globals{
     public static void main(String[] args){
         System.out.println(getName() + " : " + getVersion());
         System.out.println("teste");
-       try (QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
+       try (final QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
        //     inte.init();
-            inte.interpret("qreg a[1111];");
-            while(inte.hasErrors()) {
-                System.out.printf("[%s] has error %s", inte,  inte.getError());
+            inte.interpret("qreg a[5];" +
+                            "creg b[5];"+
+                            "h a;" +
+                            "measure a -> b;"
+                            
+            );
+            if(!inte.hasErrors()) {
+                for(boolean i : inte.readClassicRegister("b")) {
+                    System.out.println(i);
+                }
+            } else {
+                while(inte.hasErrors()) {
+                    System.out.println(inte.getError());
+                }
             }
-            
-            /*
-            System.out.println("errors " + inte.hasErrors());
-            QasmAsyncInterpreter inter = new QasmAsyncInterpreter();
-            inter.interpret(("creg a[4];"));
-            System.out.println("no errors " + inter.hasErrors());
-            inter.close();*/
+
         } finally {
 
         }

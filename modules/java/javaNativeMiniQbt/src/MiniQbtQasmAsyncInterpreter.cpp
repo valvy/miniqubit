@@ -5,9 +5,9 @@
 using namespace MiniQbt;
 
 constexpr char POINTER_NAME[] = "nativeQasmPointer";
-constexpr char POINTER_TYPE[] = "J";
+constexpr char POINTER_TYPE[] = "J"; // The type of a long is J in jni
 
-QasmAsyncInterpreter* getInterpreterFromMemory(JNIEnv *env, jobject obj) {
+inline QasmAsyncInterpreter* getInterpreterFromMemory(JNIEnv *env, jobject obj) {
     jclass wrapperClass = env->GetObjectClass(obj);
     const jfieldID fid = env->GetFieldID(
         wrapperClass,
@@ -30,7 +30,7 @@ JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_init 
         POINTER_NAME, 
         POINTER_TYPE);
     QasmAsyncInterpreter* interpreter = new QasmAsyncInterpreter();
-    // Store the pointer in java
+    // Store the pointer in java. So we can use it.
     jlong a = reinterpret_cast<jlong>(interpreter);
     env->SetLongField(obj, fid, a);
 }
@@ -54,6 +54,29 @@ JNIEXPORT jstring JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_ge
     return env->NewStringUTF(res.c_str());
     
 }
+
+JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getRegisters(JNIEnv *env, jobject obj) {
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    std::vector<std::string> classicRegisters = interpreter->getRegisters();
+    const int size = classicRegisters.size();
+    jstring fill[size];
+}
+
+ JNIEXPORT jbooleanArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicRegister(JNIEnv *env, jobject obj, jstring name) {
+     // todo: this class causes a segfault
+    const char *inCStr = env->GetStringUTFChars(name, nullptr);
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    std::vector<bool> data = interpreter->readClassicRegister(std::string(inCStr));
+    const int size = data.size();
+    jboolean fill[size];
+    for (int i = 0; i < size; i++) {
+        fill[i] = data[i];
+    }
+    jbooleanArray result = env->NewBooleanArray(size);
+    env->SetBooleanArrayRegion(result, 0, size, fill);
+    env->ReleaseStringUTFChars(name, inCStr);
+    return result;
+ }
 
 JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_dispose (JNIEnv *env, jobject obj) {
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);

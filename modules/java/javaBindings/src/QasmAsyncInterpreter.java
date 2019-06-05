@@ -1,6 +1,5 @@
 package nl.hvanderheijden.miniqbt;
 import java.io.Closeable;
-import java.util.List;
 
 public class QasmAsyncInterpreter implements Closeable {
 
@@ -17,11 +16,11 @@ public class QasmAsyncInterpreter implements Closeable {
 
     public native void interpret(String src);
 
-    public native List<String> getQuantumRegisters();
+    public native String[] getQuantumRegisters();
 
-    public native List<String> getRegisters();
+    public native String[] getRegisters();
 
-    public native List<Integer> readClassicRegister();
+    public native boolean[] readClassicRegister(String name);
 
     public native boolean doesRegisterExists(String name);
 
