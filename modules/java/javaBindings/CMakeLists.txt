@@ -18,9 +18,6 @@ SET(JAVA_LIB_SOURCES
     ./src/QasmAsyncInterpreter.java
 )  
 
-MESSAGE("${JAVA_NATIVE_LIB_NAME}")
-
-
 
 add_jar(
     jMiniQbt 
@@ -30,7 +27,9 @@ add_jar(
     VERSION ${miniQbt_MAJOR_VERSION}.${miniQbt_MINOR_VERSION}.${miniQbt_PATCH_VERSION}
 )
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux" ) 
 # Adding the shared objects to te jar 
+MESSAGE("Adding wrapper of miniqbt to the jar")
 add_custom_command(
     TARGET jMiniQbt
     POST_BUILD
@@ -39,3 +38,6 @@ add_custom_command(
     lib${JAVA_NATIVE_LIB_NAME}.so
     WORKING_DIRECTORY ${JavaNativeMiniQbt_BINARY_DIR} 
 )
+ELSE()
+MESSAGE("This platform has no proper Java support for MiniQbt.")
+ENDIF()

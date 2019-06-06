@@ -4,6 +4,7 @@ project(JavaNativeMiniQbt)
 find_package(JNI REQUIRED)
 find_package (Eigen3 3.3 NO_MODULE)
 
+
 SET(NATIVE_LIB_SOURCES 
     ./src/MiniQbtGlobals.cpp
     ./src/MiniQbtQasmAsyncInterpreter.cpp
@@ -19,6 +20,5 @@ SET(NATIVE_HEADERS
 
 include_directories(${JNI_INCLUDE_DIRS} ${NATIVE_HEADERS} )
 add_library(${JAVA_NATIVE_LIB_NAME} SHARED ${NATIVE_LIB_SOURCES})
-
 
 target_link_libraries(${JAVA_NATIVE_LIB_NAME} ${JNI_LIBRARIES} Eigen3::Eigen )

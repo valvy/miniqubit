@@ -8,12 +8,9 @@ import java.nio.file.StandardCopyOption;
 public final class Globals{
 
     static {
-      //  System.load("/home/heiko/Documents/Projectjes/miniqubit/build/modules/java/javaBindings/libMiniQbt.so");
-        System.load("/home/heiko/Documents/Projectjes/miniqubit/build/modules/java/javaBindings/libJavaMiniQbtWrapper.so");
-    }
-    
-    /*
-    static {
+        // Load the library. So it can be packaged together with the jar.
+        // This will only load the javanativeMiniQbt it still requires the real shared object.
+        
         final String tmpDirectory = System.getProperty("java.io.tmpdir");
         final String LIB_NAME = getLibraryName();
         File generatedDir = new File(tmpDirectory, "miniqbt" + System.nanoTime());
@@ -21,7 +18,7 @@ public final class Globals{
             System.out.println("error");
         }
         generatedDir.deleteOnExit();
-        File temp = new File(generatedDir, LIB_NAME);//"/libJavaMiniQbtWrapper.so");
+        File temp = new File(generatedDir, LIB_NAME);
         try (final InputStream is = Globals.class.getResourceAsStream(LIB_NAME)) {
             Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);   
         } catch (final IOException exception ){
@@ -31,12 +28,14 @@ public final class Globals{
             System.load(temp.getAbsolutePath()); 
         } finally {
             temp.delete();
-        }
-        
+        }   
     }
+
 
   
     private static String getLibraryName(){
+        // todo make sure it works on OSX and Windows
+        // Should test it though
         final String BIT_VERSION;
         if(System.getProperty("os.arch").contains("64")){
             BIT_VERSION = "x86_64";
@@ -45,12 +44,24 @@ public final class Globals{
         }
        
         final String OS_VERSION = System.getProperty("os.name");
+        final String LIB_EXTENSION;
+        if(OS_VERSION.contains("Linux")) {
+            LIB_EXTENSION = "so";
+        } else if (OS_VERSION.contains("Mac")) {
+            LIB_EXTENSION = "dylib";
+        } else {
+            // Assume Windows
+            LIB_EXTENSION = "dll";
+        }
+
         return String.format(
-            "/libJavaMiniQbtWrapper_%s_%s.so", 
+            "/libJavaMiniQbtWrapper_%s_%s.%s", 
             BIT_VERSION, 
-            OS_VERSION);
+            OS_VERSION,
+            LIB_EXTENSION
+        );
     }
-*/
+
     private Globals(){
         throw new UnsupportedOperationException();
     }
@@ -58,35 +69,4 @@ public final class Globals{
     public static native String getName();
 
     public static native String getVersion();
-
-    public static void main(String[] args){
-        System.out.println(getName() + " : " + getVersion());
-        System.out.println("teste");
-       try (final QasmAsyncInterpreter inte = new QasmAsyncInterpreter()) {
-       //     inte.init();
-            inte.interpret("qreg a[5];" +
-                            "creg b[5];"+
-                            "h a;" +
-                            "measure a -> b;"
-                            
-            );
-            if(!inte.hasErrors()) {
-                for(boolean i : inte.readClassicRegister("b")) {
-                    System.out.println(i);
-                }
-            } else {
-                while(inte.hasErrors()) {
-                    System.out.println(inte.getError());
-                }
-            }
-
-        } finally {
-
-        }
-        //QasmAsyncInterpreter inte = new QasmAsyncInterpreter();
-        //inte.init();
-        //inte.close();
-
-      
-    }
 }

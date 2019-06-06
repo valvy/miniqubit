@@ -43,7 +43,6 @@ JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_inter
 }
 
 JNIEXPORT jboolean JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_hasErrors (JNIEnv *env, jobject obj){
-    jclass clazz = (*env).FindClass("java/util/ArrayList");
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     return interpreter->hasErrors();
 }
@@ -52,18 +51,56 @@ JNIEXPORT jstring JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_ge
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     std::string res = interpreter->getError();
     return env->NewStringUTF(res.c_str());
-    
+
+
 }
+
+JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_resetSuperPosition (JNIEnv *env, jobject obj,jstring qregister) {
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    const char *inCStr = env->GetStringUTFChars(qregister, nullptr);
+    interpreter->resetSuperPosition(std::string(inCStr));
+    env->ReleaseStringUTFChars(qregister, inCStr);
+}
+
 
 JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getRegisters(JNIEnv *env, jobject obj) {
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     std::vector<std::string> classicRegisters = interpreter->getRegisters();
     const int size = classicRegisters.size();
+    jobjectArray result= (jobjectArray)env->NewObjectArray(
+        size, 
+        env->FindClass("java/lang/String") , 
+        env->NewStringUTF("")
+    );
+
     jstring fill[size];
+    for(int i =0; i < size; i++) {
+        env->SetObjectArrayElement(result, i, env->NewStringUTF(classicRegisters[i].c_str()));
+    }   
+    return result;
 }
 
+
+JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getQuantumRegisters(JNIEnv *env, jobject obj) {
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    std::vector<std::string> quantumRegisters = interpreter->getQuantumRegisters();
+    const int size = quantumRegisters.size();
+    jobjectArray result= (jobjectArray)env->NewObjectArray(
+        size, 
+        env->FindClass("java/lang/String") , 
+        env->NewStringUTF("")
+    );
+
+    jstring fill[size];
+    for(int i =0; i < size; i++) {
+        env->SetObjectArrayElement(result, i, env->NewStringUTF(quantumRegisters[i].c_str()));
+    }   
+    return result;
+}
+
+
+
  JNIEXPORT jbooleanArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicRegister(JNIEnv *env, jobject obj, jstring name) {
-     // todo: this class causes a segfault
     const char *inCStr = env->GetStringUTFChars(name, nullptr);
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     std::vector<bool> data = interpreter->readClassicRegister(std::string(inCStr));
