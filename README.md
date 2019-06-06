@@ -21,46 +21,46 @@ When done create a new build folder and let Cmake unpack everything there.
 You can simply load in quantum source code like this.
 
 ```c++
-    #include <miniqbt/MiniQbt.hpp>
-    #include <iostream>
-    #include <vector>
+#include <miniqbt/MiniQbt.hpp>
+#include <iostream>
+#include <vector>
 
-    int main(int argc, char** argv){
-        using namespace MiniQbt;
-        const char* src = 
-        "OPENQASM 2.0;              \n"
-        "include \"qelib1.inc\";    \n"
-        "qreg q[1]; creg c[1];      \n"
-        "h q[0];                    \n"
-        "measure q[0] -> c[0];      \n";
+int main(int argc, char** argv){
+    using namespace MiniQbt;
+    const char* src = 
+    "OPENQASM 2.0;              \n"
+    "include \"qelib1.inc\";    \n"
+    "qreg q[1]; creg c[1];      \n"
+    "h q[0];                    \n"
+    "measure q[0] -> c[0];      \n";
 
-        QasmAsyncInterpreter interpreter;
-        interpreter.interpret(std::string(src));
-        std::vector<bool> res = interpreter.readClassicRegister("c");
-        while(interpreter.hasErrors()){
-            std::cout << interpreter.getError() << "\n";
-        }
-
-
-        std::cout << "result of the algorithm: ";
-        for(const bool& r : res){
-            std::cout << r;
-        }
-        std::cout << "\n";
+    QasmAsyncInterpreter interpreter;
+    interpreter.interpret(std::string(src));
+    std::vector<bool> res = interpreter.readClassicRegister("c");
+    while(interpreter.hasErrors()){
+        std::cout << interpreter.getError() << "\n";
     }
+
+
+    std::cout << "result of the algorithm: ";
+    for(const bool& r : res){
+        std::cout << r;
+    }
+    std::cout << "\n";
+}
 ```
 The library has a wrapper for python3
 ```python
-    from MiniQbt.Interpreter import QasmAsyncInterpreter
+from MiniQbt.Interpreter import QasmAsyncInterpreter
 
-    source = "OPENQASM 2.0; include \"qelib1.inc\";  qreg q[1]; creg c[1]; h q[0]; measure q[0] -> c[0];"
-    interpreter = QasmAsyncInterpreter()
-    interpreter.interpret(source)
-    result = interpreter.readClassicRegister("c")
-    while interpreter.hasErrors():
-        print(interpreter.getError())
-    print("result of the algorithm: ")
-    print(result)
+source = "OPENQASM 2.0; include \"qelib1.inc\";  qreg q[1]; creg c[1]; h q[0]; measure q[0] -> c[0];"
+interpreter = QasmAsyncInterpreter()
+interpreter.interpret(source)
+result = interpreter.readClassicRegister("c")
+while interpreter.hasErrors():
+    print(interpreter.getError())
+print("result of the algorithm: ")
+print(result)
 
 ```
 
