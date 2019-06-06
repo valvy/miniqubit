@@ -9,6 +9,7 @@ package nl.hvanderheijden.miniqbt;
 public class QasmAsyncInterpreter {
 
     static {
+        // Make sure that the native library is loaded.
         Globals.getName();
     }
 
