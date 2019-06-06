@@ -8,6 +8,10 @@ package nl.hvanderheijden.miniqbt;
  */
 public class QasmAsyncInterpreter {
 
+    static {
+        Globals.getName();
+    }
+
     /**
      * Pointer that stores the memory adress of the QasmAsyncInterpreter
      * Do not alter this!
@@ -63,7 +67,6 @@ public class QasmAsyncInterpreter {
     protected void finalize() throws Throwable {
         try {
             dispose();
-            System.out.println("Tesdsafafdst");
         } finally {
             super.finalize();
         }

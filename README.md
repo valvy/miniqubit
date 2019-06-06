@@ -64,5 +64,35 @@ The library has a wrapper for python3
 
 ```
 
+The library has also a wrapper for Java
+```java
+import nl.hvanderheijden.miniqbt.Globals;
+import nl.hvanderheijden.miniqbt.QasmAsyncInterpreter;
 
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(
+                String.format("%s version %s",
+                        Globals.getName(),
+                        Globals.getVersion()
+                )
+        );
+        QasmAsyncInterpreter interpreter = new QasmAsyncInterpreter();
+        interpreter.interpret("qreg a[5];");
+        interpreter.interpret("creg b[5];");
+        interpreter.interpret("h a;");
+        interpreter.interpret("measure a -> b;");
+        while(interpreter.hasErrors()) {
+            System.out.println(interpreter.getError());
+        }
+        for (String i : interpreter.getRegisters()) {
+            System.out.print("Answer: ");
+            for(boolean register : interpreter.readClassicRegister(i)) {
+                System.out.print(register? 0 : 1);
+            }
+            System.out.println();
+        }
+    }
+}
 
+```
