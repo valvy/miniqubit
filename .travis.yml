@@ -14,7 +14,7 @@ before_install:
     - cd eigen-git-mirror/
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DENABLE_JAVA=ON -DENABLE_TEST=ON
     - sudo make install
     - cd ./../..
 
