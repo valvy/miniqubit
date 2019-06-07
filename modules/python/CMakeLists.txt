@@ -33,17 +33,16 @@ if (PYTHONINTERP_FOUND)
 
     configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
-    add_custom_command(OUTPUT ${OUTPUT}
-                       COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
+  add_custom_command(OUTPUT ${OUTPUT}
+                    COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} build
+                      COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
                        )
 
-    add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
-
-
-  add_test(NAME pyNativeTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/native_tests_without_allocating.py)
-  add_test(NAME pyAbuseQasmTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/abuse_qasm_emulator_tests.py)
-  add_test(NAME pyThreadedTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/multi_threaded_tests.py)
-#  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/IntepreterTests)
+  add_custom_target(PyMiniQbt ALL DEPENDS ${OUTPUT})
+  IF(ENABLE_TESTS)
+    add_test(NAME pyNativeTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/native_tests_without_allocating.py)
+    add_test(NAME pyAbuseQasmTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/abuse_qasm_emulator_tests.py)
+    add_test(NAME pyThreadedTests COMMAND ${PYTHON_EXECUTABLE} ${PyMiniQbt_SOURCE_DIR}/tests/multi_threaded_tests.py)
+  ENDIF()
   install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} install)")
 endif()
