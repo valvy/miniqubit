@@ -20,7 +20,7 @@ before_install:
 before_script:
     - mkdir build
     - cd build
-    - cmake .. -DENABLE_TEST=ON
+    - cmake .. -DENABLE_TESTS=ON
 
 script:
     - make
