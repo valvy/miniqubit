@@ -4,24 +4,23 @@ compiler:
     - gcc
     - clang
 
+addons:
+  brew:
+    packages: lcov
+
 before_install:
-#    - sudo apt update -y
-#    - sudo apt install libpython3-all-dev    
-    #- brew update
-    #- brew upgrade python
-    # Install Eigen3
     - git clone https://github.com/eigenteam/eigen-git-mirror.git
     - cd eigen-git-mirror/
     - mkdir build
     - cd build
-    - cmake .. -DENABLE_JAVA=ON -DENABLE_TEST=ON
+    - cmake .. 
     - sudo make install
     - cd ./../..
 
 before_script:
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DENABLE_JAVA=ON -DENABLE_TEST=ON
 
 script:
     - make
@@ -29,3 +28,10 @@ script:
     - ctest -V
 
 
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - lcov --directory . --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
+  - lcov --list coverage.info #debug info
+  # Uploading report to CodeCov
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
