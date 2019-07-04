@@ -6,6 +6,8 @@ LIST( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 OPTION(ENABLE_TESTS "Enable unit tests" OFF)
 OPTION(ENABLE_JAVA "Enable building for java" OFF)
 OPTION(ENABLE_PYTHON "Enable building for python" OFF)
+OPTION(ENABLE_EMSCRIPTEN "Enable Emscripten" ON)
+
 
 IF(ENABLE_TESTS)
 include(ExternalProject)
