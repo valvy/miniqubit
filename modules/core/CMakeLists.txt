@@ -14,7 +14,7 @@ SET(LIB_SOURCES
     src/QasmAsyncInterpreter.cpp
     src/Tokens.cpp
     src/TokenVisitor.cpp
-    src/emscripten.cpp
+    src/Emscripten.cpp
     src/TokenParser.cpp
     src/ClassicRegister.cpp
 )
