@@ -7,6 +7,3 @@ IF(ENABLE_JAVA)
 add_subdirectory(java)
 ENDIF()
 
-IF(ENABLE_EMSCRIPTEN)
-
-ENDIF()

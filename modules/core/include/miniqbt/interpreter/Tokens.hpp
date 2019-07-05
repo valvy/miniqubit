@@ -36,7 +36,9 @@ namespace MiniQbt{
             public:
             std::string getName() const { return this->name ;}
             GateToken(const std::string& data);
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~GateToken() { }
+
             
         };
 
@@ -47,7 +49,8 @@ namespace MiniQbt{
             std::vector<std::string> quantumArguments;
             public:
             UnkownGateToken(const std::string& name, const std::string classicArguments, const std::string quantumArguments);
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~UnkownGateToken() { }
         };
 
         class MassAddToken : public Token{
@@ -59,6 +62,7 @@ namespace MiniQbt{
             }
             bool linkEntireToken() const { return size == -1; }
             int getSize() const { return this->size ; }
+            virtual ~MassAddToken() { }
         };
 
         class ErrorToken : public Token {
@@ -68,7 +72,8 @@ namespace MiniQbt{
                 this->line = line;
             }
             std::string getLine() const { return this->line; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~ErrorToken() { }
         };
 
         class IncludeToken : public Token{
@@ -77,12 +82,14 @@ namespace MiniQbt{
             IncludeToken(std::string incl){
                 this->incl = incl;
             }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~IncludeToken() { }
         };
 
         class BarrierToken : public Token{
             public:
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~BarrierToken() { }
         };
 
         class AssemblyVersionToken : public Token{
@@ -91,7 +98,8 @@ namespace MiniQbt{
             AssemblyVersionToken(std::string version){
                 this->version = version;
             }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~AssemblyVersionToken() {}
         };
 
         class ClassicRegisterToken : public Token{
@@ -104,7 +112,8 @@ namespace MiniQbt{
             }
             std::string getName() const { return this->name; }
             int getSize() const { return this->size ; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~ClassicRegisterToken() { }
         };
 
         class QuantumRegisterToken : public Token{
@@ -117,7 +126,8 @@ namespace MiniQbt{
             }
             std::string getName() const { return this->name; }
             int getSize() const { return this->size ; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~QuantumRegisterToken() { }
 
 
         };
@@ -132,8 +142,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
-
+            void accept(TokenVisitor& visitor) override;
+            virtual ~HadamardGateToken() { }
         };
 
         class PhaseSToken : public MassAddToken{
@@ -146,7 +156,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PhaseSToken() { }
         };
 
         class PhaseSDGToken : public MassAddToken{
@@ -159,7 +170,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PhaseSDGToken() { }
         };
         
 
@@ -173,7 +185,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PhaseTToken() {} 
         };
 
 
@@ -187,7 +200,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PhaseTDGToken() { }
         };
     
 
@@ -201,7 +215,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PauliZToken() { }
 
         };
 
@@ -215,7 +230,8 @@ namespace MiniQbt{
                 this->name = name;
             }
             std::string getName() const { return this->name; }
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PauliYToken() { }
 
         };
 
@@ -231,7 +247,8 @@ namespace MiniQbt{
             }
             std::string getName() const { return this->name; }
             
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
+            virtual ~PauliXToken() { }
 
         };
 
@@ -254,12 +271,13 @@ namespace MiniQbt{
                 this->bit = -1;
             }
 
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
             bool linkEntireToken() const { return qubit == -1; }
             int getQubitPos() const {return qubit; }
             int getClassicPos() const {return bit; }
             std::string getQureg() const { return quReg; }
             std::string getClassicReg() const {return classicReg; }
+            virtual ~MeasureToken() {}
         };
 
         class CNotToken : public Token{
@@ -269,7 +287,7 @@ namespace MiniQbt{
             std::string rh; 
             size_t rhIndex;
             public:
-            virtual void accept(TokenVisitor& visitor) override;
+            void accept(TokenVisitor& visitor) override;
 
             CNotToken(std::string lh, size_t lhIndex, std::string rh, size_t rhIndex){
                 this->lh = lh;
@@ -281,6 +299,7 @@ namespace MiniQbt{
             std::string getRightHand() const { return rh; }
             size_t getLeftHandIndex() const { return lhIndex; }
             size_t getRightHandIndex() const { return rhIndex; }
+            virtual ~CNotToken() {}
         };
     }
 }

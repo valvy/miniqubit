@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+
+
 namespace MiniQbt{
     /**
     *   Main class of handling quantum assembly.
@@ -66,7 +68,6 @@ namespace MiniQbt{
         std::string getError();
     };
 }
-
 
 
 #endif

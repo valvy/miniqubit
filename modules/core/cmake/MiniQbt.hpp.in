@@ -9,4 +9,7 @@ namespace MiniQbt{
     constexpr char NAME[] = "${miniQbt_name}";
 }
 
+
+
+
 #endif
