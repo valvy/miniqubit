@@ -5,16 +5,6 @@
  * When the emscripten compiler is doing it's thing. 
  * Expose the QasmAsyncInterpreter
  */
-
-std::string getName() {
-    return MiniQbt::NAME;
-}
-
-std::string getVersion() {
-    return MiniQbt::VERSION;
-}
-
-
 EMSCRIPTEN_BINDINGS(MiniQbt) {
 
     
@@ -32,8 +22,8 @@ EMSCRIPTEN_BINDINGS(MiniQbt) {
     function("getError",  &MiniQbt::QasmAsyncInterpreter::getError).
     function("hasErrors", &MiniQbt::QasmAsyncInterpreter::hasErrors );
 
-    emscripten::function("getName", &getName);
-    emscripten::function("getVersion", &getVersion);
+    emscripten::constant("NAME", std::string(MiniQbt::NAME));
+    emscripten::constant("VERSION", std::string(MiniQbt::VERSION));
 }
 
 
