@@ -2,6 +2,7 @@
 #define MINI_QBT_QASM_ASYNC_INTEPRETER_HPP
 
 #include "TokenVisitor.hpp"
+#include "QuantumResult.hpp"
 #include <vector>
 #include <string>
 
@@ -42,12 +43,23 @@ namespace MiniQbt{
         *   @param line,    The quantum assembly source code.
         **/
         void interpret(const std::string& line);
+
+        /**
+        *   Reads the contents of a classical register in the quantum assembly source code.
+        *   This will collapse all the quantum registers linked to the specified classic register.
+        *   @param registerName,    The classic register to be read.
+        *   @return QuantumResult   
+        */
+        QuantumResult readClassicResult(const std::string& registerName);
+
         /**
         *   Reads the contents of a classical register in the quantum assembly source code.
         *   This will collapse all the quantum registers linked to the specified classic register.
         *   @param registerName,    The classic register to be read.
         *   @return vector<bool>,   The result in a vector with bools
+        *   @deprecated function
         */
+        [[deprecated("Replaced by readClassicResult, which has an improved interface")]]
         std::vector<bool> readClassicRegister(const std::string& registerName);
         /**
         *   Checks if a classic register exists.
