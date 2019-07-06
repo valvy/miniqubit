@@ -23,7 +23,7 @@ SET (
 IF(ENABLE_EMSCRIPTEN)
     # Disable the unit test and wrappers when building for EMSCRIPTEN
     SET (
-        MINIQBT_PLATFORM_NAME Ecmascript
+        MINIQBT_PLATFORM_NAME Emscript
     )
     IF(ENABLE_TESTS OR ENABLE_JAVA OR ENABLE_PYTHON)
         MESSAGE(FATAL_ERROR "You can't build the python/java bindings or perform unit tests while also using emscripten. Please check your settings")

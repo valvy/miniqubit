@@ -14,9 +14,9 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("measure q[2] -> c[2];");
         interpreter.interpret("measure q[3] -> c[3];");
         interpreter.interpret("measure q[4] -> c[4];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
 
-        REQUIRE(res[2] == 1);
+        REQUIRE(res.getData(2) == 1);
         REQUIRE(!interpreter.hasErrors());
     }
 
@@ -27,7 +27,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("creg c[5];");
         interpreter.interpret("ERROR;");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(interpreter.hasErrors());
     }
 
@@ -38,7 +38,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("creg c[5];");
         interpreter.interpret("ERROR");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(interpreter.hasErrors());
     }
 
@@ -49,7 +49,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("qreg q[5]; creg c[5];");
         interpreter.interpret("x q[2];");
         interpreter.interpret("measure q[2] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
     //    REQUIRE(res[0] == 1);
         REQUIRE(!interpreter.hasErrors());
     }
@@ -70,7 +70,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("; ; ;;"); //annoying thing
         interpreter.interpret("x q[2];");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(interpreter.hasErrors());
     }
 
@@ -80,7 +80,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("qreg q[5]; \n\n creg c[5];");
         interpreter.interpret("x q[2];");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(!interpreter.hasErrors());
     }
     constexpr char EXPRESSION_WITH_ONLY_NLINE[] = "Expression with only a new line"; 
@@ -89,7 +89,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("qreg q[5];  creg c[5];");
         interpreter.interpret("\n");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(!interpreter.hasErrors());
     }
     constexpr char EXPRESSION_WITH_MORE_NLINE[] = "Expression with only and more then a new line"; 
@@ -98,7 +98,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("qreg q[5];  creg c[5];");
         interpreter.interpret("\n\n");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(!interpreter.hasErrors());
     }
 
@@ -107,7 +107,7 @@ TEST_CASE( "Asyncronous coding tests") {
         MiniQbt::QasmAsyncInterpreter interpreter;
         interpreter.interpret("qreg q[5] \n ;  creg c[5];");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         REQUIRE(!interpreter.hasErrors());
     }
 
@@ -121,12 +121,12 @@ TEST_CASE( "Asyncronous coding tests") {
         "measure q[1] -> c[1];  \n";
     
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
 
         REQUIRE(!interpreter.hasErrors());
-        REQUIRE(res[4] == 1);
-        REQUIRE(res[3] == 1);
-        REQUIRE(res[2] == 0);
+        REQUIRE(res.getData(4) == 1);
+        REQUIRE(res.getData(3) == 1);
+        REQUIRE(res.getData(2) == 0);
     }
     
     constexpr char ONE_CNOT[] = "One CNOT test";
@@ -140,7 +140,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("measure q[2] -> c[2];");
         interpreter.interpret("measure q[3] -> c[3];");
         interpreter.interpret("measure q[4] -> c[4];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
 
       //  REQUIRE(res[2] == 1);
         REQUIRE(!interpreter.hasErrors());
@@ -152,7 +152,7 @@ TEST_CASE( "Asyncronous coding tests") {
         interpreter.interpret("qreg q[5]; //this is a comment;; \n //this is also a comment");
         interpreter.interpret("creg c[5];");
         interpreter.interpret("measure q[0] -> c[0];");
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
 
       //  REQUIRE(res[2] == 1);
         REQUIRE(!interpreter.hasErrors());
