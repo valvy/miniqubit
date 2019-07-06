@@ -38,6 +38,8 @@ public class QasmAsyncInterpreter {
 
     public native String[] getRegisters();
 
+    public native QuantumResult readClassicResult(String name);
+
     /**
      * Returns
      * @param name

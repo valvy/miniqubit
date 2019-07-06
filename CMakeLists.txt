@@ -16,8 +16,15 @@ OPTION(ENABLE_TESTS "Enable unit tests" OFF)
 OPTION(ENABLE_JAVA "Enable building for java" OFF)
 OPTION(ENABLE_PYTHON "Enable building for python" OFF)
 
+SET (
+    MINIQBT_PLATFORM_NAME ${CMAKE_SYSTEM_PROCESSOR}_${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}
+)
+
 IF(ENABLE_EMSCRIPTEN)
     # Disable the unit test and wrappers when building for EMSCRIPTEN
+    SET (
+        MINIQBT_PLATFORM_NAME Ecmascript
+    )
     IF(ENABLE_TESTS OR ENABLE_JAVA OR ENABLE_PYTHON)
         MESSAGE(FATAL_ERROR "You can't build the python/java bindings or perform unit tests while also using emscripten. Please check your settings")
     ENDIF()
@@ -35,7 +42,7 @@ set(miniQbt_MAJOR_VERSION 1)
 set(miniQbt_MINOR_VERSION 0)
 set(miniQbt_PATCH_VERSION 0)
 set(miniQbt_version ${miniQbt_MAJOR_VERSION}.${miniQbt_MINOR_VERSION}.${miniQbt_PATCH_VERSION})
-set(miniQbt_name MiniQbt)
+set(miniQbt_name MiniQbt_${MINIQBT_PLATFORM_NAME})
 
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")

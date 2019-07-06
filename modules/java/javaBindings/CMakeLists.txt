@@ -16,6 +16,7 @@ GET_DIRECTORY_PROPERTY(
 SET(JAVA_LIB_SOURCES
     ./src/Globals.java
     ./src/QasmAsyncInterpreter.java
+    ./src/QuantumResult.java
 )  
 
 
@@ -23,7 +24,6 @@ add_jar(
     jMiniQbt 
     SOURCES ${JAVA_LIB_SOURCES} 
    # ../../../build/modules/java/javaBindings/libJavaMiniQbtWrapper.solibJavaMiniQbtWrapper
-
     VERSION ${miniQbt_MAJOR_VERSION}.${miniQbt_MINOR_VERSION}.${miniQbt_PATCH_VERSION}
 )
 

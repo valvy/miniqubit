@@ -57,9 +57,8 @@ namespace MiniQbt{
         *   This will collapse all the quantum registers linked to the specified classic register.
         *   @param registerName,    The classic register to be read.
         *   @return vector<bool>,   The result in a vector with bools
-        *   @deprecated function
         */
-        [[deprecated("Replaced by readClassicResult, which has an improved interface")]]
+        //[[deprecated("Replaced by readClassicResult, which has an improved interface")]]
         std::vector<bool> readClassicRegister(const std::string& registerName);
         /**
         *   Checks if a classic register exists.

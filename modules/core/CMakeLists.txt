@@ -11,13 +11,14 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 
 SET(LIB_SOURCES 
+    src/QuantumResult.cpp
     src/QasmAsyncInterpreter.cpp
     src/Tokens.cpp
     src/TokenVisitor.cpp
     src/Emscripten.cpp
     src/TokenParser.cpp
     src/ClassicRegister.cpp
-    src/QuantumResult.cpp
+  
 )
 set(header_version_in ${MiniQbt_SOURCE_DIR}/cmake/MiniQbt.hpp.in)
 set(header_version_out ${CMAKE_CURRENT_BINARY_DIR}/include/miniqbt/MiniQbt.hpp)
@@ -28,7 +29,6 @@ include_directories(${MINIQBT_INCLUDE_DIRS} )
 
 if(ENABLE_EMSCRIPTEN)
   add_executable("${PROJECT_NAME}.js" ${LIB_SOURCES} ${MINIQBT_INCLUDE_DIRS} )
-
   ADD_DEFINITIONS( "-g -Wall -c --bind" )
   SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} --bind")
   target_link_libraries("${PROJECT_NAME}.js" Eigen3::Eigen)
