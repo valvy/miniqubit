@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
-from MiniQbt.Globals import getVersion, getName
-from MiniQbt.Interpreter import QasmAsyncInterpreter
+#!/usr/bin/env python
+from PyMiniQbt import getVersion, getName,  QasmAsyncInterpreter
+
 import os, re, time, sys
 
 setQubit = re.compile(r'@\{QUBIT_OPPONENT}')
@@ -10,7 +10,7 @@ setInput =re.compile(r'@\{INPUT_DATA\}')
 print("\n\n\n\n===== Welcome to Cat/Box/Scissors! =====\n\n")
 print("  ~~ A game by the Decodoku project ~~ \n\n")
 print("Altered version using", getName(), "version:", getVersion())
-input()
+raw_input()
 
 def printMiniQbtHelp():
 	print("Choose a qubit as opponent")
@@ -54,7 +54,7 @@ def runProgramWithAssembly(assembly):
 	chosen = 0
 	while (chosen==0):
 		#humanMove = input("\nChoose your move (s or sdg)\n")
-		humanMove = input("\nWhich box do you want to shred (left or right)\n")
+		humanMove = raw_input("\nWhich box do you want to shred (left or right)\n")
 		if ( (humanMove == "left") | (humanMove == "right") ):
 			chosen = 1
 		else:
@@ -72,17 +72,17 @@ def runProgramWithAssembly(assembly):
 		print(interpreter.getError())
 	print("\nChecking to remaining box\n")
 	time.sleep(1)
-	result = interpreter.readClassicRegister("c")
+	result = interpreter.readClassicResult("c")
 	#print(result)
-	if int(result[0]):
+	if int(result.getData(0)):
 		print("Miauw, the cat is still alive!\n")
 		print("\t /\___/\\\n\t(  o o  )\n\t/   *   \\\n\t\\__\_/__/ meow!\n\t / ___ \\\n\t \/___\/")
-		input()
+		raw_input()
 		return True
 	else:
 		print("You shredded the cat :(\n")
 		print("\t /\___/\\\n\t(  X X  )\n\t/   *   \\\n\t\\_______/ DEAD!\n\t *|*|*|* \n\n\t *|*|*|*\n\t / ___ \\\n\t \/___\/")
-		input()
+		raw_input()
 		return False
 
 
