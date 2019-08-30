@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-from MiniQbt.Interpreter import QasmAsyncInterpreter
+#!/usr/bin/env python
+from PyMiniQbt import QasmAsyncInterpreter
 import unittest
 import threading
 
@@ -15,7 +15,8 @@ class MultiThreadedTests(unittest.TestCase):
             x.interpret("qreg q[1]; creg c[1]; x q; measure q -> c;")
             self.assertFalse(x.hasErrors())
             for register in x.getRegisters():
-                self.assertEqual(x.readClassicRegister(register), '1')
+                self.assertEqual(x.readClassicResult(register).getData(0), 1)
+                #self.assertEqual(x.readClassicRegister(register), '1')
 
     def test_single_thread(self):
         self.thread()
