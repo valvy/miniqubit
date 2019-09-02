@@ -14,7 +14,7 @@ OPTION(ENABLE_EMSCRIPTEN "Enable Emscripten" OFF)
 
 OPTION(ENABLE_TESTS "Enable unit tests" OFF)
 OPTION(ENABLE_JAVA "Enable building for java" OFF)
-OPTION(ENABLE_PYTHON "Enable building for python" ON)
+OPTION(ENABLE_PYTHON "Enable building for python" OFF)
 
 SET (
     MINIQBT_PLATFORM_NAME ${CMAKE_SYSTEM_PROCESSOR}_${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}
