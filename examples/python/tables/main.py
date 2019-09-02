@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from MiniQbt.Globals import getVersion, getName
-from MiniQbt.Interpreter import QasmAsyncInterpreter
+from PyMiniQbt import getVersion, getName, QasmAsyncInterpreter
+
 import sys
 
 def main(arguments):
@@ -29,7 +29,7 @@ def main(arguments):
                 for qReg in interpreter.getQuantumRegisters():
                     interpreter.resetSuperPosition(qReg)
 
-                newResult = interpreter.readClassicRegister(register)
+                newResult = interpreter.readClassicResult(register)
                 inList = False
                 for j in range(0, len(res)):
                     dat, am = res[j]
@@ -39,7 +39,7 @@ def main(arguments):
                         break
 
                 if not inList:
-                    dat = newResult, 1
+                    dat = newResult.dataToString(), 1
                     res.append(dat)
         
         if hadError:

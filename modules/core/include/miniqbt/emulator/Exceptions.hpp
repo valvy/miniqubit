@@ -9,7 +9,7 @@ namespace MiniQbt{
     *   Main exception thrown when something is wrong.
     *   @author Heiko van der Heijden
     */
-    class QuantumException{
+    class QuantumException {
         private:
         std::string msg;
         public: 

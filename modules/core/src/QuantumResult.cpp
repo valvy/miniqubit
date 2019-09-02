@@ -1,4 +1,5 @@
 #include "miniqbt/interpreter/QuantumResult.hpp"
+#include "miniqbt/interpreter/exceptions/InterpreterExceptions.hpp"
 
 using namespace MiniQbt;
 
@@ -15,7 +16,11 @@ std::string QuantumResult::getName() const {
     return this->registerName;
 }
 std::string QuantumResult::dataToString() const {
-    return "";
+    std::string res = "";
+    for(bool i : this->data) {
+        res += (i)? "1" : "0";
+    }
+    return res;
 }
 
 int QuantumResult::registerSize() const {
@@ -25,7 +30,7 @@ int QuantumResult::registerSize() const {
 bool QuantumResult::getData(int index) const {
     if(index > this->registerSize()) {
         // todo: make a custom exception
-        throw "Out of index exception";
+        throw InterpreterOutOfIndexException();
     }
     return this->data[index];
 }

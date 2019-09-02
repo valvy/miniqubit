@@ -18,6 +18,7 @@ SET(LIB_SOURCES
     src/Emscripten.cpp
     src/TokenParser.cpp
     src/ClassicRegister.cpp
+    src/exceptions/InterpreterExceptions.cpp
   
 )
 set(header_version_in ${MiniQbt_SOURCE_DIR}/cmake/MiniQbt.hpp.in)
@@ -33,13 +34,12 @@ if(ENABLE_EMSCRIPTEN)
   SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} --bind")
   target_link_libraries("${PROJECT_NAME}.js" Eigen3::Eigen)
 ELSE()
-  if(WIN32)
-    add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
-  else()
-    ADD_DEFINITIONS( "-g -Wall -fPIC -Werror" )
-    add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
+  if(NOT WIN32)
+  ADD_DEFINITIONS( "-g -Wall -fPIC -Werror" )
+  
   endif()
 
+  add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
   target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
 
 

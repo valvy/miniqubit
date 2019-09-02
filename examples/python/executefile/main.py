@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
-from MiniQbt.Globals import getVersion, getName
-from MiniQbt.Interpreter import QasmAsyncInterpreter
+#!/usr/bin/env python
+from PyMiniQbt import getVersion, getName, QasmAsyncInterpreter
+
 import sys
 
 
@@ -19,7 +19,7 @@ def main(arguments):
         
         print("results:")
         for register in interpreter.getRegisters():
-            print(register,":",interpreter.readClassicRegister(register))
+            print(register,":",interpreter.readClassicResult(register).dataToString())
         
 
 

@@ -41,26 +41,26 @@ int main(int argc, char** argv){
         std::cout << interpreter.getError() << "\n";
     }
 
+    QuantumResult result = interpreter.readClassicResult("c");
 
-    std::cout << "result of the algorithm: ";
-    for(const bool& r : res){
-        std::cout << r;
-    }
+
+    std::cout << "result of the algorithm: " << result.dataToString();
+
     std::cout << "\n";
 }
 ```
-The library has a wrapper for python3
+The library has a wrapper for python
 ```python
-from MiniQbt.Interpreter import QasmAsyncInterpreter
+from PyMiniQbt import QasmAsyncInterpreter
 
 source = "OPENQASM 2.0; include \"qelib1.inc\";  qreg q[1]; creg c[1]; h q[0]; measure q[0] -> c[0];"
 interpreter = QasmAsyncInterpreter()
 interpreter.interpret(source)
-result = interpreter.readClassicRegister("c")
+result = interpreter.readClassicResult("c")
 while interpreter.hasErrors():
     print(interpreter.getError())
 print("result of the algorithm: ")
-print(result)
+print(result.dataToString())
 
 ```
 
@@ -86,11 +86,8 @@ public class Main {
             System.out.println(interpreter.getError());
         }
         for (String i : interpreter.getRegisters()) {
-            System.out.print("Answer: ");
-            for(boolean register : interpreter.readClassicRegister(i)) {
-                System.out.print(register? 0 : 1);
-            }
-            System.out.println();
+            QuantumResult result = interpreter.readClassicResult(i);
+            System.out.println(result.dataToString());
         }
     }
 }
