@@ -1,11 +1,12 @@
 #include "MiniQbtQasmAsyncInterpreter.hpp"
 #include <miniqbt/MiniQbt.hpp>
-#include<stdio.h>
 
 using namespace MiniQbt;
 
 constexpr char POINTER_NAME[] = "nativeQasmPointer";
 constexpr char POINTER_TYPE[] = "J"; // The type of a long is J in jni
+constexpr char QUANTUMRESULT_CLASS[] = "nl/hvanderheijden/miniqbt/QuantumResult";
+
 
 inline QasmAsyncInterpreter* getInterpreterFromMemory(JNIEnv *env, jobject obj) {
     jclass wrapperClass = env->GetObjectClass(obj);
@@ -34,6 +35,8 @@ JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_init 
     jlong a = reinterpret_cast<jlong>(interpreter);
     env->SetLongField(obj, fid, a);
 }
+
+
 
 JNIEXPORT void JNICALL Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_interpret (JNIEnv *env, jobject obj, jstring src){
     const char *inCStr = env->GetStringUTFChars(src, nullptr);
@@ -99,8 +102,37 @@ JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getQu
 }
 
 
+JNIEXPORT jobject Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicResult(JNIEnv *env, jobject obj, jstring name) {
+    // Get the data an string from the interpreter.
+    const char *inCStr = env->GetStringUTFChars(name, nullptr);
+    QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
+    
+    const QuantumResult quantumResult  = interpreter->readClassicResult(std::string(inCStr));
+    
+    
+    // put the data from the quantum result in a java array.
+    const int size = quantumResult.registerSize();
+    jboolean fill[size];
+    for (int i = 0; i < size; i++) {
+        fill[i] = quantumResult.getData(i);
+    }
+    jbooleanArray quantumRegisterData = env->NewBooleanArray(size);
+    env->SetBooleanArrayRegion(quantumRegisterData, 0, size, fill);
+    // Create a object of the QuantumResult class in Java.
+    jclass javaLocalClass = env->FindClass(QUANTUMRESULT_CLASS);
+    jclass javaGlobalClass = reinterpret_cast<jclass>(env->NewGlobalRef(javaLocalClass));
+    jmethodID javaConstructor = env->GetMethodID(javaGlobalClass, "<init>", "(Ljava/lang/String;[Z)V");
+    jobject result = env->NewObject(
+        javaGlobalClass, 
+        javaConstructor,
+        env->NewStringUTF(quantumResult.getName().c_str()),
+        quantumRegisterData
+    );
+    env->ReleaseStringUTFChars(name, inCStr); 
+    return result;
+}
 
- JNIEXPORT jbooleanArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicRegister(JNIEnv *env, jobject obj, jstring name) {
+JNIEXPORT jbooleanArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicRegister(JNIEnv *env, jobject obj, jstring name) {
     const char *inCStr = env->GetStringUTFChars(name, nullptr);
     QasmAsyncInterpreter* interpreter = getInterpreterFromMemory(env, obj);
     std::vector<bool> data = interpreter->readClassicRegister(std::string(inCStr));

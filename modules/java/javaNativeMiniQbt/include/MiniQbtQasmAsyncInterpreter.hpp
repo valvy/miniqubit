@@ -16,6 +16,8 @@ extern "C" {
 
     JNIEXPORT jbooleanArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicRegister(JNIEnv *env, jobject obj, jstring name);
 
+    JNIEXPORT jobject Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_readClassicResult(JNIEnv *env, jobject obj, jstring name);
+
     JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getQuantumRegisters(JNIEnv *env, jobject obj);
 
     JNIEXPORT jobjectArray Java_nl_hvanderheijden_miniqbt_QasmAsyncInterpreter_getRegisters(JNIEnv *env, jobject obj);

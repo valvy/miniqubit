@@ -23,6 +23,11 @@ std::vector<std::string> QasmAsyncInterpreter::getRegisters() const{
     return visitor.getClassicRegisters();
 }
 
+QuantumResult QasmAsyncInterpreter::readClassicResult(const std::string& registerName) {
+    QuantumResult result(registerName, visitor.getClassicRegister(registerName));
+    return result;
+}
+
 std::vector<bool> QasmAsyncInterpreter::readClassicRegister(const std::string& registerName){
     return visitor.getClassicRegister(registerName);
 }

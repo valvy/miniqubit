@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from MiniQbt.Intepreter import QasmAsyncIntepreter
+from PyMiniQbt import QasmAsyncIntepreter
 import unittest
 import native_tests
 

@@ -38,12 +38,14 @@ int main(int argc, char** argv){
             }
             
             for(const std::string& reg: interpreter.getRegisters()){
-                std::vector<bool> result = interpreter.readClassicRegister(reg);
+                MiniQbt::QuantumResult result = interpreter.readClassicResult(reg);
+                std::cout << result.dataToString() << "\n"; 
+              /*  std::vector<bool> result = interpreter.readClassicRegister(reg);
                 std::cout << "Result registery  " << reg << ": ";
                 for(const bool& r : result){
                     std::cout << r;
                 }
-                std::cout << "\n";
+                std::cout << "\n";*/
             }
 
             return EXIT_SUCCESS;

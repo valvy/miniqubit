@@ -18,8 +18,10 @@ TEST_CASE( "Syntax tests") {
         "x q[0]; x q[1]; x q[2];    \n"
         "measure q -> c;            \n";
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
+
         const bool failed = interpreter.hasErrors();
+
         std::stringstream ss;
         ss << "Test : " << ENTIRE_MEASURE << " Failed with errors: \n";
         while(interpreter.hasErrors()){
@@ -28,7 +30,7 @@ TEST_CASE( "Syntax tests") {
 
         INFO(ss.str());
 
-        REQUIRE((res[0] == 1 && res[1] == 1 && res[2] == 1));
+        REQUIRE((res.getData(0) == 1 && res.getData(1) == 1 && res.getData(2) == 1));
         REQUIRE(!failed);
     }
 
@@ -44,7 +46,7 @@ TEST_CASE( "Syntax tests") {
         "x q[0]; x q[1]; x q[2];    \n"
         "measure q -> c;            \n";
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << ENTIRE_MEASURE << " Failed with errors: \n";
@@ -66,7 +68,7 @@ TEST_CASE( "Syntax tests") {
         "measure q[1] -> c[1];      \n"
         "measure q[2] -> c[2];      \n";
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << PAULI_SYNTAX << " Failed with errors: \n";
@@ -92,7 +94,7 @@ TEST_CASE( "Syntax tests") {
         "measure q[1] -> c[1];      \n"
         "measure q[2] -> c[2];      \n";
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("c");
+        auto res = interpreter.readClassicResult("c");
         const bool failed = interpreter.hasErrors();
         std::stringstream ss;
         ss << "Test : " << HADAMARD_CX_SYNTAX << " Failed with errors: \n";

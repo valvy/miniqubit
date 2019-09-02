@@ -21,7 +21,7 @@ TEST_CASE( "Result checks") {
 
         MiniQbt::QasmAsyncInterpreter interpreter;
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("b");
+        auto res = interpreter.readClassicResult("b");
         REQUIRE(!interpreter.hasErrors());
 
         constexpr size_t REGISTER_SIZE = 5;
@@ -32,9 +32,12 @@ TEST_CASE( "Result checks") {
         
         std::stringstream ss;
         ss << CHECK_MIRROR << " answer from the interpreter was : " ;
-        for(const bool d : res){
-            ss << d;
+        //for(const bool d : res){
+        for(int i = 0; i < res.registerSize(); i++ ) {
+             ss << res.getData(i);
         }
+           
+        //}
         ss << " while the answer from the emulator was ";
         for(size_t i = 0; i < REGISTER_SIZE; i++){
             ss << bitset[i];
@@ -42,7 +45,7 @@ TEST_CASE( "Result checks") {
 
         INFO(ss.str());
         for(size_t i = 0; i < REGISTER_SIZE; i++){
-            REQUIRE(res[i] == bitset[i]);
+            REQUIRE(res.getData(i) == bitset[i]);
         }
     }
 
@@ -61,7 +64,7 @@ TEST_CASE( "Result checks") {
 
         MiniQbt::QasmAsyncInterpreter interpreter;
         interpreter.interpret(std::string(src));
-        auto res = interpreter.readClassicRegister("b");
+        auto res = interpreter.readClassicResult("b");
         REQUIRE(!interpreter.hasErrors());
        
         constexpr size_t REGISTER_SIZE = 5;
@@ -73,7 +76,7 @@ TEST_CASE( "Result checks") {
         std::bitset<REGISTER_SIZE> bitset = emulator.measure(ent, generator);
 
         for(size_t i = 0; i < REGISTER_SIZE; i++){
-            REQUIRE(res[i] == bitset[i]);
+            REQUIRE(res.getData(i) == bitset[i]);
         }
     }
 
