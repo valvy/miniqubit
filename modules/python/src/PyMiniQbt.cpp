@@ -14,10 +14,19 @@ std::string getVersion() {
 }
 
 
+
+void translator(MiniQbt::QuantumException const & exception) {
+      PyErr_SetString(PyExc_Exception, exception.getMessage().c_str() );
+}
+
+
 BOOST_PYTHON_MODULE(PyMiniQbt) {
 
     def("getName", &getName);
     def("getVersion", &getVersion);
+
+ register_exception_translator<
+          MiniQbt::QuantumException>(translator);
 
     class_<std::vector<std::string> >("StringVec")
         .def(vector_indexing_suite<std::vector<std::string>>());

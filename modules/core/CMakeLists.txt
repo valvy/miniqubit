@@ -18,6 +18,7 @@ SET(LIB_SOURCES
     src/Emscripten.cpp
     src/TokenParser.cpp
     src/ClassicRegister.cpp
+    src/exceptions/InterpreterExceptions.cpp
   
 )
 set(header_version_in ${MiniQbt_SOURCE_DIR}/cmake/MiniQbt.hpp.in)
