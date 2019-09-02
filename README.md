@@ -36,7 +36,6 @@ int main(int argc, char** argv){
 
     QasmAsyncInterpreter interpreter;
     interpreter.interpret(std::string(src));
-    std::vector<bool> res = interpreter.readClassicRegister("c");
     while(interpreter.hasErrors()){
         std::cout << interpreter.getError() << "\n";
     }
