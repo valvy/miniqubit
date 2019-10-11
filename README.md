@@ -89,6 +89,23 @@ print("result of the algorithm: ")
 print(result.dataToString())
 
 ```
+### JavaScript sample code
+```javascript
+"use strict";
+const miniqbt = require('./MiniQbt')
+### JavaScript Sample code
+// Make sure MiniQbt is properly loaded.
+setTimeout(() => {
+    console.log("Using : " + miniqbt.NAME + " version "+ miniqbt.VERSION)
+    let vm = new miniqbt.QasmAsyncInterpreter()
+    vm.interpret("creg cregister[5]; qreg qregister[5];")
+    vm.interpret("h qregister;")
+    vm.interpret("measure qregister -> cregister;")
+    const result = vm.readClassicResult('cregister')
+    console.log(result.getName() + " resulted in " + result.dataToString() )
+
+},1000)
+```
 
 ### Java Sample code
 ```java
