@@ -36,6 +36,8 @@ public class QuantumResult {
     }
 
     public boolean getData(int index) {
+
+        
         return registerData[index];
     }
 }

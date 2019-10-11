@@ -22,9 +22,9 @@ SET (
 
 IF(ENABLE_EMSCRIPTEN)
     # Check if the emsdk is defined
-    IF("$ENV{EMSDK}" STREQUAL "")
-        MESSAGE(FATAL_ERROR "Missing the Emscripten SDK. Please set this up.")
-    ENDIF()
+   # IF("$ENV{EMSDK}" STREQUAL "")
+   #     MESSAGE(FATAL_ERROR "Missing the Emscripten SDK. Please set this up.")
+   # ENDIF()
     # Disable the unit test and wrappers when building for EMSCRIPTEN
     SET (
         MINIQBT_PLATFORM_NAME Emscript
