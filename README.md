@@ -30,6 +30,20 @@ When done create a new build folder and let Cmake unpack everything there. MiniQ
 | ENABLE_JAVA | Build the Java wrapper |
 | ENABLE_PYTHON | Build the Python Wrapper |
 
+#### Building in GNU/Linux
+```bash
+# Clone the project.
+git clone git@github.com:valvy/miniqubit.git
+cd miniqubit
+# Create a build directory.
+mkdir build
+cd build
+# Build with only unit tests.
+cmake .. -DENABLE_EMSCRIPTEN=OFF -DENABLE_TESTS=ON -DENABLE_JAVA=OFF -DENABLE_PYTHON=OFF
+make
+
+```
+
 ## Library usage
 ### C++ Sample code
 
