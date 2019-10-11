@@ -22,12 +22,12 @@ For the Java wrapper you need:
 
 
 When done create a new build folder and let Cmake unpack everything there. MiniQbt comes with the following options:
-| Build Option       | Default       |  Effect     |
-| -------------      | ------------- | ----------- | 
-| ENABLE_EMSCRIPTEN  | OFF           |  Instead of compiling to native code, use Webassembly (Requires emc++ ) |
-| ENABLE_TESTS       |  OFF  |    Execute Unit tests        |
-|  ENABLE_JAVA       | OFF   | Build the Java wrapper | 
-|  ENABLE_PYTHON     | OFF   | Build the Python Wrapper | 
+| Build Option | Effect |
+| --- | --- | 
+| ENABLE_EMSCRIPTEN | Instead of compiling to native code, use Webassembly (Requires emc++ ) |
+| ENABLE_TESTS | Execute Unit tests |
+| ENABLE_JAVA | Build the Java wrapper | 
+| ENABLE_PYTHON | Build the Python Wrapper | 
 
 ## Library usage
 ### C++ Sample code
