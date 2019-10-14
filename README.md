@@ -93,7 +93,6 @@ print(result.dataToString())
 ```javascript
 "use strict";
 const miniqbt = require('./MiniQbt')
-### JavaScript Sample code
 // Make sure MiniQbt is properly loaded.
 setTimeout(() => {
     console.log("Using : " + miniqbt.NAME + " version "+ miniqbt.VERSION)
